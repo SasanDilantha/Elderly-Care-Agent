@@ -1,0 +1,50 @@
+{
+  "video_id": "bedroom_demo_001",
+  "duration_sec": 20.0,
+  "segments": [
+    {
+      "start_sec": 0.0,
+      "end_sec": 6.0,
+      "activity": "lying_in_bed",
+      "bed_occupancy": "in_bed",
+      "confidence": 1.0,
+      "source": "ground_truth"
+    },
+    {
+      "start_sec": 6.0,
+      "end_sec": 10.0,
+      "activity": "sitting_on_bed",
+      "bed_occupancy": "in_bed",
+      "confidence": 1.0,
+      "source": "ground_truth"
+    },
+    {
+      "start_sec": 10.0,
+      "end_sec": 14.0,
+      "activity": "standing",
+      "bed_occupancy": "out_of_bed",
+      "confidence": 1.0,
+      "source": "ground_truth"
+    },
+    {
+      "start_sec": 14.0,
+      "end_sec": 20.0,
+      "activity": "walking",
+      "bed_occupancy": "out_of_bed",
+      "confidence": 1.0,
+      "source": "ground_truth"
+    }
+  ],
+  "events": [
+    {
+      "event_type": "bed_exit",
+      "start_sec": 10.0,
+      "confirmed_sec": 12.0,
+      "previous_activity": "sitting_on_bed",
+      "current_activity": "standing",
+      "confidence": 1.0,
+      "decision": "monitor"
+    }
+  ]
+}
+
