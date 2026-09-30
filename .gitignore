@@ -12,5 +12,7 @@ dist/
 # Generated application data and downloaded datasets
 data/raw/
 data/processed/
+data/cache/
 outputs/
-
+artifacts/
+logs/

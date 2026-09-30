@@ -1,0 +1,32 @@
+artifacts_root: artifacts
+
+dataset:
+  name: GMDCSA-24
+  version: v2.0
+  source:
+    owner: Ekram Alam
+    canonical_repository: https://github.com/ekramalam/GMDCSA24-A-Dataset-for-Human-Fall-Detection-in-Videos
+    mirror_repository: https://github.com/SasanDilanthaSTD/GMDCSA24-A-Dataset-for-Human-Fall-Detection-in-Videos
+    mirror_commit: 5abac7693229900cf80f722e878fbb119211fc1c
+    archive_url: https://zenodo.org/api/records/12921216/files/ekramalam/GMDCSA24-A-Dataset-for-Human-Fall-Detection-in-Videos-v2.0.zip/content
+    archive_checksum: md5:49bf4eb15a84cc84cb0a4f9c6ddd59e6
+    dataset_doi: 10.5281/zenodo.12921216
+    article_doi: 10.1016/j.dib.2024.110892
+    dataset_license: CC-BY-4.0
+    repository_license: MIT
+  ingestion:
+    cache_dir_env: GMDCSA24_CACHE_DIR
+    cache_dir: data/cache/gmdcsa24
+    archive_name: GMDCSA24-v2.0.zip
+    source_directory_name: source
+    selection_manifest: data/manifests/gmdcsa24_selection.csv
+    output_dir: data/raw/gmdcsa24
+    report_path: artifacts/data_pipeline/preparation_report.json
+    inventory_path: artifacts/data_pipeline/selected_files.csv
+    expected_video_count: 160
+    expected_metadata_csv_count: 8
+    expected_subjects:
+      - Subject 1
+      - Subject 2
+      - Subject 3
+      - Subject 4

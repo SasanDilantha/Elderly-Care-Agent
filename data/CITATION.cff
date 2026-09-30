@@ -1,0 +1,13 @@
+cff-version: 1.2.0
+message: "If you use the GMDCSA-24 data, cite this dataset and its data article."
+title: "ekramalam/GMDCSA24-A-Dataset-for-Human-Fall-Detection-in-Videos: 2.0"
+type: dataset
+version: "2.0"
+date-released: 2024-07-26
+authors:
+  - family-names: Alam
+    given-names: Ekram
+doi: 10.5281/zenodo.12921216
+url: https://doi.org/10.5281/zenodo.12921216
+repository-code: https://github.com/ekramalam/GMDCSA24-A-Dataset-for-Human-Fall-Detection-in-Videos
+license: CC-BY-4.0

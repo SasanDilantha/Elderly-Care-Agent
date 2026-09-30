@@ -73,4 +73,3 @@ class ApplicationSettings:
         """Return a serialization-safe configuration snapshot."""
 
         return asdict(self)
-

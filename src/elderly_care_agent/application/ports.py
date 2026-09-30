@@ -14,4 +14,3 @@ class AnnotationRepository(ABC):
     @abstractmethod
     def load(self, path: Path) -> GroundTruthAnnotation:
         """Load and validate one annotation file."""
-
