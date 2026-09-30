@@ -7,12 +7,29 @@ name = "elderly-care-agent"
 version = "0.1.0"
 description = "Hybrid computer-vision and local VLM elderly-care monitoring system."
 readme = "README.md"
-requires-python = ">=3.12,<3.15"
+requires-python = ">=3.12,<3.13"
 license = { file = "LICENSE" }
 authors = [
   { name = "Elderly Care Agent Team" },
 ]
-dependencies = []
+dependencies = [
+  "matplotlib>=3.10,<4",
+  "mediapipe>=1.0,<2",
+  "numpy>=2,<3",
+  "ollama>=0.6,<1",
+  "opencv-contrib-python>=4.12,<5",
+  "pandas>=2.3,<4",
+  "pillow>=11,<13",
+  "scikit-learn>=1.7,<2",
+  "seaborn>=0.13,<1",
+  "pyyaml>=6,<7",
+]
+
+[dependency-groups]
+dev = [
+  "coverage[toml]>=7.10,<8",
+  "ruff>=0.13,<1",
+]
 
 [project.scripts]
 elderly-care-agent = "elderly_care_agent.cli:main"
@@ -23,3 +40,17 @@ packages = ["src/elderly_care_agent"]
 [tool.uv]
 package = true
 
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["B", "E", "F", "I", "SIM", "UP"]
+
+[tool.coverage.run]
+branch = true
+source = ["elderly_care_agent"]
+
+[tool.coverage.report]
+fail_under = 80
+show_missing = true

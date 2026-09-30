@@ -2,7 +2,7 @@
 
 Hybrid computer vision + local Ollama VLM for elderly activity monitoring.
 
-## Sprint 0 — complete
+## Sprint 0 foundation + dataset pipeline — complete
 
 ```text
 Ground-truth JSON
@@ -23,7 +23,7 @@ testable base before OpenCV, pose estimation, and Ollama are introduced.
 | Area | Choice |
 |---|---|
 | Package manager | [uv](https://docs.astral.sh/uv/) |
-| Language | Python 3.12–3.14 |
+| Language | Python 3.12 |
 | VLM | `qwen3-vl:4b-instruct` through Ollama |
 | Tests | standard-library `unittest` |
 | Design | OOP, immutable domain models, ports/adapters, SOLID/KISS |
@@ -33,6 +33,9 @@ testable base before OpenCV, pose estimation, and Ollama are introduced.
 ```powershell
 uv sync
 uv run python -m unittest discover -s tests -v
+uv run ruff check .
+uv run coverage run -m unittest discover -s tests
+uv run coverage report
 ```
 
 ### Demonstrate Sprint 0
@@ -40,6 +43,31 @@ uv run python -m unittest discover -s tests -v
 ```powershell
 uv run elderly-care-agent show-config
 uv run elderly-care-agent validate-annotations examples/ground_truth.example.json
+```
+
+### Prepare and verify GMDCSA-24
+
+```powershell
+uv run elderly-care-agent prepare-dataset
+```
+
+On a fresh clone this downloads into ignored `data/cache/`, verifies the source,
+and creates `data/raw/gmdcsa24`. Later runs return `already_ready` without
+downloading or extracting when the prepared subset is complete.
+
+Progress is shown in the terminal and saved to
+`logs/elderly-care-agent.log`. Use detailed per-file logging when needed:
+
+```powershell
+uv run elderly-care-agent --log-level DEBUG prepare-dataset
+```
+
+```text
+official archive/local source
+            ↓
+checksum + layout → tracked selection → atomic staging → OpenCV validation
+                                                        ↓
+                                              report + SHA-256 inventory
 ```
 
 Expected validation result: `valid: true`, 4 segments, 1 bed-exit event,
@@ -59,6 +87,9 @@ docs/               testable sprint plan
 ```
 
 See [the complete sprint plan](docs/SPRINT_PLAN.md).
+See [prerequisites and local dataset layout](docs/PREREQUISITES.md).
+See [the dataset pipeline](docs/DATA_PIPELINE.md) and
+[dataset ownership/license card](docs/DATASET_CARD.md).
 
 ### Ollama prerequisite for Sprint 4
 

@@ -1,9 +1,9 @@
 """Stable labels shared by annotation, inference, and evaluation layers."""
 
-from enum import Enum
+from enum import StrEnum
 
 
-class ActivityState(str, Enum):
+class ActivityState(StrEnum):
     LYING_IN_BED = "lying_in_bed"
     SITTING_ON_BED = "sitting_on_bed"
     SITTING_OUTSIDE_BED = "sitting_outside_bed"
@@ -12,26 +12,25 @@ class ActivityState(str, Enum):
     UNKNOWN = "unknown"
 
 
-class BedOccupancy(str, Enum):
+class BedOccupancy(StrEnum):
     IN_BED = "in_bed"
     OUT_OF_BED = "out_of_bed"
     UNKNOWN = "unknown"
 
 
-class EventType(str, Enum):
+class EventType(StrEnum):
     BED_EXIT = "bed_exit"
     BED_RETURN = "bed_return"
 
 
-class Decision(str, Enum):
+class Decision(StrEnum):
     NORMAL = "normal"
     MONITOR = "monitor"
     ALERT = "alert"
 
 
-class ObservationSource(str, Enum):
+class ObservationSource(StrEnum):
     RULES = "rules"
     VLM = "vlm"
     FUSED = "fused"
     GROUND_TRUTH = "ground_truth"
-

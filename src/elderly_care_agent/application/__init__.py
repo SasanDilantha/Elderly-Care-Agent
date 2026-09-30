@@ -6,4 +6,3 @@ from elderly_care_agent.application.services import (
 )
 
 __all__ = ["AnnotationValidationService", "ValidationReport"]
-

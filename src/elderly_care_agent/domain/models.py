@@ -112,7 +112,7 @@ class GroundTruthAnnotation:
         if not isclose(first.start_sec, 0.0, abs_tol=_TIME_TOLERANCE_SEC):
             raise DomainValidationError("timeline must start at 0 seconds")
 
-        for previous, current in zip(self.segments, self.segments[1:]):
+        for previous, current in zip(self.segments, self.segments[1:], strict=False):
             if not isclose(
                 previous.time_range.end_sec,
                 current.time_range.start_sec,
@@ -147,8 +147,6 @@ class GroundTruthAnnotation:
         durations: dict[BedOccupancy, float] = {}
         for segment in self.segments:
             durations[segment.bed_occupancy] = (
-                durations.get(segment.bed_occupancy, 0.0)
-                + segment.time_range.duration_sec
+                durations.get(segment.bed_occupancy, 0.0) + segment.time_range.duration_sec
             )
         return durations
-

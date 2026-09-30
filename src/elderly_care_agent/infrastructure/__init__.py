@@ -5,4 +5,3 @@ from elderly_care_agent.infrastructure.json_annotation_repository import (
 )
 
 __all__ = ["JsonAnnotationRepository"]
-

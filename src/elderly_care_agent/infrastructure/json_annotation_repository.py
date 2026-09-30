@@ -69,4 +69,3 @@ class JsonAnnotationRepository(AnnotationRepository):
             confidence=float(payload.get("confidence", 1.0)),
             decision=Decision(payload["decision"]),
         )
-

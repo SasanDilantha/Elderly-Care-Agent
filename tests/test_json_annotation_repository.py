@@ -1,7 +1,7 @@
 import json
+import unittest
 from pathlib import Path
 from tempfile import TemporaryDirectory
-import unittest
 
 from elderly_care_agent.domain.enums import ActivityState, EventType
 from elderly_care_agent.domain.exceptions import AnnotationFormatError
@@ -47,4 +47,3 @@ class JsonAnnotationRepositoryTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-

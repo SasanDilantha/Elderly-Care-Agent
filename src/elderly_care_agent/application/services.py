@@ -32,12 +32,10 @@ class AnnotationValidationService:
             segment_count=len(annotation.segments),
             event_count=len(annotation.events),
             activity_durations_sec={
-                state.value: duration
-                for state, duration in annotation.activity_durations().items()
+                state.value: duration for state, duration in annotation.activity_durations().items()
             },
             occupancy_durations_sec={
                 state.value: duration
                 for state, duration in annotation.occupancy_durations().items()
             },
         )
-
