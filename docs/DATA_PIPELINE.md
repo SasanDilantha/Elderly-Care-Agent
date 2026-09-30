@@ -2,22 +2,7 @@
 
 ## Architecture
 
-```mermaid
-flowchart LR
-  C[config/dataset.yml] --> M[Typed configuration]
-  Q{Prepared data/raw<br/>complete?} -->|No| A[Acquire]
-  Q -->|Yes| N[No-op: already_ready]
-  Z[(Zenodo v2.0 archive)] --> A
-  F[(Pinned GitHub mirror)] -. provenance .-> A
-  A --> H[MD5 + layout checks]
-  H --> S[Manifest selection]
-  M --> A
-  M --> S
-  S --> P[Atomic copy]
-  P --> V[OpenCV decode check<br/>SHA-256 identity]
-  V --> R[(data/raw/gmdcsa24)]
-  V --> O[JSON report + CSV inventory]
-```
+![Architecture](img/architecture-datapipeline.png)
 
 The availability check runs first. Download, extraction, and copying execute
 only when the manifest-selected dataset is missing or incomplete in

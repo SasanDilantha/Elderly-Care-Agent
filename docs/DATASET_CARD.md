@@ -37,12 +37,7 @@ When redistributing any data, retain the source attribution and license files.
 
 ## Contents and project selection
 
-```mermaid
-flowchart LR
-  A[160 source videos<br/>4 subjects] --> B{Tracked manifest}
-  B --> C[Development<br/>Subjects 1–2<br/>15 ADL clips]
-  B --> D[Evaluation<br/>Subjects 3–4<br/>13 ADL clips]
-```
+![Contents and project selection](img/contents_and_project_selection.png)
 
 Only 28 ADL clips relevant to the assignment states are staged. Fall clips are
 not used in this first activity/bed-monitoring implementation. Subjects never
