@@ -1,4 +1,4 @@
-"""Composition root for the testable dataset-preparation stage."""
+"""Composition root for the dataset-preparation pipeline."""
 
 from __future__ import annotations
 

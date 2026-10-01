@@ -4,8 +4,10 @@ import unittest
 from pathlib import Path
 from unittest.mock import Mock, patch
 
+from elderly_care_agent.application.video_sampling import VideoSamplingReport
 from elderly_care_agent.cli import CliApplication
 from elderly_care_agent.domain.dataset import DatasetPreparationReport
+from elderly_care_agent.domain.video import FrameReference
 from elderly_care_agent.infrastructure.logging_config import LoggingConfigurator
 
 
@@ -77,6 +79,40 @@ class CliApplicationTests(unittest.TestCase):
         self.assertEqual(0, exit_code)
         self.assertEqual("ready", payload["status"])
         self.assertEqual(2, payload["selected_video_count"])
+
+    def test_inspect_video_prints_timestamped_sampling_report(self) -> None:
+        service = Mock()
+        service.inspect.return_value = VideoSamplingReport(
+            video_id="sample.mp4",
+            source_path="sample.mp4",
+            source_fps=10.0,
+            frame_count=20,
+            width=64,
+            height=48,
+            duration_sec=2.0,
+            requested_sample_fps=2.0,
+            effective_sample_fps=2.0,
+            sampled_frame_count=4,
+            samples=(
+                FrameReference(0, 0.0),
+                FrameReference(5, 0.5),
+                FrameReference(10, 1.0),
+                FrameReference(15, 1.5),
+            ),
+        )
+        output = io.StringIO()
+
+        exit_code = CliApplication(
+            output=output,
+            video_sampling_service=service,
+        ).run(["inspect-video", "sample.mp4", "--sample-fps", "2"])
+
+        payload = json.loads(output.getvalue())
+        self.assertEqual(0, exit_code)
+        self.assertEqual("ready", payload["status"])
+        self.assertEqual(4, payload["sampled_frame_count"])
+        self.assertEqual(1.5, payload["samples"][-1]["timestamp_sec"])
+        service.inspect.assert_called_once_with(Path("sample.mp4"), 2.0)
 
 
 if __name__ == "__main__":

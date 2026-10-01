@@ -88,7 +88,7 @@ uv run elderly-care-agent prepare-dataset
 Use `--force` only to replace a staged generated file whose SHA-256 differs from
 its verified source. The source archive/directory is never silently overwritten.
 
-## Testable contract
+## Integrity contract
 
 ```text
 PASS

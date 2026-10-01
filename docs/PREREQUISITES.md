@@ -8,22 +8,13 @@ Python 3.12
   ├── Ollama Python SDK       local VLM access
   ├── NumPy + Pandas          data and annotations
   ├── scikit-learn            evaluation metrics
-  ├── Matplotlib + Seaborn    report charts
-  └── Ruff + Coverage         quality gates
+  └── Matplotlib + Seaborn    report charts
 ```
 
 Create or restore the locked environment:
 
 ```powershell
 uv sync --python 3.12
-```
-
-Verify it:
-
-```powershell
-uv run --frozen ruff check .
-uv run --frozen coverage run -m unittest discover -s tests
-uv run --frozen coverage report
 ```
 
 ## Ollama
