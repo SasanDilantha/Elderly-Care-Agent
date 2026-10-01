@@ -9,6 +9,11 @@ from elderly_care_agent.application.video_sampling import (
     VideoSamplingReport,
     VideoSamplingService,
 )
+from elderly_care_agent.application.vision_features import (
+    VisionAnalysisReport,
+    VisionAnalysisService,
+    VisionFeatureExtractor,
+)
 
 __all__ = [
     "AnnotationValidationService",
@@ -16,4 +21,7 @@ __all__ = [
     "ValidationReport",
     "VideoSamplingReport",
     "VideoSamplingService",
+    "VisionAnalysisReport",
+    "VisionAnalysisService",
+    "VisionFeatureExtractor",
 ]

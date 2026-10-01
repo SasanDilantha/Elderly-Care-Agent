@@ -15,9 +15,9 @@ JSON repository -> validated domain timeline -> duration/report service -> CLI J
                          +-- bed exit/return event
 ```
 
-The current system validates annotations, prepares the GMDCSA-24 dataset, and
-samples timestamped video frames. Pose estimation and Ollama inference are not
-connected yet.
+The current system validates annotations, prepares the GMDCSA-24 dataset,
+samples timestamped video frames, and extracts pose and bed-region geometry.
+Activity decisions and Ollama inference are not connected yet.
 
 ### Fixed choices
 
@@ -76,6 +76,24 @@ video → OpenCV metadata → deterministic frame indices → decoded frames
 The command reports metadata and sampled frame references without saving
 duplicate frame images.
 
+### Extract vision features
+
+```powershell
+uv run elderly-care-agent prepare-vision-model
+uv run elderly-care-agent analyze-video `
+  "data\raw\gmdcsa24\development\Subject 1\01.mp4" `
+  --sample-fps 2 `
+  --bed-region 0.10,0.47,0.86,0.87
+```
+
+`--bed-region` is a camera-specific rectangle in normalized image coordinates:
+`left,top,right,bottom`, where the top-left corner is `0,0` and bottom-right is
+`1,1`. The command downloads the pinned MediaPipe Lite model into ignored
+`data/cache/vision/` when needed. It reports pose landmarks, a torso anchor,
+torso angle, and whether that anchor falls within the configured bed rectangle.
+Without a reliable pose or bed rectangle, the bed relation is `unknown`. A
+geometric `inside` result is not yet a bed-occupancy decision.
+
 ```text
 official archive/local source
             ↓
@@ -92,8 +110,8 @@ Expected validation result: `valid: true`, 4 segments, 1 bed-exit event,
 ```text
 src/elderly_care_agent/
   domain/          labels and validated immutable models
-  application/     use cases, video sampler, and dependency interfaces
-  infrastructure/  JSON, dataset, logging, and OpenCV video adapters
+  application/     use cases, video and vision services, and interfaces
+  infrastructure/  JSON, dataset, logging, OpenCV, and MediaPipe adapters
   cli.py            thin command-line delivery layer
 tests/              unittest suite
 examples/           small version-controlled annotation fixture

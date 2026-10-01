@@ -23,3 +23,7 @@ class DatasetIntegrityError(DatasetPipelineError):
 
 class VideoInputError(RuntimeError):
     """Raised when a video cannot be opened, decoded, or sampled safely."""
+
+
+class VisionModelError(RuntimeError):
+    """Raised when a pose model cannot be prepared or run."""

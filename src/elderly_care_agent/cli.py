@@ -14,18 +14,23 @@ from typing import TextIO
 
 from elderly_care_agent.application.services import AnnotationValidationService
 from elderly_care_agent.application.video_sampling import VideoSamplingService
+from elderly_care_agent.application.vision_features import VisionAnalysisService
 from elderly_care_agent.config import ApplicationSettings
 from elderly_care_agent.domain.exceptions import (
     AnnotationFormatError,
     DatasetPipelineError,
     DomainValidationError,
     VideoInputError,
+    VisionModelError,
 )
+from elderly_care_agent.domain.vision import BedRegion
 from elderly_care_agent.infrastructure.json_annotation_repository import (
     JsonAnnotationRepository,
 )
 from elderly_care_agent.infrastructure.logging_config import LoggingConfigurator
+from elderly_care_agent.infrastructure.mediapipe_pose import MediaPipePoseEstimatorFactory
 from elderly_care_agent.infrastructure.opencv_video_source import OpenCvVideoSourceFactory
+from elderly_care_agent.infrastructure.pose_model_store import PoseModelStore
 from elderly_care_agent.pipeline.dataset_pipeline import DatasetPreparationPipeline
 
 logger = logging.getLogger(__name__)
@@ -41,6 +46,8 @@ class CliApplication:
         output: TextIO | None = None,
         logging_configurator: LoggingConfigurator | None = None,
         video_sampling_service: VideoSamplingService | None = None,
+        vision_analysis_service: VisionAnalysisService | None = None,
+        pose_model_provider: PoseModelStore | None = None,
     ) -> None:
         self._settings = settings or ApplicationSettings()
         self._validation_service = validation_service or AnnotationValidationService(
@@ -49,6 +56,8 @@ class CliApplication:
         self._output = output or sys.stdout
         self._logging_configurator = logging_configurator
         self._video_sampling_service = video_sampling_service
+        self._vision_analysis_service = vision_analysis_service
+        self._pose_model_provider = pose_model_provider
 
     def run(self, arguments: Sequence[str] | None = None) -> int:
         parser = self._build_parser()
@@ -97,6 +106,34 @@ class CliApplication:
                 report = service.inspect(namespace.path, sample_fps)
             except (DomainValidationError, VideoInputError) as error:
                 logger.error("Video inspection failed | error=%s", error)
+                self._write_json({"status": "failed", "error": str(error)})
+                return 1
+            self._write_json({"status": "ready", **report.to_dict()})
+            return 0
+
+        if namespace.command == "prepare-vision-model":
+            provider = self._pose_model_provider or PoseModelStore()
+            try:
+                model_path = provider.ensure_available()
+            except VisionModelError as error:
+                logger.error("Pose model preparation failed | error=%s", error)
+                self._write_json({"status": "failed", "error": str(error)})
+                return 1
+            self._write_json({"status": "ready", "model_path": str(model_path)})
+            return 0
+
+        if namespace.command == "analyze-video":
+            provider = self._pose_model_provider or PoseModelStore()
+            service = self._vision_analysis_service or VisionAnalysisService(
+                OpenCvVideoSourceFactory(),
+                MediaPipePoseEstimatorFactory(),
+                provider,
+                self._settings.vision,
+            )
+            try:
+                report = service.analyze(namespace.path, namespace.sample_fps, namespace.bed_region)
+            except (DomainValidationError, VideoInputError, VisionModelError) as error:
+                logger.error("Vision analysis failed | error=%s", error)
                 self._write_json({"status": "failed", "error": str(error)})
                 return 1
             self._write_json({"status": "ready", **report.to_dict()})
@@ -162,6 +199,28 @@ class CliApplication:
             type=float,
             default=None,
             help="sampling rate; defaults to the application vision setting",
+        )
+        subparsers.add_parser(
+            "prepare-vision-model",
+            help="download and verify the pinned MediaPipe pose model when absent",
+        )
+        analyze_parser = subparsers.add_parser(
+            "analyze-video",
+            help="extract person, pose, and optional bed-region features from sampled frames",
+        )
+        analyze_parser.add_argument("path", type=Path, help="input video path")
+        analyze_parser.add_argument(
+            "--sample-fps",
+            type=float,
+            default=None,
+            help="sampling rate; defaults to the application vision setting",
+        )
+        analyze_parser.add_argument(
+            "--bed-region",
+            type=BedRegion.parse,
+            default=None,
+            metavar="LEFT,TOP,RIGHT,BOTTOM",
+            help="camera-specific normalized rectangle; omit for unknown bed relation",
         )
         return parser
 

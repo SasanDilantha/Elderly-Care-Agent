@@ -17,6 +17,14 @@ Create or restore the locked environment:
 uv sync --python 3.12
 ```
 
+## Pose model
+
+`prepare-vision-model` downloads Google's [MediaPipe Pose Landmarker Lite bundle](https://developers.google.com/edge/mediapipe/solutions/vision/pose_landmarker)
+to `data/cache/vision/pose_landmarker_lite.task`. The application also prepares
+it automatically on the first `analyze-video` run. The model is verified with
+SHA-256 `59929e1d1ee95287735ddd833b19cf4ac46d29bc7afddbbf6753c459690d574a`.
+The cached binary is ignored by Git.
+
 ## Ollama
 
 Required model:
