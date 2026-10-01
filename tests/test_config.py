@@ -2,6 +2,7 @@ import unittest
 
 from elderly_care_agent.config import (
     ApplicationSettings,
+    DecisionSettings,
     RuleSettings,
     TemporalSettings,
     VisionSettings,
@@ -33,6 +34,14 @@ class ApplicationSettingsTests(unittest.TestCase):
             RuleSettings(lying_max_torso_angle_deg=65.0)
         with self.assertRaisesRegex(ValueError, "finite and greater"):
             TemporalSettings(state_confirmation_sec=float("nan"))
+
+    def test_decision_thresholds_are_configured_and_finite(self) -> None:
+        settings = ApplicationSettings()
+
+        self.assertEqual(5.0, settings.decision.uncertain_monitor_sec)
+        self.assertEqual(60.0, settings.to_dict()["decision"]["prolonged_absence_sec"])
+        with self.assertRaisesRegex(ValueError, "finite and greater"):
+            DecisionSettings(prolonged_absence_sec=float("nan"))
 
 
 if __name__ == "__main__":

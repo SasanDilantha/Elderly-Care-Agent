@@ -6,6 +6,13 @@ from elderly_care_agent.application.bed_events import (
     BedTransitionDetector,
     ConservativeTimelineFusion,
 )
+from elderly_care_agent.application.observation_summary import (
+    ContextualDecisionPolicy,
+    DecisionAssessment,
+    ObservationSummary,
+    ObservationSummaryService,
+    OccupancyRunGrouper,
+)
 from elderly_care_agent.application.rules import RuleBasedStateClassifier, RuleObservation
 from elderly_care_agent.application.services import (
     AnnotationValidationService,
@@ -39,6 +46,11 @@ __all__ = [
     "BedEventAnalysisService",
     "BedTransitionDetector",
     "ConservativeTimelineFusion",
+    "ContextualDecisionPolicy",
+    "DecisionAssessment",
+    "ObservationSummary",
+    "ObservationSummaryService",
+    "OccupancyRunGrouper",
     "ContextFrameSampler",
     "RuleBasedStateClassifier",
     "RuleObservation",
