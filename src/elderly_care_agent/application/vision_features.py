@@ -111,6 +111,8 @@ class VisionAnalysisReport:
     source_path: str
     duration_sec: float
     source_fps: float
+    width: int
+    height: int
     sample_fps: float
     model_path: str
     bed_region: BedRegion | None
@@ -184,6 +186,8 @@ class VisionAnalysisService[FramePayload]:
             source_path=source.metadata.source_path,
             duration_sec=source.metadata.duration_sec,
             source_fps=source.metadata.fps,
+            width=source.metadata.width,
+            height=source.metadata.height,
             sample_fps=sampler.effective_fps,
             model_path=str(model_path),
             bed_region=bed_region,

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import asdict, dataclass, field
+from math import isfinite
 from typing import Any
 
 
@@ -33,10 +34,35 @@ class TemporalSettings:
     bed_event_confirmation_sec: float = 2.0
 
     def __post_init__(self) -> None:
-        if self.state_confirmation_sec <= 0:
-            raise ValueError("state_confirmation_sec must be greater than zero")
-        if self.bed_event_confirmation_sec <= 0:
-            raise ValueError("bed_event_confirmation_sec must be greater than zero")
+        if not isfinite(self.state_confirmation_sec) or self.state_confirmation_sec <= 0:
+            raise ValueError("state_confirmation_sec must be finite and greater than zero")
+        if not isfinite(self.bed_event_confirmation_sec) or self.bed_event_confirmation_sec <= 0:
+            raise ValueError("bed_event_confirmation_sec must be finite and greater than zero")
+
+
+@dataclass(frozen=True, slots=True)
+class RuleSettings:
+    """Conservative geometry thresholds for a fixed-camera view."""
+
+    minimum_landmark_confidence: float = 0.5
+    lying_max_torso_angle_deg: float = 30.0
+    upright_min_torso_angle_deg: float = 55.0
+    sitting_max_leg_ratio: float = 0.55
+    standing_min_leg_ratio: float = 0.70
+    walking_min_anchor_speed_per_sec: float = 0.08
+
+    def __post_init__(self) -> None:
+        if not 0 <= self.minimum_landmark_confidence <= 1:
+            raise ValueError("minimum_landmark_confidence must be between 0 and 1")
+        if not 0 <= self.lying_max_torso_angle_deg < self.upright_min_torso_angle_deg <= 90:
+            raise ValueError("torso angle thresholds must be ordered within [0, 90]")
+        if not 0 < self.sitting_max_leg_ratio < self.standing_min_leg_ratio:
+            raise ValueError("leg ratio thresholds must be positive and ordered")
+        if (
+            not isfinite(self.walking_min_anchor_speed_per_sec)
+            or self.walking_min_anchor_speed_per_sec <= 0
+        ):
+            raise ValueError("walking_min_anchor_speed_per_sec must be greater than zero")
 
 
 @dataclass(frozen=True, slots=True)
@@ -67,6 +93,7 @@ class ApplicationSettings:
 
     vision: VisionSettings = field(default_factory=VisionSettings)
     temporal: TemporalSettings = field(default_factory=TemporalSettings)
+    rules: RuleSettings = field(default_factory=RuleSettings)
     vlm: VlmSettings = field(default_factory=VlmSettings)
 
     def to_dict(self) -> dict[str, Any]:

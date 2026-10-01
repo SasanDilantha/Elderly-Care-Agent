@@ -17,7 +17,8 @@ JSON repository -> validated domain timeline -> duration/report service -> CLI J
 
 The current system validates annotations, prepares the GMDCSA-24 dataset,
 samples timestamped video frames, and extracts pose and bed-region geometry.
-Activity decisions and Ollama inference are not connected yet.
+It also derives rule-based activity and bed-state timelines. Bed-event decisions
+and Ollama inference are not connected yet.
 
 ### Fixed choices
 
@@ -94,6 +95,26 @@ torso angle, and whether that anchor falls within the configured bed rectangle.
 Without a reliable pose or bed rectangle, the bed relation is `unknown`. A
 geometric `inside` result is not yet a bed-occupancy decision.
 
+### Infer an activity timeline
+
+```powershell
+uv run elderly-care-agent infer-timeline `
+  "data\raw\gmdcsa24\development\Subject 1\01.mp4" `
+  --sample-fps 2 `
+  --bed-region 0.10,0.30,0.86,0.87
+```
+
+```text
+pose + bed geometry → posture/movement rules → sustained states → contiguous segments
+                                                        ↓
+                                           activity + occupancy durations
+```
+
+Rules use torso angle, visible leg geometry, anchor movement, and the supplied
+bed rectangle. Brief or ambiguous observations become `unknown`. The rectangle
+must match each camera view; these rule confidences are heuristic scores, not
+calibrated probabilities.
+
 ```text
 official archive/local source
             ↓
@@ -110,7 +131,7 @@ Expected validation result: `valid: true`, 4 segments, 1 bed-exit event,
 ```text
 src/elderly_care_agent/
   domain/          labels and validated immutable models
-  application/     use cases, video and vision services, and interfaces
+  application/     use cases, video, vision, timeline, and interfaces
   infrastructure/  JSON, dataset, logging, OpenCV, and MediaPipe adapters
   cli.py            thin command-line delivery layer
 tests/              unittest suite

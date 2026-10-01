@@ -12,7 +12,9 @@ from dataclasses import asdict
 from pathlib import Path
 from typing import TextIO
 
+from elderly_care_agent.application.rules import RuleBasedStateClassifier
 from elderly_care_agent.application.services import AnnotationValidationService
+from elderly_care_agent.application.timeline import TimelineAnalysisService
 from elderly_care_agent.application.video_sampling import VideoSamplingService
 from elderly_care_agent.application.vision_features import VisionAnalysisService
 from elderly_care_agent.config import ApplicationSettings
@@ -47,6 +49,7 @@ class CliApplication:
         logging_configurator: LoggingConfigurator | None = None,
         video_sampling_service: VideoSamplingService | None = None,
         vision_analysis_service: VisionAnalysisService | None = None,
+        timeline_analysis_service: TimelineAnalysisService | None = None,
         pose_model_provider: PoseModelStore | None = None,
     ) -> None:
         self._settings = settings or ApplicationSettings()
@@ -57,6 +60,7 @@ class CliApplication:
         self._logging_configurator = logging_configurator
         self._video_sampling_service = video_sampling_service
         self._vision_analysis_service = vision_analysis_service
+        self._timeline_analysis_service = timeline_analysis_service
         self._pose_model_provider = pose_model_provider
 
     def run(self, arguments: Sequence[str] | None = None) -> int:
@@ -123,17 +127,26 @@ class CliApplication:
             return 0
 
         if namespace.command == "analyze-video":
-            provider = self._pose_model_provider or PoseModelStore()
-            service = self._vision_analysis_service or VisionAnalysisService(
-                OpenCvVideoSourceFactory(),
-                MediaPipePoseEstimatorFactory(),
-                provider,
-                self._settings.vision,
-            )
+            service = self._get_vision_service()
             try:
                 report = service.analyze(namespace.path, namespace.sample_fps, namespace.bed_region)
             except (DomainValidationError, VideoInputError, VisionModelError) as error:
                 logger.error("Vision analysis failed | error=%s", error)
+                self._write_json({"status": "failed", "error": str(error)})
+                return 1
+            self._write_json({"status": "ready", **report.to_dict()})
+            return 0
+
+        if namespace.command == "infer-timeline":
+            service = self._timeline_analysis_service or TimelineAnalysisService(
+                self._get_vision_service(),
+                self._settings.temporal,
+                RuleBasedStateClassifier(self._settings.rules),
+            )
+            try:
+                report = service.analyze(namespace.path, namespace.sample_fps, namespace.bed_region)
+            except (DomainValidationError, VideoInputError, VisionModelError) as error:
+                logger.error("Timeline analysis failed | error=%s", error)
                 self._write_json({"status": "failed", "error": str(error)})
                 return 1
             self._write_json({"status": "ready", **report.to_dict()})
@@ -222,7 +235,33 @@ class CliApplication:
             metavar="LEFT,TOP,RIGHT,BOTTOM",
             help="camera-specific normalized rectangle; omit for unknown bed relation",
         )
+        timeline_parser = subparsers.add_parser(
+            "infer-timeline",
+            help="classify stable activity and bed states and report durations",
+        )
+        timeline_parser.add_argument("path", type=Path, help="input video path")
+        timeline_parser.add_argument(
+            "--sample-fps",
+            type=float,
+            default=None,
+            help="sampling rate; defaults to the application vision setting",
+        )
+        timeline_parser.add_argument(
+            "--bed-region",
+            type=BedRegion.parse,
+            default=None,
+            metavar="LEFT,TOP,RIGHT,BOTTOM",
+            help="camera-specific normalized rectangle; omit for unknown bed relation",
+        )
         return parser
+
+    def _get_vision_service(self) -> VisionAnalysisService:
+        return self._vision_analysis_service or VisionAnalysisService(
+            OpenCvVideoSourceFactory(),
+            MediaPipePoseEstimatorFactory(),
+            self._pose_model_provider or PoseModelStore(),
+            self._settings.vision,
+        )
 
     def _write_json(self, payload: object) -> None:
         json.dump(payload, self._output, indent=2)
