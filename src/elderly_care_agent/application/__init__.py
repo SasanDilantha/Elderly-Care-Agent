@@ -1,5 +1,11 @@
 """Application use cases and dependency contracts."""
 
+from elderly_care_agent.application.bed_events import (
+    BedEventAnalysisReport,
+    BedEventAnalysisService,
+    BedTransitionDetector,
+    ConservativeTimelineFusion,
+)
 from elderly_care_agent.application.rules import RuleBasedStateClassifier, RuleObservation
 from elderly_care_agent.application.services import (
     AnnotationValidationService,
@@ -29,6 +35,10 @@ from elderly_care_agent.application.vlm_review import (
 
 __all__ = [
     "AnnotationValidationService",
+    "BedEventAnalysisReport",
+    "BedEventAnalysisService",
+    "BedTransitionDetector",
+    "ConservativeTimelineFusion",
     "ContextFrameSampler",
     "RuleBasedStateClassifier",
     "RuleObservation",
