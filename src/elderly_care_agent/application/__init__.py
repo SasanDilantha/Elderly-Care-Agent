@@ -20,9 +20,16 @@ from elderly_care_agent.application.vision_features import (
     VisionAnalysisService,
     VisionFeatureExtractor,
 )
+from elderly_care_agent.application.vlm_review import (
+    ContextFrameSampler,
+    VlmResponseParser,
+    VlmReviewReport,
+    VlmReviewService,
+)
 
 __all__ = [
     "AnnotationValidationService",
+    "ContextFrameSampler",
     "RuleBasedStateClassifier",
     "RuleObservation",
     "TemporalStateSmoother",
@@ -35,4 +42,7 @@ __all__ = [
     "VisionAnalysisReport",
     "VisionAnalysisService",
     "VisionFeatureExtractor",
+    "VlmResponseParser",
+    "VlmReviewReport",
+    "VlmReviewService",
 ]

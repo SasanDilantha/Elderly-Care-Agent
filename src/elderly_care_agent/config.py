@@ -72,19 +72,33 @@ class VlmSettings:
     model: str = "qwen3-vl:4b-instruct"
     base_url: str = "http://localhost:11434"
     temperature: float = 0.0
-    context_offsets_sec: tuple[float, ...] = (-4.0, -2.0, 0.0, 2.0, 4.0)
+    context_offsets_sec: tuple[float, ...] = (-2.0, 0.0, 2.0)
+    timeout_sec: float = 600.0
+    context_window_tokens: int = 4096
+    max_reviews_per_run: int = 3
+    minimum_proposal_confidence: float = 0.6
 
     def __post_init__(self) -> None:
         if not self.model.strip():
             raise ValueError("model must not be empty")
         if not self.base_url.startswith(("http://", "https://")):
             raise ValueError("base_url must be an HTTP(S) URL")
-        if self.temperature < 0:
-            raise ValueError("temperature must not be negative")
+        if not isfinite(self.temperature) or self.temperature < 0:
+            raise ValueError("temperature must be finite and non-negative")
         if not self.context_offsets_sec or 0.0 not in self.context_offsets_sec:
             raise ValueError("context_offsets_sec must include the current frame (0.0)")
+        if not all(isfinite(offset) for offset in self.context_offsets_sec):
+            raise ValueError("context_offsets_sec must contain only finite values")
         if tuple(sorted(self.context_offsets_sec)) != self.context_offsets_sec:
             raise ValueError("context_offsets_sec must be sorted")
+        if not isfinite(self.timeout_sec) or self.timeout_sec <= 0:
+            raise ValueError("timeout_sec must be finite and greater than zero")
+        if self.context_window_tokens < 4096:
+            raise ValueError("context_window_tokens must be at least 4096")
+        if self.max_reviews_per_run <= 0:
+            raise ValueError("max_reviews_per_run must be greater than zero")
+        if not 0 <= self.minimum_proposal_confidence <= 1:
+            raise ValueError("minimum_proposal_confidence must be between 0 and 1")
 
 
 @dataclass(frozen=True, slots=True)

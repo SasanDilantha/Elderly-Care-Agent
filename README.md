@@ -18,7 +18,7 @@ JSON repository -> validated domain timeline -> duration/report service -> CLI J
 The current system validates annotations, prepares the GMDCSA-24 dataset,
 samples timestamped video frames, and extracts pose and bed-region geometry.
 It also derives rule-based activity and bed-state timelines. Bed-event decisions
-and Ollama inference are not connected yet.
+are not connected yet. Local Ollama can review uncertain intervals separately.
 
 ### Fixed choices
 
@@ -115,6 +115,27 @@ bed rectangle. Brief or ambiguous observations become `unknown`. The rectangle
 must match each camera view; these rule confidences are heuristic scores, not
 calibrated probabilities.
 
+### Review uncertain intervals with Ollama
+
+```powershell
+uv run elderly-care-agent review-uncertain `
+  "data\raw\gmdcsa24\development\Subject 1\01.mp4" `
+  --sample-fps 2 `
+  --bed-region 0.10,0.30,0.86,0.87 `
+  --max-segments 1
+```
+
+```text
+unknown rule segment → nearby video frames → local qwen3-vl:4b-instruct
+                                                ↓
+                                  validated proposal or abstention
+```
+
+The command sends compressed context images only to the configured Ollama
+endpoint. VLM proposals remain separate from the rule timeline. Invalid,
+inconsistent, or low-confidence model responses become `abstained` reviews.
+CPU-only inference can take several minutes per interval.
+
 ```text
 official archive/local source
             ↓
@@ -131,8 +152,8 @@ Expected validation result: `valid: true`, 4 segments, 1 bed-exit event,
 ```text
 src/elderly_care_agent/
   domain/          labels and validated immutable models
-  application/     use cases, video, vision, timeline, and interfaces
-  infrastructure/  JSON, dataset, logging, OpenCV, and MediaPipe adapters
+  application/     video, vision, timeline, VLM review, and interfaces
+  infrastructure/  JSON, dataset, logging, OpenCV, MediaPipe, Ollama adapters
   cli.py            thin command-line delivery layer
 tests/              unittest suite
 examples/           small version-controlled annotation fixture
@@ -145,8 +166,8 @@ See [the dataset pipeline](docs/DATA_PIPELINE.md) and
 
 ### Ollama model prerequisite
 
-The model is recorded in configuration but is not called by the current
-video-input command.
+The model is called only by `review-uncertain` and must be available in your
+local Ollama installation.
 
 ```powershell
 ollama pull qwen3-vl:4b-instruct
