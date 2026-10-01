@@ -17,6 +17,7 @@ from elderly_care_agent.application.services import AnnotationValidationService
 from elderly_care_agent.application.timeline import TimelineAnalysisService
 from elderly_care_agent.application.video_sampling import VideoSamplingService
 from elderly_care_agent.application.vision_features import VisionAnalysisService
+from elderly_care_agent.application.vlm_review import VlmReviewService
 from elderly_care_agent.config import ApplicationSettings
 from elderly_care_agent.domain.exceptions import (
     AnnotationFormatError,
@@ -24,6 +25,7 @@ from elderly_care_agent.domain.exceptions import (
     DomainValidationError,
     VideoInputError,
     VisionModelError,
+    VlmServiceError,
 )
 from elderly_care_agent.domain.vision import BedRegion
 from elderly_care_agent.infrastructure.json_annotation_repository import (
@@ -33,6 +35,10 @@ from elderly_care_agent.infrastructure.logging_config import LoggingConfigurator
 from elderly_care_agent.infrastructure.mediapipe_pose import MediaPipePoseEstimatorFactory
 from elderly_care_agent.infrastructure.opencv_video_source import OpenCvVideoSourceFactory
 from elderly_care_agent.infrastructure.pose_model_store import PoseModelStore
+from elderly_care_agent.infrastructure.vlm_adapters import (
+    OllamaVisionLanguageModel,
+    OpenCvJpegEncoder,
+)
 from elderly_care_agent.pipeline.dataset_pipeline import DatasetPreparationPipeline
 
 logger = logging.getLogger(__name__)
@@ -50,6 +56,7 @@ class CliApplication:
         video_sampling_service: VideoSamplingService | None = None,
         vision_analysis_service: VisionAnalysisService | None = None,
         timeline_analysis_service: TimelineAnalysisService | None = None,
+        vlm_review_service: VlmReviewService | None = None,
         pose_model_provider: PoseModelStore | None = None,
     ) -> None:
         self._settings = settings or ApplicationSettings()
@@ -61,6 +68,7 @@ class CliApplication:
         self._video_sampling_service = video_sampling_service
         self._vision_analysis_service = vision_analysis_service
         self._timeline_analysis_service = timeline_analysis_service
+        self._vlm_review_service = vlm_review_service
         self._pose_model_provider = pose_model_provider
 
     def run(self, arguments: Sequence[str] | None = None) -> int:
@@ -138,15 +146,38 @@ class CliApplication:
             return 0
 
         if namespace.command == "infer-timeline":
-            service = self._timeline_analysis_service or TimelineAnalysisService(
-                self._get_vision_service(),
-                self._settings.temporal,
-                RuleBasedStateClassifier(self._settings.rules),
-            )
+            service = self._get_timeline_service()
             try:
                 report = service.analyze(namespace.path, namespace.sample_fps, namespace.bed_region)
             except (DomainValidationError, VideoInputError, VisionModelError) as error:
                 logger.error("Timeline analysis failed | error=%s", error)
+                self._write_json({"status": "failed", "error": str(error)})
+                return 1
+            self._write_json({"status": "ready", **report.to_dict()})
+            return 0
+
+        if namespace.command == "review-uncertain":
+            service = self._vlm_review_service or VlmReviewService(
+                self._get_timeline_service(),
+                OpenCvVideoSourceFactory(),
+                OpenCvJpegEncoder(),
+                OllamaVisionLanguageModel(self._settings.vlm),
+                self._settings.vlm,
+            )
+            try:
+                report = service.review(
+                    namespace.path,
+                    namespace.sample_fps,
+                    namespace.bed_region,
+                    namespace.max_segments,
+                )
+            except (
+                DomainValidationError,
+                VideoInputError,
+                VisionModelError,
+                VlmServiceError,
+            ) as error:
+                logger.error("VLM review failed | error=%s", error)
                 self._write_json({"status": "failed", "error": str(error)})
                 return 1
             self._write_json({"status": "ready", **report.to_dict()})
@@ -253,7 +284,32 @@ class CliApplication:
             metavar="LEFT,TOP,RIGHT,BOTTOM",
             help="camera-specific normalized rectangle; omit for unknown bed relation",
         )
+        review_parser = subparsers.add_parser(
+            "review-uncertain",
+            help="ask local Ollama to review uncertain timeline intervals",
+        )
+        review_parser.add_argument("path", type=Path, help="input video path")
+        review_parser.add_argument("--sample-fps", type=float, default=None)
+        review_parser.add_argument(
+            "--bed-region",
+            type=BedRegion.parse,
+            default=None,
+            metavar="LEFT,TOP,RIGHT,BOTTOM",
+        )
+        review_parser.add_argument(
+            "--max-segments",
+            type=int,
+            default=None,
+            help="maximum uncertain intervals to review; defaults to the VLM setting",
+        )
         return parser
+
+    def _get_timeline_service(self) -> TimelineAnalysisService:
+        return self._timeline_analysis_service or TimelineAnalysisService(
+            self._get_vision_service(),
+            self._settings.temporal,
+            RuleBasedStateClassifier(self._settings.rules),
+        )
 
     def _get_vision_service(self) -> VisionAnalysisService:
         return self._vision_analysis_service or VisionAnalysisService(

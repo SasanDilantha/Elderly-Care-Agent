@@ -7,8 +7,10 @@ from unittest.mock import Mock, patch
 from elderly_care_agent.application.timeline import TimelineAnalysisReport
 from elderly_care_agent.application.video_sampling import VideoSamplingReport
 from elderly_care_agent.application.vision_features import VisionAnalysisReport
+from elderly_care_agent.application.vlm_review import VlmReviewReport
 from elderly_care_agent.cli import CliApplication
 from elderly_care_agent.domain.dataset import DatasetPreparationReport
+from elderly_care_agent.domain.exceptions import VlmServiceError
 from elderly_care_agent.domain.video import FrameReference
 from elderly_care_agent.domain.vision import BedRegion
 from elderly_care_agent.infrastructure.logging_config import LoggingConfigurator
@@ -169,6 +171,51 @@ class CliApplicationTests(unittest.TestCase):
         self.assertEqual(0, exit_code)
         self.assertEqual(2.0, json.loads(output.getvalue())["activity_durations_sec"]["unknown"])
         service.analyze.assert_called_once_with(Path("sample.mp4"), 2.0, bed)
+
+    def test_review_uncertain_reports_model_proposals_separately(self) -> None:
+        service = Mock()
+        bed = BedRegion(0.1, 0.2, 0.9, 0.8)
+        service.review.return_value = VlmReviewReport(
+            video_id="sample.mp4",
+            source_path="sample.mp4",
+            duration_sec=2.0,
+            model="qwen3-vl:4b-instruct",
+            unknown_segment_count=1,
+            reviewed_segment_count=1,
+            skipped_segment_count=0,
+            rule_segments=(),
+            reviews=(),
+        )
+        output = io.StringIO()
+
+        code = CliApplication(output=output, vlm_review_service=service).run(
+            [
+                "review-uncertain",
+                "sample.mp4",
+                "--sample-fps",
+                "2",
+                "--bed-region",
+                "0.1,0.2,0.9,0.8",
+                "--max-segments",
+                "1",
+            ]
+        )
+
+        self.assertEqual(0, code)
+        self.assertEqual(1, json.loads(output.getvalue())["reviewed_segment_count"])
+        service.review.assert_called_once_with(Path("sample.mp4"), 2.0, bed, 1)
+
+    def test_review_uncertain_reports_ollama_failure(self) -> None:
+        service = Mock()
+        service.review.side_effect = VlmServiceError("local Ollama is unavailable")
+        output = io.StringIO()
+
+        code = CliApplication(output=output, vlm_review_service=service).run(
+            ["review-uncertain", "sample.mp4"]
+        )
+
+        self.assertEqual(1, code)
+        self.assertEqual("failed", json.loads(output.getvalue())["status"])
 
 
 if __name__ == "__main__":

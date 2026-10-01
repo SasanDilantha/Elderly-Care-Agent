@@ -23,6 +23,7 @@ from elderly_care_agent.domain.vision import (
     PoseLandmark,
     VisionFrame,
 )
+from elderly_care_agent.domain.vlm import ReviewStatus, VlmReview
 
 __all__ = [
     "ActivityState",
@@ -38,10 +39,12 @@ __all__ = [
     "NormalizedPoint",
     "PersonStatus",
     "PoseLandmark",
+    "ReviewStatus",
     "StateSegment",
     "StateTimeline",
     "TimeRange",
     "TimestampedFrame",
     "VideoMetadata",
     "VisionFrame",
+    "VlmReview",
 ]

@@ -27,3 +27,7 @@ class VideoInputError(RuntimeError):
 
 class VisionModelError(RuntimeError):
     """Raised when a pose model cannot be prepared or run."""
+
+
+class VlmServiceError(RuntimeError):
+    """Raised when the configured local Ollama service cannot provide a response."""
