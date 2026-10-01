@@ -19,3 +19,7 @@ class DatasetConfigurationError(DatasetPipelineError):
 
 class DatasetIntegrityError(DatasetPipelineError):
     """Raised when downloaded, extracted, or staged data fails validation."""
+
+
+class VideoInputError(RuntimeError):
+    """Raised when a video cannot be opened, decoded, or sampled safely."""

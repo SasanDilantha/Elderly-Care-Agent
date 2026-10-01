@@ -13,12 +13,19 @@ from pathlib import Path
 from typing import TextIO
 
 from elderly_care_agent.application.services import AnnotationValidationService
+from elderly_care_agent.application.video_sampling import VideoSamplingService
 from elderly_care_agent.config import ApplicationSettings
-from elderly_care_agent.domain.exceptions import AnnotationFormatError, DatasetPipelineError
+from elderly_care_agent.domain.exceptions import (
+    AnnotationFormatError,
+    DatasetPipelineError,
+    DomainValidationError,
+    VideoInputError,
+)
 from elderly_care_agent.infrastructure.json_annotation_repository import (
     JsonAnnotationRepository,
 )
 from elderly_care_agent.infrastructure.logging_config import LoggingConfigurator
+from elderly_care_agent.infrastructure.opencv_video_source import OpenCvVideoSourceFactory
 from elderly_care_agent.pipeline.dataset_pipeline import DatasetPreparationPipeline
 
 logger = logging.getLogger(__name__)
@@ -33,6 +40,7 @@ class CliApplication:
         validation_service: AnnotationValidationService | None = None,
         output: TextIO | None = None,
         logging_configurator: LoggingConfigurator | None = None,
+        video_sampling_service: VideoSamplingService | None = None,
     ) -> None:
         self._settings = settings or ApplicationSettings()
         self._validation_service = validation_service or AnnotationValidationService(
@@ -40,6 +48,7 @@ class CliApplication:
         )
         self._output = output or sys.stdout
         self._logging_configurator = logging_configurator
+        self._video_sampling_service = video_sampling_service
 
     def run(self, arguments: Sequence[str] | None = None) -> int:
         parser = self._build_parser()
@@ -73,6 +82,24 @@ class CliApplication:
                 self._write_json({"status": "failed", "error": str(error)})
                 return 1
             self._write_json(report.to_dict())
+            return 0
+
+        if namespace.command == "inspect-video":
+            sample_fps = (
+                namespace.sample_fps
+                if namespace.sample_fps is not None
+                else self._settings.vision.sample_fps
+            )
+            service = self._video_sampling_service or VideoSamplingService(
+                OpenCvVideoSourceFactory()
+            )
+            try:
+                report = service.inspect(namespace.path, sample_fps)
+            except (DomainValidationError, VideoInputError) as error:
+                logger.error("Video inspection failed | error=%s", error)
+                self._write_json({"status": "failed", "error": str(error)})
+                return 1
+            self._write_json({"status": "ready", **report.to_dict()})
             return 0
 
         parser.error("a command is required")
@@ -124,6 +151,17 @@ class CliApplication:
             "--force",
             action="store_true",
             help="replace a generated staged file only when its checksum differs",
+        )
+        inspect_parser = subparsers.add_parser(
+            "inspect-video",
+            help="read video metadata and list timestamped sampled frames",
+        )
+        inspect_parser.add_argument("path", type=Path, help="input video path")
+        inspect_parser.add_argument(
+            "--sample-fps",
+            type=float,
+            default=None,
+            help="sampling rate; defaults to the application vision setting",
         )
         return parser
 
