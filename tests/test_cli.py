@@ -4,13 +4,14 @@ import unittest
 from pathlib import Path
 from unittest.mock import Mock, patch
 
+from elderly_care_agent.application.bed_events import BedEventAnalysisReport
 from elderly_care_agent.application.timeline import TimelineAnalysisReport
 from elderly_care_agent.application.video_sampling import VideoSamplingReport
 from elderly_care_agent.application.vision_features import VisionAnalysisReport
 from elderly_care_agent.application.vlm_review import VlmReviewReport
 from elderly_care_agent.cli import CliApplication
 from elderly_care_agent.domain.dataset import DatasetPreparationReport
-from elderly_care_agent.domain.exceptions import VlmServiceError
+from elderly_care_agent.domain.exceptions import DomainValidationError, VlmServiceError
 from elderly_care_agent.domain.video import FrameReference
 from elderly_care_agent.domain.vision import BedRegion
 from elderly_care_agent.infrastructure.logging_config import LoggingConfigurator
@@ -212,6 +213,45 @@ class CliApplicationTests(unittest.TestCase):
 
         code = CliApplication(output=output, vlm_review_service=service).run(
             ["review-uncertain", "sample.mp4"]
+        )
+
+        self.assertEqual(1, code)
+        self.assertEqual("failed", json.loads(output.getvalue())["status"])
+
+    def test_analyze_bed_events_reports_confirmed_events(self) -> None:
+        service = Mock()
+        service.analyze.return_value = BedEventAnalysisReport(
+            video_id="sample.mp4",
+            source_path="sample.mp4",
+            duration_sec=6.0,
+            vlm_enabled=False,
+            rule_segments=(),
+            vlm_reviews=(),
+            fused_segments=(),
+            events=(),
+            activity_durations_sec={"unknown": 6.0},
+            occupancy_durations_sec={"unknown": 6.0},
+        )
+        output = io.StringIO()
+
+        code = CliApplication(output=output, bed_event_service=service).run(
+            ["analyze-bed-events", "sample.mp4", "--sample-fps", "2"]
+        )
+
+        self.assertEqual(0, code)
+        self.assertEqual([], json.loads(output.getvalue())["events"])
+        self.assertEqual(0, json.loads(output.getvalue())["event_count"])
+        service.analyze.assert_called_once_with(
+            Path("sample.mp4"), 2.0, None, with_vlm=False, max_segments=None
+        )
+
+    def test_analyze_bed_events_reports_invalid_option_combination(self) -> None:
+        service = Mock()
+        service.analyze.side_effect = DomainValidationError("max_segments requires with_vlm")
+        output = io.StringIO()
+
+        code = CliApplication(output=output, bed_event_service=service).run(
+            ["analyze-bed-events", "sample.mp4", "--max-segments", "1"]
         )
 
         self.assertEqual(1, code)

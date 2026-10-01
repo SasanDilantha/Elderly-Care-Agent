@@ -5,20 +5,18 @@ Hybrid computer vision + local Ollama VLM for elderly activity monitoring.
 ## Current capabilities
 
 ```text
-Ground-truth JSON
-       |
-       v
-JSON repository -> validated domain timeline -> duration/report service -> CLI JSON
-                         |
-                         +-- activity state
-                         +-- bed occupancy
-                         +-- bed exit/return event
+video → pose + bed geometry → rule timeline → optional VLM gap review
+                                              ↓
+                                         fused timeline → bed events
+
+ground-truth JSON → annotation validator → summary
 ```
 
 The current system validates annotations, prepares the GMDCSA-24 dataset,
 samples timestamped video frames, and extracts pose and bed-region geometry.
-It also derives rule-based activity and bed-state timelines. Bed-event decisions
-are not connected yet. Local Ollama can review uncertain intervals separately.
+It also derives rule-based activity and bed-state timelines. Local Ollama can
+review uncertain intervals, and sustained rule-supported occupancy changes
+produce bed-exit and bed-return events.
 
 ### Fixed choices
 
@@ -135,6 +133,22 @@ The command sends compressed context images only to the configured Ollama
 endpoint. VLM proposals remain separate from the rule timeline. Invalid,
 inconsistent, or low-confidence model responses become `abstained` reviews.
 CPU-only inference can take several minutes per interval.
+
+### Analyze bed events
+
+```powershell
+uv run elderly-care-agent analyze-bed-events `
+  "data\raw\gmdcsa24\development\Subject 1\01.mp4" `
+  --sample-fps 2 `
+  --bed-region 0.10,0.30,0.86,0.87
+```
+
+Add `--with-vlm --max-segments 1` to review unknown gaps before event detection.
+Only a proposed activity enclosed by matching known bed occupancy fills a gap.
+Bed exits and returns require a direct rule-supported occupancy transition and
+two seconds of sustained new state. A VLM proposal alone never triggers an
+event. Bed exit is `monitor`; bed return is `normal`. This sprint does not
+infer emergency alerts.
 
 ```text
 official archive/local source

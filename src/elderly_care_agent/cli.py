@@ -12,6 +12,10 @@ from dataclasses import asdict
 from pathlib import Path
 from typing import TextIO
 
+from elderly_care_agent.application.bed_events import (
+    BedEventAnalysisService,
+    ConservativeTimelineFusion,
+)
 from elderly_care_agent.application.rules import RuleBasedStateClassifier
 from elderly_care_agent.application.services import AnnotationValidationService
 from elderly_care_agent.application.timeline import TimelineAnalysisService
@@ -57,6 +61,7 @@ class CliApplication:
         vision_analysis_service: VisionAnalysisService | None = None,
         timeline_analysis_service: TimelineAnalysisService | None = None,
         vlm_review_service: VlmReviewService | None = None,
+        bed_event_service: BedEventAnalysisService | None = None,
         pose_model_provider: PoseModelStore | None = None,
     ) -> None:
         self._settings = settings or ApplicationSettings()
@@ -69,6 +74,7 @@ class CliApplication:
         self._vision_analysis_service = vision_analysis_service
         self._timeline_analysis_service = timeline_analysis_service
         self._vlm_review_service = vlm_review_service
+        self._bed_event_service = bed_event_service
         self._pose_model_provider = pose_model_provider
 
     def run(self, arguments: Sequence[str] | None = None) -> int:
@@ -157,13 +163,7 @@ class CliApplication:
             return 0
 
         if namespace.command == "review-uncertain":
-            service = self._vlm_review_service or VlmReviewService(
-                self._get_timeline_service(),
-                OpenCvVideoSourceFactory(),
-                OpenCvJpegEncoder(),
-                OllamaVisionLanguageModel(self._settings.vlm),
-                self._settings.vlm,
-            )
+            service = self._get_vlm_review_service()
             try:
                 report = service.review(
                     namespace.path,
@@ -178,6 +178,33 @@ class CliApplication:
                 VlmServiceError,
             ) as error:
                 logger.error("VLM review failed | error=%s", error)
+                self._write_json({"status": "failed", "error": str(error)})
+                return 1
+            self._write_json({"status": "ready", **report.to_dict()})
+            return 0
+
+        if namespace.command == "analyze-bed-events":
+            service = self._bed_event_service or BedEventAnalysisService(
+                self._get_timeline_service(),
+                self._settings.temporal,
+                self._get_vlm_review_service() if namespace.with_vlm else None,
+                ConservativeTimelineFusion(self._settings.vlm.minimum_proposal_confidence),
+            )
+            try:
+                report = service.analyze(
+                    namespace.path,
+                    namespace.sample_fps,
+                    namespace.bed_region,
+                    with_vlm=namespace.with_vlm,
+                    max_segments=namespace.max_segments,
+                )
+            except (
+                DomainValidationError,
+                VideoInputError,
+                VisionModelError,
+                VlmServiceError,
+            ) as error:
+                logger.error("Bed-event analysis failed | error=%s", error)
                 self._write_json({"status": "failed", "error": str(error)})
                 return 1
             self._write_json({"status": "ready", **report.to_dict()})
@@ -302,7 +329,34 @@ class CliApplication:
             default=None,
             help="maximum uncertain intervals to review; defaults to the VLM setting",
         )
+        event_parser = subparsers.add_parser(
+            "analyze-bed-events",
+            help="fuse safe activity proposals and confirm bed exit/return transitions",
+        )
+        event_parser.add_argument("path", type=Path, help="input video path")
+        event_parser.add_argument("--sample-fps", type=float, default=None)
+        event_parser.add_argument(
+            "--bed-region",
+            type=BedRegion.parse,
+            default=None,
+            metavar="LEFT,TOP,RIGHT,BOTTOM",
+        )
+        event_parser.add_argument(
+            "--with-vlm",
+            action="store_true",
+            help="review uncertain intervals using local Ollama before event detection",
+        )
+        event_parser.add_argument("--max-segments", type=int, default=None)
         return parser
+
+    def _get_vlm_review_service(self) -> VlmReviewService:
+        return self._vlm_review_service or VlmReviewService(
+            self._get_timeline_service(),
+            OpenCvVideoSourceFactory(),
+            OpenCvJpegEncoder(),
+            OllamaVisionLanguageModel(self._settings.vlm),
+            self._settings.vlm,
+        )
 
     def _get_timeline_service(self) -> TimelineAnalysisService:
         return self._timeline_analysis_service or TimelineAnalysisService(
