@@ -102,6 +102,20 @@ class VlmSettings:
 
 
 @dataclass(frozen=True, slots=True)
+class DecisionSettings:
+    """Explicit durations for monitoring and prolonged-absence alerts."""
+
+    uncertain_monitor_sec: float = 5.0
+    prolonged_absence_sec: float = 60.0
+
+    def __post_init__(self) -> None:
+        if not isfinite(self.uncertain_monitor_sec) or self.uncertain_monitor_sec <= 0:
+            raise ValueError("uncertain_monitor_sec must be finite and greater than zero")
+        if not isfinite(self.prolonged_absence_sec) or self.prolonged_absence_sec <= 0:
+            raise ValueError("prolonged_absence_sec must be finite and greater than zero")
+
+
+@dataclass(frozen=True, slots=True)
 class ApplicationSettings:
     """Root configuration object passed to application services."""
 
@@ -109,6 +123,7 @@ class ApplicationSettings:
     temporal: TemporalSettings = field(default_factory=TemporalSettings)
     rules: RuleSettings = field(default_factory=RuleSettings)
     vlm: VlmSettings = field(default_factory=VlmSettings)
+    decision: DecisionSettings = field(default_factory=DecisionSettings)
 
     def to_dict(self) -> dict[str, Any]:
         """Return a serialization-safe configuration snapshot."""

@@ -257,6 +257,47 @@ class CliApplicationTests(unittest.TestCase):
         self.assertEqual(1, code)
         self.assertEqual("failed", json.loads(output.getvalue())["status"])
 
+    def test_summarize_observation_dispatches_options_and_serializes_report(self) -> None:
+        service = Mock()
+        service.summarize.return_value.to_dict.return_value = {
+            "video_id": "sample.mp4",
+            "decision": {"decision": "normal", "reason": "no_policy_trigger"},
+        }
+        output = io.StringIO()
+        bed = BedRegion(0.1, 0.2, 0.9, 0.8)
+
+        code = CliApplication(output=output, observation_summary_service=service).run(
+            [
+                "summarize-observation",
+                "sample.mp4",
+                "--sample-fps",
+                "2",
+                "--bed-region",
+                "0.1,0.2,0.9,0.8",
+                "--with-vlm",
+                "--max-segments",
+                "1",
+            ]
+        )
+
+        self.assertEqual(0, code)
+        self.assertEqual("normal", json.loads(output.getvalue())["decision"]["decision"])
+        service.summarize.assert_called_once_with(
+            Path("sample.mp4"), 2.0, bed, with_vlm=True, max_segments=1
+        )
+
+    def test_summarize_observation_reports_input_failure(self) -> None:
+        service = Mock()
+        service.summarize.side_effect = DomainValidationError("invalid request")
+        output = io.StringIO()
+
+        code = CliApplication(output=output, observation_summary_service=service).run(
+            ["summarize-observation", "sample.mp4"]
+        )
+
+        self.assertEqual(1, code)
+        self.assertEqual("failed", json.loads(output.getvalue())["status"])
+
 
 if __name__ == "__main__":
     unittest.main()

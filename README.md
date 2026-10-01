@@ -147,8 +147,27 @@ Add `--with-vlm --max-segments 1` to review unknown gaps before event detection.
 Only a proposed activity enclosed by matching known bed occupancy fills a gap.
 Bed exits and returns require a direct rule-supported occupancy transition and
 two seconds of sustained new state. A VLM proposal alone never triggers an
-event. Bed exit is `monitor`; bed return is `normal`. This sprint does not
-infer emergency alerts.
+event. Bed exit is `monitor`; bed return is `normal`.
+
+### Summarize an observation
+
+```powershell
+uv run elderly-care-agent summarize-observation `
+  "data\raw\gmdcsa24\development\Subject 1\01.mp4" `
+  --sample-fps 2 `
+  --bed-region 0.10,0.30,0.86,0.87
+```
+
+The JSON report includes the timeline, activity and occupancy durations,
+bed-exit/return counts, longest out-of-bed period, final state, events, and an
+overall `normal`, `monitor`, or `alert` decision with a reason and trigger time.
+By default, five continuous seconds of unknown occupancy requires monitoring;
+a confirmed exit followed by 60 continuous seconds of rule-supported absence
+triggers an alert. Unknown or VLM-only evidence cannot trigger an alert. Add
+`--with-vlm --max-segments 1` to include local review before summarization.
+Prolonged out-of-bed time without an observed exit stays at `monitor`.
+
+### Dataset preparation flow
 
 ```text
 official archive/local source
