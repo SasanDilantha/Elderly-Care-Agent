@@ -92,13 +92,12 @@ class BedEvent:
 
 
 @dataclass(frozen=True, slots=True)
-class GroundTruthAnnotation:
-    """Complete, ordered ground truth for one video."""
+class StateTimeline:
+    """Complete, ordered activity and occupancy segments for one video."""
 
     video_id: str
     duration_sec: float
     segments: tuple[StateSegment, ...]
-    events: tuple[BedEvent, ...] = ()
 
     def __post_init__(self) -> None:
         if not self.video_id.strip():
@@ -127,10 +126,6 @@ class GroundTruthAnnotation:
         ):
             raise DomainValidationError("timeline must end at duration_sec")
 
-        for event in self.events:
-            if event.confirmed_sec > self.duration_sec + _TIME_TOLERANCE_SEC:
-                raise DomainValidationError("event must occur within the video duration")
-
     def activity_durations(self) -> dict[ActivityState, float]:
         """Aggregate seconds spent in each activity present in the timeline."""
 
@@ -150,3 +145,16 @@ class GroundTruthAnnotation:
                 durations.get(segment.bed_occupancy, 0.0) + segment.time_range.duration_sec
             )
         return durations
+
+
+@dataclass(frozen=True, slots=True)
+class GroundTruthAnnotation(StateTimeline):
+    """A validated timeline plus human-labeled bed events."""
+
+    events: tuple[BedEvent, ...] = ()
+
+    def __post_init__(self) -> None:
+        StateTimeline.__post_init__(self)
+        for event in self.events:
+            if event.confirmed_sec > self.duration_sec + _TIME_TOLERANCE_SEC:
+                raise DomainValidationError("event must occur within the video duration")

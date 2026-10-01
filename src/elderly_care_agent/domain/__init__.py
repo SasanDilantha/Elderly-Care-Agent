@@ -11,6 +11,7 @@ from elderly_care_agent.domain.models import (
     BedEvent,
     GroundTruthAnnotation,
     StateSegment,
+    StateTimeline,
     TimeRange,
 )
 from elderly_care_agent.domain.video import FrameReference, TimestampedFrame, VideoMetadata
@@ -38,6 +39,7 @@ __all__ = [
     "PersonStatus",
     "PoseLandmark",
     "StateSegment",
+    "StateTimeline",
     "TimeRange",
     "TimestampedFrame",
     "VideoMetadata",

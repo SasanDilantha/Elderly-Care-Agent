@@ -4,6 +4,7 @@ import unittest
 from pathlib import Path
 from unittest.mock import Mock, patch
 
+from elderly_care_agent.application.timeline import TimelineAnalysisReport
 from elderly_care_agent.application.video_sampling import VideoSamplingReport
 from elderly_care_agent.application.vision_features import VisionAnalysisReport
 from elderly_care_agent.cli import CliApplication
@@ -124,6 +125,8 @@ class CliApplicationTests(unittest.TestCase):
             source_path="sample.mp4",
             duration_sec=2.0,
             source_fps=10.0,
+            width=64,
+            height=48,
             sample_fps=2.0,
             model_path="model.task",
             bed_region=bed,
@@ -140,6 +143,31 @@ class CliApplicationTests(unittest.TestCase):
 
         self.assertEqual(0, exit_code)
         self.assertEqual("ready", json.loads(output.getvalue())["status"])
+        service.analyze.assert_called_once_with(Path("sample.mp4"), 2.0, bed)
+
+    def test_infer_timeline_prints_duration_report(self) -> None:
+        service = Mock()
+        bed = BedRegion(0.1, 0.2, 0.9, 0.8)
+        service.analyze.return_value = TimelineAnalysisReport(
+            video_id="sample.mp4",
+            source_path="sample.mp4",
+            duration_sec=2.0,
+            sample_fps=2.0,
+            bed_region=bed,
+            sampled_frame_count=4,
+            observations=(),
+            segments=(),
+            activity_durations_sec={"unknown": 2.0},
+            occupancy_durations_sec={"unknown": 2.0},
+        )
+        output = io.StringIO()
+
+        exit_code = CliApplication(output=output, timeline_analysis_service=service).run(
+            ["infer-timeline", "sample.mp4", "--sample-fps", "2", "--bed-region", "0.1,0.2,0.9,0.8"]
+        )
+
+        self.assertEqual(0, exit_code)
+        self.assertEqual(2.0, json.loads(output.getvalue())["activity_durations_sec"]["unknown"])
         service.analyze.assert_called_once_with(Path("sample.mp4"), 2.0, bed)
 
 
