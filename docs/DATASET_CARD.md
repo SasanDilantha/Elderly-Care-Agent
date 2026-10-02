@@ -30,7 +30,7 @@ Machine-readable citation: [`data/CITATION.cff`](../data/CITATION.cff).
 | Material | License recorded by source | What this project does |
 |---|---|---|
 | Zenodo v2.0 dataset record/archive | CC BY 4.0 | Keeps attribution, DOI, version, checksum |
-| GitHub repository files | MIT, copyright Ekram Alam | Copies the included `LICENSE` with staged data |
+| GitHub repository files | MIT, copyright Ekram Alam | Records source attribution separately from the video archive |
 | Elderly Care Agent source code | Project `LICENSE` | Kept separate from third-party data |
 
 When redistributing any data, retain the source attribution and license files.

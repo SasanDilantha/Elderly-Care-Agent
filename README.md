@@ -1,210 +1,160 @@
 # Elderly Care Agent
 
-Hybrid computer vision + local Ollama VLM for elderly activity monitoring.
+A small Python OOP application that follows an OpenCV loop: read a frame, detect
+objects with YOLO, estimate pose with cvzone, and record activity over time. It produces
+a timeline, durations, bed exits/returns, and NORMAL / MONITOR / ALERT decisions.
+Optional local Ollama review examines uncertain observations in context.
 
-## Current capabilities
+This is an assignment prototype. Its measured errors and limits are in
+[evaluation results](docs/EVALUATION.md); a working pipeline is not a clinical accuracy claim.
 
-```text
-video → pose + bed geometry → rule timeline → optional VLM gap review
-                                              ↓
-                                         fused timeline → bed events
+## Install
 
-ground-truth JSON → annotation validator → summary
-```
-
-The current system validates annotations, prepares the GMDCSA-24 dataset,
-samples timestamped video frames, and extracts pose and bed-region geometry.
-It also derives rule-based activity and bed-state timelines. Local Ollama can
-review uncertain intervals, and sustained rule-supported occupancy changes
-produce bed-exit and bed-return events.
-
-### Fixed choices
-
-| Area | Choice |
-|---|---|
-| Package manager | [uv](https://docs.astral.sh/uv/) |
-| Language | Python 3.12 |
-| VLM | `qwen3-vl:4b-instruct` through Ollama |
-| Automated checks | standard-library `unittest` |
-| Design | OOP, immutable domain models, ports/adapters, SOLID/KISS |
-
-### Setup
+Use Python 3.12 and [uv](https://docs.astral.sh/uv/). From the repository root:
 
 ```powershell
-uv sync
-```
-
-### Validate annotations
-
-```powershell
-uv run elderly-care-agent show-config
-uv run elderly-care-agent validate-annotations examples/ground_truth.example.json
-```
-
-### Prepare and verify GMDCSA-24
-
-```powershell
+uv sync --frozen
 uv run elderly-care-agent prepare-dataset
 ```
 
-On a fresh clone this downloads into ignored `data/cache/`, verifies the source,
-and creates `data/raw/gmdcsa24`. Later runs return `already_ready` without
-downloading or extracting when the prepared subset is complete.
+The lockfile pins compatible cvzone, MediaPipe, OpenCV, and Ultralytics versions.
+Use this project's environment, not a globally modified cvzone package. YOLO downloads
+`yolo26s.pt` on first use into `data/cache/vision/`. Downloads require internet access.
+The GMDCSA24 archive is about 1.1 GB. Existing staged videos are reused.
 
-Progress is shown in the terminal and saved to
-`logs/elderly-care-agent.log`. Use detailed per-file logging when needed:
-
-```powershell
-uv run elderly-care-agent --log-level DEBUG prepare-dataset
-```
-
-### Inspect and sample a video
+To use an already extracted official dataset:
 
 ```powershell
-uv run elderly-care-agent inspect-video `
-  "data\raw\gmdcsa24\development\Subject 1\01.mp4" `
-  --sample-fps 2
+uv run elderly-care-agent prepare-dataset --source "D:\datasets\GMDCSA24"
 ```
 
-```text
-video → OpenCV metadata → deterministic frame indices → decoded frames
-                                                   ↓
-                                      frame index + media timestamp
-```
-
-The command reports metadata and sampled frame references without saving
-duplicate frame images.
-
-### Extract vision features
+## Run a video
 
 ```powershell
-uv run elderly-care-agent prepare-vision-model
-uv run elderly-care-agent analyze-video `
-  "data\raw\gmdcsa24\development\Subject 1\01.mp4" `
-  --sample-fps 2 `
-  --bed-region 0.10,0.47,0.86,0.87
+uv run elderly-care-agent analyze "data/raw/gmdcsa24/development/Subject 1/05.mp4" --select-bed --show
 ```
 
-`--bed-region` is a camera-specific rectangle in normalized image coordinates:
-`left,top,right,bottom`, where the top-left corner is `0,0` and bottom-right is
-`1,1`. The command downloads the pinned MediaPipe Lite model into ignored
-`data/cache/vision/` when needed. It reports pose landmarks, a torso anchor,
-torso angle, and whether that anchor falls within the configured bed rectangle.
-Without a reliable pose or bed rectangle, the bed relation is `unknown`. A
-geometric `inside` result is not yet a bed-occupancy decision.
+Drag a rectangle around the **mattress surface**, then press Enter. Do not include the
+hanging bedcover or floor. Press `q` to stop early; the report records `completed: false`.
 
-### Infer an activity timeline
+For a repeatable run without a window:
 
 ```powershell
-uv run elderly-care-agent infer-timeline `
-  "data\raw\gmdcsa24\development\Subject 1\01.mp4" `
-  --sample-fps 2 `
-  --bed-region 0.10,0.30,0.86,0.87
+uv run elderly-care-agent analyze "data/raw/gmdcsa24/development/Subject 1/05.mp4" --bed 0.12,0.51,0.84,0.67 --output outputs/demo
 ```
 
-```text
-pose + bed geometry → posture/movement rules → sustained states → contiguous segments
-                                                        ↓
-                                           activity + occupancy durations
+The rectangle is `left,top,right,bottom`, normalized by the original frame's width
+and height. Calibrate it for each camera. YOLO's full bed box is drawn separately;
+it is not the mattress contact surface.
+
+The CLI prints JSON and writes `report.json` and `timeline.txt` in the output directory.
+The window shows candidate frame states. Saved intervals are finalized after the video
+using temporal confirmation and neighboring context.
+The tracker runs on every decoded frame; pose/activity are sampled at 5 frames/second. Use
+`--sample-fps 30` to analyze every frame of these approximately 30 FPS clips.
+Time is frame index / source FPS, never inference time. Convert variable-frame-rate
+input to constant frame rate before analysis.
+
+## Architecture
+
+```mermaid
+flowchart LR
+    A[OpenCV video] --> B[YOLO person tracking + bed detection]
+    B --> C[cvzone pose]
+    C --> D[ActivityRules]
+    D --> E[Timeline]
+    E --> F[ContextAgent: previous and following observations]
+    F --> G[Optional local VLM]
+    G --> H[Conservative activity proposal]
+    H --> I[BedEvents + AlertPolicy]
+    F --> I
+    I --> J[JSON summary + text timeline]
 ```
 
-Rules use torso angle, visible leg geometry, anchor movement, and the supplied
-bed rectangle. Brief or ambiguous observations become `unknown`. The rectangle
-must match each camera view; these rule confidences are heuristic scores, not
-calibrated probabilities.
+| File / class | Responsibility |
+|---|---|
+| `vision.py` / `Vision` | YOLO boxes, selected person ID, cvzone pose, preview |
+| `activity.py` / `ActivityRules` | Body angles, motion, mattress relationship |
+| `timeline.py` / `Timeline` | Stable contiguous intervals |
+| `agent.py` / `ContextAgent` | Decide when previous/following context or VLM is needed |
+| `events.py` / `BedEvents`, `AlertPolicy` | Meaningful transitions and decisions |
+| `pipeline.py` / `CareMonitor` | One video loop, summaries, output files |
+| `evaluation.py` / `Evaluator` | Compare predictions with timestamped labels |
+| `models.py`, `dataset.py`, `cli.py` | Data objects, dataset preparation, commands |
 
-### Review uncertain intervals with Ollama
+Read `CareMonitor.run()` first, then `ActivityRules.classify()`. The active code has
+no repository interfaces, factories, adapter layers, or dependency-injection framework.
+Previous code and tests are preserved locally under ignored `archive/previous_implementation/`
+and Git tag `archive/before-clean-assignment`; they are not part of the active submission.
 
-```powershell
-uv run elderly-care-agent review-uncertain `
-  "data\raw\gmdcsa24\development\Subject 1\01.mp4" `
-  --sample-fps 2 `
-  --bed-region 0.10,0.30,0.86,0.87 `
-  --max-segments 1
-```
+## States and events
 
-```text
-unknown rule segment → nearby video frames → local qwen3-vl:4b-instruct
-                                                ↓
-                                  validated proposal or abstention
-```
+Activities: `lying_in_bed`, `sitting_on_bed`, `sitting_outside_bed`, `standing`,
+`walking`, `unknown`. `out_of_bed` is a separate bed state so walking and being
+out of bed coexist without double-counting duration.
 
-The command sends compressed context images only to the configured Ollama
-endpoint. VLM proposals remain separate from the rule timeline. Invalid,
-inconsistent, or low-confidence model responses become `abstained` reviews.
-CPU-only inference can take several minutes per interval.
+Torso/leg geometry estimates posture. Recent hip displacement supports walking.
+Mattress distance includes a small body-scaled tolerance. Short candidate runs become
+UNKNOWN. A short gap is filled only when both neighbors agree and person identity is
+available. Boundaries are offline estimates using following context, not live alert times.
 
-### Analyze bed events
+The first unambiguous person track is selected and retained. If multiple people are
+already present, use `--target-id ID` after inspecting the preview. Missing or changed
+IDs remain UNKNOWN instead of silently selecting a caregiver. Track IDs can still
+switch during difficult occlusions; no appearance-based identity recognition is claimed.
 
-```powershell
-uv run elderly-care-agent analyze-bed-events `
-  "data\raw\gmdcsa24\development\Subject 1\01.mp4" `
-  --sample-fps 2 `
-  --bed-region 0.10,0.30,0.86,0.87
-```
+- **BED_EXIT:** previously in bed, then sustained walking outside and moving away
+  from the mattress. Sitting up or briefly standing and sitting again is not an exit.
+- **BED_RETURN:** previously outside, then in-bed posture and confirmed lying.
+  Sitting starts occupancy; lying completes the return.
+- Long unknown gaps reset event evidence. VLM-only segments cannot establish
+  exits, returns, or prolonged-absence alerts.
 
-Add `--with-vlm --max-segments 1` to review unknown gaps before event detection.
-Only a proposed activity enclosed by matching known bed occupancy fills a gap.
-Bed exits and returns require a direct rule-supported occupancy transition and
-two seconds of sustained new state. A VLM proposal alone never triggers an
-event. Bed exit is `monitor`; bed return is `normal`.
+Confidence values are heuristic scores, not calibrated probabilities.
 
-### Summarize an observation
+## Context and decisions
 
-```powershell
-uv run elderly-care-agent summarize-observation `
-  "data\raw\gmdcsa24\development\Subject 1\01.mp4" `
-  --sample-fps 2 `
-  --bed-region 0.10,0.30,0.86,0.87
-```
-
-The JSON report includes the timeline, activity and occupancy durations,
-bed-exit/return counts, longest out-of-bed period, final state, events, and an
-overall `normal`, `monitor`, or `alert` decision with a reason and trigger time.
-By default, five continuous seconds of unknown occupancy requires monitoring;
-a confirmed exit followed by 60 continuous seconds of rule-supported absence
-triggers an alert. Unknown or VLM-only evidence cannot trigger an alert. Add
-`--with-vlm --max-segments 1` to include local review before summarization.
-Prolonged out-of-bed time without an observed exit stays at `monitor`.
-
-### Dataset preparation flow
-
-```text
-official archive/local source
-            ↓
-checksum + layout → tracked selection → atomic staging → OpenCV validation
-                                                        ↓
-                                              report + SHA-256 inventory
-```
-
-Expected validation result: `valid: true`, 4 segments, 1 bed-exit event,
-10 seconds in bed, and 10 seconds out of bed.
-
-### Project structure
-
-```text
-src/elderly_care_agent/
-  domain/          labels and validated immutable models
-  application/     video, vision, timeline, VLM review, and interfaces
-  infrastructure/  JSON, dataset, logging, OpenCV, MediaPipe, Ollama adapters
-  cli.py            thin command-line delivery layer
-tests/              unittest suite
-examples/           small version-controlled annotation fixture
-docs/               technical architecture, prerequisites, and data provenance
-```
-
-See [prerequisites and local dataset layout](docs/PREREQUISITES.md).
-See [the dataset pipeline](docs/DATA_PIPELINE.md) and
-[dataset ownership/license card](docs/DATASET_CARD.md).
-
-### Ollama model prerequisite
-
-The model is called only by `review-uncertain` and must be available in your
-local Ollama installation.
+`ContextAgent` checks previous and following segments for each UNKNOWN interval and
+records its actions. With a VLM, up to three unresolved intervals also receive earlier,
+middle, and following images. A confident proposal can fill at most two seconds,
+only when bed relation agrees with both neighbors and target identity is available.
+Otherwise it abstains.
 
 ```powershell
 ollama pull qwen3-vl:4b-instruct
+uv run elderly-care-agent analyze "data/raw/gmdcsa24/development/Subject 1/05.mp4" --bed 0.12,0.51,0.84,0.67 --with-vlm --max-reviews 1
 ```
 
-Large datasets and generated artifacts belong under ignored `data/` and
-`outputs/` folders and must not be committed.
+Ollama must run at `http://localhost:11434`. Failed, invalid, or timed-out responses
+are recorded and leave the interval UNKNOWN. CPU inference may take minutes.
+
+| Decision | Default condition |
+|---|---|
+| NORMAL | No configured monitoring or alert condition occurred |
+| MONITOR | Confirmed exit; UNKNOWN for 3 s; or sitting on bed for 120 s |
+| ALERT | Confirmed exit followed by 60 s of continuous, visible out-of-bed time |
+
+Settings are in `models.Settings`. The sitting monitor includes all prolonged bed
+sitting because edge position is uncertain. A disappeared person is UNKNOWN, not
+proof of exit. Unknown intervals interrupt the absence timer. The summary retains
+the most severe observed decision.
+
+## Evaluate and test
+
+```powershell
+uv run elderly-care-agent evaluate --output outputs/evaluation
+uv run python -m unittest discover -s tests -v
+uv run ruff check src tests
+uv run ruff format --check src tests
+```
+
+The five annotated cases in `config/evaluation.yml` produce duration-weighted accuracy,
+confusion in seconds, per-state duration errors, and one-to-one event precision/recall
+with a one-second start-time tolerance. UNKNOWN counts as an error against known labels.
+Precision is `null` when there are no predictions. Annotation timestamps are approximate.
+
+See [submission artifacts](submission/), [requirements](docs/ASSIGNMENT_CHECKLIST.md),
+[validation checks](docs/VALIDATION.md),
+[interview explanation](docs/EXPLANATION.md), and [data attribution](docs/DATASET_CARD.md).
+Videos, weights, caches, and diagnostic frames stay out of Git. Submission reports
+contain numerical predictions, not identifiable video images.

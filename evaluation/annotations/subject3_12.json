@@ -1,0 +1,10 @@
+{
+  "video_id": "12.mp4",
+  "duration_sec": 10.673333,
+  "segments": [
+    {"start_sec": 0.0, "end_sec": 0.9, "activity": "standing", "bed_occupancy": "out_of_bed"},
+    {"start_sec": 0.9, "end_sec": 8.45, "activity": "sitting_on_bed", "bed_occupancy": "in_bed"},
+    {"start_sec": 8.45, "end_sec": 10.673333, "activity": "standing", "bed_occupancy": "out_of_bed"}
+  ],
+  "events": []
+}

@@ -1,0 +1,13 @@
+{
+  "video_id": "10.mp4",
+  "duration_sec": 12.8012,
+  "segments": [
+    {"start_sec": 0.0, "end_sec": 1.0, "activity": "walking", "bed_occupancy": "out_of_bed"},
+    {"start_sec": 1.0, "end_sec": 2.7, "activity": "standing", "bed_occupancy": "out_of_bed"},
+    {"start_sec": 2.7, "end_sec": 5.4, "activity": "sitting_on_bed", "bed_occupancy": "in_bed"},
+    {"start_sec": 5.4, "end_sec": 12.8012, "activity": "lying_in_bed", "bed_occupancy": "in_bed"}
+  ],
+  "events": [
+    {"event_type": "bed_return", "start_sec": 2.7, "confirmed_sec": 5.4, "previous_activity": "standing", "current_activity": "sitting_on_bed", "decision": "normal"}
+  ]
+}

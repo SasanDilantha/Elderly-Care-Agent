@@ -1,0 +1,50 @@
+{
+  "poor_lighting": {
+    "activity_duration_sec": {
+      "lying_in_bed": 0.0,
+      "sitting_on_bed": 4.500419815281277,
+      "sitting_outside_bed": 0.4030226700251882,
+      "standing": 0.0,
+      "walking": 0.0,
+      "unknown": 5.642317380352646
+    },
+    "events": [],
+    "decision": {
+      "decision": "MONITOR",
+      "time": 3.0,
+      "reason": "Activity remains uncertain"
+    }
+  },
+  "temporary_occlusion": {
+    "activity_duration_sec": {
+      "lying_in_bed": 0.0,
+      "sitting_on_bed": 0.9739714525608738,
+      "sitting_outside_bed": 0.6045340050377832,
+      "standing": 0.0,
+      "walking": 0.0,
+      "unknown": 8.967254408060453
+    },
+    "events": [],
+    "decision": {
+      "decision": "MONITOR",
+      "time": 8.004198152812762,
+      "reason": "Activity remains uncertain"
+    }
+  },
+  "second_person_proxy": {
+    "activity_duration_sec": {
+      "lying_in_bed": 0.0,
+      "sitting_on_bed": 0.0,
+      "sitting_outside_bed": 0.0,
+      "standing": 0.0,
+      "walking": 0.0,
+      "unknown": 10.545759865659111
+    },
+    "events": [],
+    "decision": {
+      "decision": "MONITOR",
+      "time": 3.0,
+      "reason": "Activity remains uncertain"
+    }
+  }
+}

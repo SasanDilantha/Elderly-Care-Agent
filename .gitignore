@@ -16,3 +16,7 @@ data/cache/
 outputs/
 artifacts/
 logs/
+Ultralytics/
+*.pt
+*.task
+archive/previous_implementation/

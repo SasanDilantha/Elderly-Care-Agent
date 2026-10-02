@@ -1,0 +1,116 @@
+import json
+import math
+from collections import defaultdict
+from dataclasses import asdict
+from pathlib import Path
+
+import cv2
+
+from elderly_care_agent.activity import ActivityRules
+from elderly_care_agent.agent import ContextAgent
+from elderly_care_agent.events import AlertPolicy, BedEvents
+from elderly_care_agent.models import Settings, State
+from elderly_care_agent.timeline import Timeline
+from elderly_care_agent.vision import Vision
+
+
+class CareMonitor:
+    def __init__(self, settings=None, model=None):
+        self.settings = settings or Settings()
+        self.model = model or Vision.default_model()
+
+    def run(self, video, bed=None, show=False, select_bed=False, use_vlm=False, target_id=None):
+        cap = cv2.VideoCapture(str(video))
+        vision = None
+        try:
+            if not cap.isOpened():
+                raise ValueError(f"Cannot open video: {video}")
+            fps = float(cap.get(cv2.CAP_PROP_FPS))
+            if not math.isfinite(fps) or fps <= 0 or self.settings.sample_fps <= 0:
+                raise ValueError("Video FPS and sample FPS must be positive.")
+            success, frame = cap.read()
+            if not success:
+                raise ValueError("No readable frames")
+            polygon = Vision.bed_region(frame, bed, select_bed)
+            rules = ActivityRules(polygon / frame.shape[0])
+            vision = Vision(self.model, target_id)
+            observations, index, next_sample = [], 0, 0.0
+            completed = True
+            while success:
+                time = index / fps
+                sample = time + 1e-8 >= next_sample
+                landmarks = vision.detect(frame, estimate_pose=sample)
+                if sample:
+                    row = rules.classify(time, landmarks, vision.visible_id)
+                    observations.append(row)
+                    next_sample += 1 / min(fps, self.settings.sample_fps)
+                    if show:
+                        cv2.imshow("Elderly Care", vision.draw(frame.copy(), polygon, row.state))
+                        if cv2.waitKey(1) & 0xFF == ord("q"):
+                            completed = False
+                            index += 1
+                            break
+                index += 1
+                success, frame = cap.read()
+            duration = index / fps
+            segments = Timeline(self.settings).build(observations, duration)
+            agent = ContextAgent(self.settings, use_vlm)
+            segments = agent.review(video, segments, observations)
+            events = BedEvents(self.settings).detect(segments, observations)
+            report = self.summarize(segments, events, duration)
+            report.update(
+                video=str(video),
+                completed=completed,
+                decoded_frames=index,
+                sampled_frames=len(observations),
+                fps=fps,
+                settings=asdict(self.settings),
+                bed_polygon=polygon.tolist(),
+                agent_actions=agent.actions,
+                observations=[asdict(row) for row in observations],
+            )
+            report["decision"] = AlertPolicy(self.settings).decide(segments, events)
+            return report
+        finally:
+            cap.release()
+            if vision:
+                vision.close()
+            if show or select_bed:
+                cv2.destroyAllWindows()
+
+    @staticmethod
+    def summarize(segments, events, duration):
+        activity = {state.value: 0.0 for state in State}
+        occupancy = defaultdict(float)
+        longest, outside = 0.0, 0.0
+        for row in segments:
+            activity[row.state.value] += row.duration
+            occupancy[row.state.bed] += row.duration
+            outside = outside + row.duration if row.state.bed == "out_of_bed" else 0.0
+            longest = max(longest, outside)
+        return dict(
+            observation_duration_sec=duration,
+            activity_duration_sec=activity,
+            total_in_bed_sec=occupancy["in_bed"],
+            total_out_of_bed_sec=occupancy["out_of_bed"],
+            total_bed_unknown_sec=occupancy["unknown"],
+            longest_out_of_bed_period_sec=longest,
+            bed_exit_count=sum(e["event"] == "bed_exit" for e in events),
+            bed_return_count=sum(e["event"] == "bed_return" for e in events),
+            final_state=segments[-1].state if segments else State.UNKNOWN,
+            timeline=[row.to_dict() for row in segments],
+            events=events,
+        )
+
+    @staticmethod
+    def save(report, directory):
+        directory = Path(directory)
+        directory.mkdir(parents=True, exist_ok=True)
+        (directory / "report.json").write_text(
+            json.dumps(report, indent=2, allow_nan=False), encoding="utf-8"
+        )
+        lines = [
+            f"{row['start']:07.2f} - {row['end']:07.2f}  {row['state'].upper()}"
+            for row in report["timeline"]
+        ]
+        (directory / "timeline.txt").write_text("\n".join(lines) + "\n", encoding="utf-8")

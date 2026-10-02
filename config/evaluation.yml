@@ -1,0 +1,24 @@
+dataset: GMDCSA-24 v2.0
+split: evaluation
+event_match_tolerance_sec: 1.0
+cases:
+  - id: subject3_03_bed_exit
+    video: data/raw/gmdcsa24/evaluation/Subject 3/03.mp4
+    annotation: evaluation/annotations/subject3_03.json
+    bed_region: [0.17, 0.33, 0.68, 0.63]
+  - id: subject3_12_stand_near_bed
+    video: data/raw/gmdcsa24/evaluation/Subject 3/12.mp4
+    annotation: evaluation/annotations/subject3_12.json
+    bed_region: [0.17, 0.33, 0.68, 0.63]
+  - id: subject4_08_sit_up_no_exit
+    video: data/raw/gmdcsa24/evaluation/Subject 4/08.mp4
+    annotation: evaluation/annotations/subject4_08.json
+    bed_region: [0.02, 0.31, 0.48, 0.54]
+  - id: subject4_10_bed_return
+    video: data/raw/gmdcsa24/evaluation/Subject 4/10.mp4
+    annotation: evaluation/annotations/subject4_10.json
+    bed_region: [0.02, 0.31, 0.48, 0.54]
+  - id: subject4_11_sitting_on_floor
+    video: data/raw/gmdcsa24/evaluation/Subject 4/11.mp4
+    annotation: evaluation/annotations/subject4_11.json
+    bed_region: [0.02, 0.31, 0.48, 0.54]

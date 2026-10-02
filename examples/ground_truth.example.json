@@ -39,9 +39,9 @@
     {
       "event_type": "bed_exit",
       "start_sec": 10.0,
-      "confirmed_sec": 12.0,
+      "confirmed_sec": 14.5,
       "previous_activity": "sitting_on_bed",
-      "current_activity": "standing",
+      "current_activity": "walking",
       "confidence": 1.0,
       "decision": "monitor"
     }
