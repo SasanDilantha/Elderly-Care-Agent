@@ -10,10 +10,7 @@ def main():
     commands = parser.add_subparsers(dest="command", required=True)
     analyze = commands.add_parser("analyze", help="Analyze a video and save a JSON report")
     analyze.add_argument("video", type=Path)
-    analyze.add_argument("--bed", help="Normalized mattress rectangle: left,top,right,bottom")
-    analyze.add_argument("--select-bed", action="store_true")
     analyze.add_argument("--show", action="store_true")
-    analyze.add_argument("--target-id", type=int)
     analyze.add_argument("--output", type=Path, default=Path("outputs/demo"))
     evaluate = commands.add_parser("evaluate", help="Measure results on annotated clips")
     evaluate.add_argument("--config", type=Path, default=Path("config/evaluation.yml"))
@@ -46,12 +43,7 @@ def main():
 
             result = Evaluator().run(args.config, monitor, args.output, args.with_vlm)
         else:
-            bed = list(map(float, args.bed.split(","))) if args.bed else None
-            if bed is not None and len(bed) != 4:
-                raise ValueError("--bed requires four coordinates")
-            result = monitor.run(
-                args.video, bed, args.show, args.select_bed, args.with_vlm, args.target_id
-            )
+            result = monitor.run(args.video, show=args.show, use_vlm=args.with_vlm)
             monitor.save(result, args.output)
         print(json.dumps(result, indent=2, allow_nan=False))
     except (ValueError, OSError, RuntimeError) as error:

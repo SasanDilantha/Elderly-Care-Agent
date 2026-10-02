@@ -11,6 +11,11 @@ Dataclasses carry observations and intervals. There is no training pipeline to e
 YOLO26s is a pretrained single-stage detector producing object boxes and scores.
 ByteTrack associates person detections over time. Bed detection is separate so a
 class-agnostic tracker cannot transfer a furniture track to a person.
+The scene detector and person tracker use separate YOLO instances with the same weights.
+Bed boxes are stabilized across five detections. Their upper half estimates mattress
+contact automatically; this is a geometric approximation, not a segmented mattress.
+Person selection uses a sole visible track or a clear bed-overlap winner. Ambiguity
+stays UNKNOWN without requiring manual setup.
 
 cvzone wraps MediaPipe Pose, which estimates 33 landmarks. This application applies
 it to the selected person's padded crop, then maps coordinates back to the image.

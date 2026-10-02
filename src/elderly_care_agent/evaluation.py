@@ -90,7 +90,7 @@ class Evaluator:
         cases = []
         for case in config["cases"]:
             print(f"Evaluating {case['id']}", flush=True)
-            report = monitor.run(case["video"], case["bed_region"], use_vlm=use_vlm)
+            report = monitor.run(case["video"], use_vlm=use_vlm)
             CareMonitor.save(report, directory / case["id"])
             truth = json.loads(Path(case["annotation"]).read_text(encoding="utf-8"))
             score = self.score(truth, report, config["event_match_tolerance_sec"])

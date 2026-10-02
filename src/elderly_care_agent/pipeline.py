@@ -5,6 +5,7 @@ from dataclasses import asdict
 from pathlib import Path
 
 import cv2
+import numpy as np
 
 from elderly_care_agent.activity import ActivityRules
 from elderly_care_agent.agent import ContextAgent
@@ -19,7 +20,7 @@ class CareMonitor:
         self.settings = settings or Settings()
         self.model = model or Vision.default_model()
 
-    def run(self, video, bed=None, show=False, select_bed=False, use_vlm=False, target_id=None):
+    def run(self, video, show=False, use_vlm=False):
         cap = cv2.VideoCapture(str(video))
         vision = None
         try:
@@ -31,21 +32,22 @@ class CareMonitor:
             success, frame = cap.read()
             if not success:
                 raise ValueError("No readable frames")
-            polygon = Vision.bed_region(frame, bed, select_bed)
-            rules = ActivityRules(polygon / frame.shape[0])
-            vision = Vision(self.model, target_id)
+            rules = ActivityRules()
+            vision = Vision(self.model)
             observations, index, next_sample = [], 0, 0.0
             completed = True
             while success:
                 time = index / fps
                 sample = time + 1e-8 >= next_sample
-                landmarks = vision.detect(frame, estimate_pose=sample)
+                landmarks = vision.detect(frame, time, estimate_pose=sample)
                 if sample:
+                    if vision.bed_polygon is not None:
+                        rules.bed = (vision.bed_polygon / frame.shape[0]).astype(np.float32)
                     row = rules.classify(time, landmarks, vision.visible_id)
                     observations.append(row)
                     next_sample += 1 / min(fps, self.settings.sample_fps)
                     if show:
-                        cv2.imshow("Elderly Care", vision.draw(frame.copy(), polygon, row.state))
+                        cv2.imshow("Elderly Care", vision.draw(frame.copy(), row.state))
                         if cv2.waitKey(1) & 0xFF == ord("q"):
                             completed = False
                             index += 1
@@ -65,7 +67,14 @@ class CareMonitor:
                 sampled_frames=len(observations),
                 fps=fps,
                 settings=asdict(self.settings),
-                bed_polygon=polygon.tolist(),
+                bed_polygon=vision.bed_polygon.tolist() if vision.bed_polygon is not None else None,
+                scene_setup=dict(
+                    mode="automatic",
+                    bed_box=vision.bed_box,
+                    bed_detections=len(vision.bed_history),
+                    contact_region="upper half of detected bed; approximate mattress surface",
+                    target_id=vision.target_id,
+                ),
                 agent_actions=agent.actions,
                 observations=[asdict(row) for row in observations],
             )
@@ -75,7 +84,7 @@ class CareMonitor:
             cap.release()
             if vision:
                 vision.close()
-            if show or select_bed:
+            if show:
                 cv2.destroyAllWindows()
 
     @staticmethod

@@ -8,8 +8,8 @@ from elderly_care_agent.models import Observation, State
 
 
 class ActivityRules:
-    def __init__(self, bed):
-        self.bed = np.asarray(bed, dtype=np.float32)
+    def __init__(self, bed=None):
+        self.bed = np.asarray(bed, dtype=np.float32) if bed is not None else None
         self.motion = deque()
 
     @staticmethod
@@ -19,6 +19,9 @@ class ActivityRules:
         return degrees(acos(float(np.clip(first @ second / length, -1, 1)))) if length else None
 
     def classify(self, time, landmarks, person_id):
+        if self.bed is None:
+            self.motion.clear()
+            return Observation(time, person_id=person_id, reason="bed not detected unambiguously")
         if landmarks is None:
             self.motion.clear()
             return Observation(time, person_id=person_id)

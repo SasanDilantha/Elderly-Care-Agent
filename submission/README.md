@@ -3,6 +3,7 @@
 - `metrics.json`: measured five-clip evaluation, including confusion, duration errors,
   event TP/FP/FN, and timestamped failure intervals.
 - Each case folder: full numerical `report.json` and readable `timeline.txt`.
+  Reports include automatic bed detection and person-selection details in `scene_setup`.
 - `confusion_seconds.json`: aggregate confusion, measured in seconds.
 - `robustness.json`: generated low-light, occlusion, and duplicated-person smoke runs.
 - `vlm_validation.json`: actual local Ollama response or recorded abstention/error.

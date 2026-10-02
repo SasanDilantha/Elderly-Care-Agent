@@ -23,6 +23,7 @@ from measured performance. Functional coverage does not imply high recognition a
 | Source + README + architecture | Active `src/`, root README with Mermaid diagram |
 | Simple execution | One CLI; no frontend or service deployment required |
 | Familiar libraries | YOLO/Ultralytics, OpenCV, cvzone PoseDetector and drawing utilities |
+| Automatic setup | YOLO bed detection, estimated contact region and person selection; no coordinates or ID input |
 | OOP and modularity | Small classes with direct method calls; no abstract service hierarchy |
 | Minimal comments | Descriptive methods; coordinate-system comment where necessary |
 | Reproducibility | Python 3.12, `uv.lock`, fixed evaluation list, committed numeric reports |

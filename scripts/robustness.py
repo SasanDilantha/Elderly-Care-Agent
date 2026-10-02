@@ -40,10 +40,7 @@ def main():
         finally:
             cap.release()
             writer.release()
-        bed = (
-            [0.06, 0.51, 0.42, 0.67] if case == "second_person_proxy" else [0.12, 0.51, 0.84, 0.67]
-        )
-        report = CareMonitor().run(path, bed)
+        report = CareMonitor().run(path)
         CareMonitor.save(report, directory / case)
         results[case] = {
             key: report[key] for key in ["activity_duration_sec", "events", "decision"]

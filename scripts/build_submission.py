@@ -5,7 +5,7 @@ from elderly_care_agent.models import State
 
 
 def main():
-    source = Path("outputs/submission_evaluation")
+    source = Path("outputs/automatic_evaluation")
     target = Path("submission")
     target.mkdir(exist_ok=True)
     metrics = json.loads((source / "metrics.json").read_text(encoding="utf-8"))
@@ -29,6 +29,7 @@ def main():
         "",
         "Run on 2026-10-02 with the locked project environment, YOLO26s and cvzone/MediaPipe.",
         "Person tracking uses every decoded frame; pose/activity use 5 samples/second.",
+        "Bed/contact-region and person selection are automatic; no supplied coordinates or IDs.",
         f"The five clips total {metrics['duration']:.2f} seconds. "
         "These results are vision + temporal context only.",
         "",
@@ -79,7 +80,8 @@ def main():
         "displacement; the rule confuses standing with walking.",
         "subject4_08_sit_up_no_exit": "The sit-up transition has ambiguous joint geometry. "
         "No exit is predicted.",
-        "subject4_10_bed_return": "Lying and occluded pose evidence is insufficient; "
+        "subject4_10_bed_return": "The estimated bed region and occluded pose leave "
+        "insufficient lying evidence; "
         "the expected return is missed.",
     }
     for case in metrics["cases"]:
@@ -110,7 +112,7 @@ def main():
         "interactions. Those policy/identity behaviors have regression tests; generated stress",
         "videos are smoke cases, not clinical or independently labelled evidence.",
         "",
-        "Reproduce: `uv run elderly-care-agent evaluate --output outputs/submission_evaluation`",
+        "Reproduce: `uv run elderly-care-agent evaluate --output outputs/automatic_evaluation`",
         "then `uv run python scripts/build_submission.py`.",
         "",
     ]

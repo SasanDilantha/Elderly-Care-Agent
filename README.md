@@ -31,21 +31,25 @@ uv run elderly-care-agent prepare-dataset --source "D:\datasets\GMDCSA24"
 ## Run a video
 
 ```powershell
-uv run elderly-care-agent analyze "data/raw/gmdcsa24/development/Subject 1/05.mp4" --select-bed --show
+uv run elderly-care-agent analyze "data/raw/gmdcsa24/development/Subject 1/05.mp4" --show
 ```
 
-Drag a rectangle around the **mattress surface**, then press Enter. Do not include the
-hanging bedcover or floor. Press `q` to stop early; the report records `completed: false`.
+Supply only the video. Bed detection, the contact region and target-person selection
+are automatic. There is no rectangle selection or person-ID input. Press `q` to stop
+early; the report records `completed: false`.
 
 For a repeatable run without a window:
 
 ```powershell
-uv run elderly-care-agent analyze "data/raw/gmdcsa24/development/Subject 1/05.mp4" --bed 0.12,0.51,0.84,0.67 --output outputs/demo
+uv run elderly-care-agent analyze "data/raw/gmdcsa24/development/Subject 1/05.mp4"
 ```
 
-The rectangle is `left,top,right,bottom`, normalized by the original frame's width
-and height. Calibrate it for each camera. YOLO's full bed box is drawn separately;
-it is not the mattress contact surface.
+YOLO checks for one unambiguous bed once per second and stabilizes its box using the
+median of five detections. Failed detections are retried. The upper half of the bed
+box estimates the mattress contact region. This is an automatic geometric estimate,
+not trained mattress segmentation; perspective and hanging covers can cause errors.
+The scene assumes a fixed camera. Multiple ambiguous beds remain UNKNOWN without a prompt.
+The report records the detected box, estimated region and automatically selected person ID.
 
 The CLI prints JSON and writes `report.json` and `timeline.txt` in the output directory.
 The window shows candidate frame states. Saved intervals are finalized after the video
@@ -98,10 +102,11 @@ Mattress distance includes a small body-scaled tolerance. Short candidate runs b
 UNKNOWN. A short gap is filled only when both neighbors agree and person identity is
 available. Boundaries are offline estimates using following context, not live alert times.
 
-The first unambiguous person track is selected and retained. If multiple people are
-already present, use `--target-id ID` after inspecting the preview. Missing or changed
-IDs remain UNKNOWN instead of silently selecting a caregiver. Track IDs can still
-switch during difficult occlusions; no appearance-based identity recognition is claimed.
+The first sole person track is selected and retained. When multiple people are present,
+the system selects a person only when their bed overlap clearly exceeds everyone else's.
+Otherwise it waits for an unambiguous scene. This heuristic does not establish identity;
+a caregiver can overlap the bed too. Missing or changed IDs remain UNKNOWN. Track IDs
+can still switch during difficult occlusions; appearance-based identity is not implemented.
 
 - **BED_EXIT:** previously in bed, then sustained walking outside and moving away
   from the mattress. Sitting up or briefly standing and sitting again is not an exit.
@@ -122,7 +127,7 @@ Otherwise it abstains.
 
 ```powershell
 ollama pull qwen3-vl:4b-instruct
-uv run elderly-care-agent analyze "data/raw/gmdcsa24/development/Subject 1/05.mp4" --bed 0.12,0.51,0.84,0.67 --with-vlm --max-reviews 1
+uv run elderly-care-agent analyze "data/raw/gmdcsa24/development/Subject 1/05.mp4" --with-vlm --max-reviews 1
 ```
 
 Ollama must run at `http://localhost:11434`. Failed, invalid, or timed-out responses

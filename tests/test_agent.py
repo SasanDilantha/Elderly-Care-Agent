@@ -3,6 +3,8 @@ import unittest
 from pathlib import Path
 from unittest.mock import Mock, patch
 
+import numpy as np
+
 from elderly_care_agent.agent import ContextAgent
 from elderly_care_agent.models import Observation, Segment, Settings, State
 from elderly_care_agent.pipeline import CareMonitor
@@ -63,5 +65,28 @@ class AgentTests(unittest.TestCase):
             patch("elderly_care_agent.pipeline.cv2.VideoCapture", return_value=capture),
             self.assertRaises(ValueError),
         ):
-            CareMonitor().run("missing.mp4", [0, 0, 1, 1])
+            CareMonitor().run("missing.mp4")
         capture.release.assert_called_once()
+
+    def test_video_only_run_handles_undetected_bed_without_prompt(self):
+        capture = Mock()
+        capture.get.return_value = 10
+        frame = np.zeros((100, 100, 3), dtype=np.uint8)
+        capture.read.side_effect = [(True, frame)] * 3 + [(False, None)]
+        vision = Mock(
+            bed_polygon=None, bed_box=None, bed_history=[], target_id=None, visible_id=None
+        )
+        vision.detect.return_value = None
+        with (
+            patch("elderly_care_agent.pipeline.cv2.VideoCapture", return_value=capture),
+            patch("elderly_care_agent.pipeline.Vision", return_value=vision),
+            patch("elderly_care_agent.pipeline.cv2.selectROI") as select,
+        ):
+            report = CareMonitor(model="unused.pt").run("clip.mp4")
+        select.assert_not_called()
+        self.assertEqual(report["scene_setup"]["mode"], "automatic")
+        self.assertIsNone(report["bed_polygon"])
+        self.assertAlmostEqual(report["activity_duration_sec"]["unknown"], 0.3)
+        self.assertEqual(vision.detect.call_count, 3)
+        capture.release.assert_called_once()
+        vision.close.assert_called_once()

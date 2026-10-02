@@ -2,8 +2,8 @@
   "dataset": "GMDCSA-24 v2.0",
   "with_vlm": false,
   "duration": 56.455267,
-  "activity_accuracy": 0.5966974260246574,
-  "bed_accuracy": 0.671388321261484,
+  "activity_accuracy": 0.5450555483502846,
+  "bed_accuracy": 0.6052407683162773,
   "events": {
     "bed_exit": {
       "tp": 0,
@@ -282,19 +282,19 @@
     {
       "id": "subject4_08_sit_up_no_exit",
       "duration": 12.3375,
-      "correct_seconds": 7.098233695652174,
-      "activity_accuracy": 0.5753380908330029,
-      "bed_accuracy": 0.5923913043478262,
+      "correct_seconds": 6.705163043478261,
+      "activity_accuracy": 0.5434782608695652,
+      "bed_accuracy": 0.5434782608695652,
       "confusion_seconds": {
         "lying_in_bed": {
-          "unknown": 0.6034646739130435,
-          "lying_in_bed": 0.9965353260869566,
+          "unknown": 0.9965353260869566,
+          "lying_in_bed": 0.6034646739130435,
           "standing": 0.0,
           "sitting_on_bed": 0.0
         },
         "sitting_on_bed": {
-          "unknown": 2.81616847826087,
-          "lying_in_bed": 0.21039402173913047,
+          "unknown": 3.0265625000000003,
+          "lying_in_bed": 0.0,
           "standing": 1.6092391304347826,
           "sitting_on_bed": 6.101698369565217
         },
@@ -306,9 +306,9 @@
       "duration_errors": {
         "lying_in_bed": {
           "actual": 1.6,
-          "predicted": 1.2069293478260872,
-          "error": -0.3930706521739129,
-          "absolute_error": 0.3930706521739129
+          "predicted": 0.6034646739130435,
+          "error": -0.9965353260869566,
+          "absolute_error": 0.9965353260869566
         },
         "sitting_on_bed": {
           "actual": 10.7375,
@@ -336,9 +336,9 @@
         },
         "unknown": {
           "actual": 0,
-          "predicted": 3.419633152173913,
-          "error": 3.419633152173913,
-          "absolute_error": 3.419633152173913
+          "predicted": 4.023097826086957,
+          "error": 4.023097826086957,
+          "absolute_error": 4.023097826086957
         }
       },
       "events": {
@@ -361,13 +361,13 @@
           "predicted": "unknown"
         },
         {
-          "start": 1.6,
-          "end": 1.8103940217391306,
-          "actual": "sitting_on_bed",
-          "predicted": "lying_in_bed"
+          "start": 1.206929347826087,
+          "end": 1.6,
+          "actual": "lying_in_bed",
+          "predicted": "unknown"
         },
         {
-          "start": 1.8103940217391306,
+          "start": 1.6,
           "end": 3.620788043478261,
           "actual": "sitting_on_bed",
           "predicted": "unknown"
@@ -389,29 +389,25 @@
     {
       "id": "subject4_10_bed_return",
       "duration": 12.8012,
-      "correct_seconds": 2.5223853403141367,
-      "activity_accuracy": 0.1970428819418599,
-      "bed_accuracy": 0.30740688086669904,
+      "correct_seconds": 0.0,
+      "activity_accuracy": 0.0,
+      "bed_accuracy": 0.06282722513089017,
       "confusion_seconds": {
         "lying_in_bed": {
           "unknown": 6.596936125654448,
-          "walking": 0.0,
           "sitting_on_bed": 0.8042638743455512
         },
         "sitting_on_bed": {
-          "unknown": 0.7754827225130887,
-          "walking": 0.0,
-          "sitting_on_bed": 1.9245172774869115
+          "unknown": 2.7,
+          "sitting_on_bed": 0.0
         },
         "sitting_outside_bed": {},
         "standing": {
-          "unknown": 0.8042638743455497,
-          "walking": 0.6085277486910996,
-          "sitting_on_bed": 0.2872083769633509
+          "unknown": 1.7000000000000002,
+          "sitting_on_bed": 0.0
         },
         "walking": {
-          "unknown": 0.4021319371727749,
-          "walking": 0.597868062827225,
+          "unknown": 1.0,
           "sitting_on_bed": 0.0
         },
         "unknown": {}
@@ -425,9 +421,9 @@
         },
         "sitting_on_bed": {
           "actual": 2.7,
-          "predicted": 3.0159895287958136,
-          "error": 0.31598952879581343,
-          "absolute_error": 0.31598952879581343
+          "predicted": 0.8042638743455512,
+          "error": -1.895736125654449,
+          "absolute_error": 1.895736125654449
         },
         "sitting_outside_bed": {
           "actual": 0,
@@ -443,15 +439,15 @@
         },
         "walking": {
           "actual": 1.0,
-          "predicted": 1.2063958115183246,
-          "error": 0.20639581151832465,
-          "absolute_error": 0.20639581151832465
+          "predicted": 0.0,
+          "error": -1.0,
+          "absolute_error": 1.0
         },
         "unknown": {
           "actual": 0,
-          "predicted": 8.578814659685861,
-          "error": 8.578814659685861,
-          "absolute_error": 8.578814659685861
+          "predicted": 11.996936125654448,
+          "error": 11.996936125654448,
+          "absolute_error": 11.996936125654448
         }
       },
       "events": {
@@ -469,36 +465,18 @@
       "failures": [
         {
           "start": 0.0,
-          "end": 0.4021319371727749,
+          "end": 1.0,
           "actual": "walking",
           "predicted": "unknown"
         },
         {
           "start": 1.0,
-          "end": 1.6085277486910996,
-          "actual": "standing",
-          "predicted": "walking"
-        },
-        {
-          "start": 1.6085277486910996,
-          "end": 2.4127916230366493,
-          "actual": "standing",
-          "predicted": "unknown"
-        },
-        {
-          "start": 2.4127916230366493,
           "end": 2.7,
           "actual": "standing",
-          "predicted": "sitting_on_bed"
-        },
-        {
-          "start": 4.222385340314136,
-          "end": 4.624517277486911,
-          "actual": "sitting_on_bed",
           "predicted": "unknown"
         },
         {
-          "start": 5.026649214659686,
+          "start": 2.7,
           "end": 5.4,
           "actual": "sitting_on_bed",
           "predicted": "unknown"
