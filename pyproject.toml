@@ -10,7 +10,7 @@ readme = "README.md"
 requires-python = ">=3.12,<3.13"
 license = { file = "LICENSE" }
 authors = [
-  { name = "Elderly Care Agent Team" },
+  { name = "Sasan Dilantha" },
 ]
 dependencies = [
   "cvzone==1.6.1",

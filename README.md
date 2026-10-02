@@ -55,7 +55,7 @@ The CLI prints `summary` and `events` first, followed by `additional_outputs` fi
 The output directory contains:
 
 - `report.json`: only the eight summary fields from the assignment example.
-- `events.json`: events with `event`, `start_time`, `confirm_time`, `previous_state`,
+- `events.json`: events with `event`, `start_time`, `confirmed_time`, `previous_state`,
   `current_state`, `confidence`, and `decision`, matching the assignment example.
 - `additional.json`: timeline, observations, pose features, scene setup, settings,
   overall decision, unknown bed duration, and events with precise numeric seconds.
@@ -177,6 +177,7 @@ with a one-second start-time tolerance. UNKNOWN counts as an error against known
 Precision is `null` when there are no predictions. Annotation timestamps are approximate.
 
 See [submission artifacts](submission/), [requirements](docs/ASSIGNMENT_CHECKLIST.md),
+[submission readiness](docs/SUBMISSION_READINESS.md),
 [validation checks](docs/VALIDATION.md),
 [interview explanation](docs/EXPLANATION.md), and [data attribution](docs/DATASET_CARD.md).
 Videos, weights, caches, and diagnostic frames stay out of Git. Submission reports

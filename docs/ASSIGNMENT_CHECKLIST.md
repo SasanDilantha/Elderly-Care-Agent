@@ -2,13 +2,15 @@
 
 Reference: ASE_AIML_Assignment.pdf. This checklist distinguishes implemented behavior
 from measured performance. Functional coverage does not imply high recognition accuracy.
+See [submission readiness](SUBMISSION_READINESS.md) for the final deliverable audit,
+remaining recognition gaps and the publication/email steps.
 
 | Requirement | Implementation / evidence |
 |---|---|
 | Core states | `State`, `ActivityRules`; OUT_OF_BED is the overlapping bed-status field |
 | Temporal understanding | `Timeline` rejects brief candidates; `ContextAgent` examines both neighbors |
 | Bed exit | `BedEvents`: in-bed history, sustained walking and repeated foot movement away |
-| Return to bed | Outside history, renewed occupancy, confirmed lying |
+| Return to bed | Logic and synthetic test implemented; positive real-video case is still missed |
 | Sitting up is not exit | Temporal regression tests and the sit-up evaluation clip |
 | Activity duration | Sum of contiguous segments, including UNKNOWN; partition test |
 | Timeline | `additional.json` and `timeline.txt` from transitions |

@@ -1,5 +1,8 @@
 # Submission artifacts
 
+Start with the [submission readiness audit](../docs/SUBMISSION_READINESS.md) for all
+deliverables, verification results and remaining publication steps.
+
 - `metrics.json`: measured five-clip evaluation, including confusion, duration errors,
   event TP/FP/FN, and timestamped failure intervals.
 - Each case folder: assignment summary in `report.json`, assignment-format events in

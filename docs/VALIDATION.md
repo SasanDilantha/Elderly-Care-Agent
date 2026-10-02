@@ -8,6 +8,9 @@ Validated on Windows on 2026-10-02 using the locked Python 3.12 environment.
   VLM restrictions, output writing and cleanup.
 - Output tests verify the exact assignment summary/event fields, elapsed timestamp
   formatting, diagnostic preservation, and console ordering.
+  The final PDF audit corrected the event key to `confirmed_time` (section 7).
+- Source distribution and wheel build successfully; submission artifacts were checked
+  for valid JSON, contiguous timelines, schema consistency and duration totals.
 - Ruff lint and formatting checks pass for `src`, `tests` and `scripts`.
 - Five real videos are evaluated with automatic scene setup and no supplied coordinates
   or person IDs. See [evaluation](EVALUATION.md) for measured accuracy, confusion,

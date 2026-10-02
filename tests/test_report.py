@@ -28,7 +28,7 @@ class ReportTests(unittest.TestCase):
                 dict(
                     event="bed_exit",
                     start_time="00:05:08",
-                    confirm_time="00:05:20",
+                    confirmed_time="00:05:20",
                     previous_state="sitting_on_bed",
                     current_state="walking",
                     confidence=0.92,
@@ -64,7 +64,7 @@ class ReportTests(unittest.TestCase):
             }
         self.assertEqual({**files["report.json"], **files["additional.json"]}, self.result)
         self.assertEqual(files["additional.json"]["events"][0]["confirmed_sec"], 320.75)
-        self.assertEqual(files["events.json"][0]["confirm_time"], "00:05:20")
+        self.assertEqual(files["events.json"][0]["confirmed_time"], "00:05:20")
 
     def test_timestamps_preserve_elapsed_hours(self):
         self.assertEqual(Report.timestamp(59.99), "00:00:59")

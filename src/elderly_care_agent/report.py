@@ -21,7 +21,7 @@ class Report:
             dict(
                 event=row["event"],
                 start_time=self.timestamp(row["start_sec"]),
-                confirm_time=self.timestamp(row["confirmed_sec"]),
+                confirmed_time=self.timestamp(row["confirmed_sec"]),
                 previous_state=row["previous_state"],
                 current_state=row["current_state"],
                 confidence=row["confidence"],
