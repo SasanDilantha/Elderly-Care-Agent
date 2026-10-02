@@ -4,7 +4,6 @@ import cv2
 import cvzone as cz
 import numpy as np
 from cvzone.PoseModule import PoseDetector
-
 from ultralytics import YOLO
 
 

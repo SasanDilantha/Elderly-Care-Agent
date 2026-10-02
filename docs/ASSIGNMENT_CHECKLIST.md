@@ -46,7 +46,8 @@ from measured performance. Functional coverage does not imply high recognition a
 
 `submission/` contains measured reports, timelines, evaluation metrics and the VLM check.
 Raw videos and generated robustness clips stay under ignored paths. Prior implementation
-files are preserved in `archive/`; the active package and tests are the submission entrypoint.
+files remain in Git tag `archive/before-clean-assignment`; the active package and tests
+are the submission entrypoint.
 
 No email or external publication is performed. The assignment's email submission instruction
 is a final action for the candidate after reviewing the code and results.

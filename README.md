@@ -88,8 +88,7 @@ flowchart LR
 
 Read `CareMonitor.run()` first, then `ActivityRules.classify()`. The active code has
 no repository interfaces, factories, adapter layers, or dependency-injection framework.
-Previous code and tests are preserved locally under ignored `archive/previous_implementation/`
-and Git tag `archive/before-clean-assignment`; they are not part of the active submission.
+Previous code and tests remain recoverable from Git tag `archive/before-clean-assignment`.
 
 ## States and events
 

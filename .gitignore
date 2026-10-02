@@ -1,4 +1,6 @@
 .venv/
+.uv-cache/
+.ruff_cache/
 __pycache__/
 *.py[cod]
 .coverage
@@ -19,4 +21,3 @@ logs/
 Ultralytics/
 *.pt
 *.task
-archive/previous_implementation/
