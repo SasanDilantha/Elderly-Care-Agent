@@ -1,0 +1,1035 @@
+{
+  "total_bed_unknown_sec": 2.2122858108108097,
+  "timeline": [
+    {
+      "start": 0.0,
+      "end": 1.810052027027027,
+      "state": "lying_in_bed",
+      "confidence": 0.8,
+      "source": "vision",
+      "bed_state": "in_bed"
+    },
+    {
+      "start": 1.810052027027027,
+      "end": 2.8156364864864867,
+      "state": "unknown",
+      "confidence": 0.0,
+      "source": "vision",
+      "bed_state": "unknown"
+    },
+    {
+      "start": 2.8156364864864867,
+      "end": 3.4189871621621624,
+      "state": "sitting_on_bed",
+      "confidence": 0.8,
+      "source": "vision",
+      "bed_state": "in_bed"
+    },
+    {
+      "start": 3.4189871621621624,
+      "end": 3.8212209459459463,
+      "state": "walking",
+      "confidence": 0.8,
+      "source": "vision",
+      "bed_state": "out_of_bed"
+    },
+    {
+      "start": 3.8212209459459463,
+      "end": 4.0223378378378385,
+      "state": "unknown",
+      "confidence": 0.0,
+      "source": "vision",
+      "bed_state": "unknown"
+    },
+    {
+      "start": 4.0223378378378385,
+      "end": 7.005571734234235,
+      "state": "sitting_on_bed",
+      "confidence": 0.8,
+      "source": "vision",
+      "bed_state": "in_bed"
+    },
+    {
+      "start": 7.005571734234235,
+      "end": 7.4078055180180185,
+      "state": "unknown",
+      "confidence": 0.0,
+      "source": "vision",
+      "bed_state": "unknown"
+    },
+    {
+      "start": 7.4078055180180185,
+      "end": 8.815623761261262,
+      "state": "walking",
+      "confidence": 0.8,
+      "source": "vision",
+      "bed_state": "out_of_bed"
+    },
+    {
+      "start": 8.815623761261262,
+      "end": 9.418974436936937,
+      "state": "unknown",
+      "confidence": 0.0,
+      "source": "vision",
+      "bed_state": "unknown"
+    },
+    {
+      "start": 9.418974436936937,
+      "end": 9.921766666666667,
+      "state": "walking",
+      "confidence": 0.8,
+      "source": "vision",
+      "bed_state": "out_of_bed"
+    }
+  ],
+  "events": [
+    {
+      "event": "bed_exit",
+      "start_sec": 7.4078055180180185,
+      "confirmed_sec": 9.821208220720722,
+      "previous_state": "sitting_on_bed",
+      "current_state": "walking",
+      "confidence": 0.8,
+      "decision": "MONITOR"
+    }
+  ],
+  "video": "data/raw/gmdcsa24/evaluation/Subject 3/03.mp4",
+  "completed": true,
+  "decoded_frames": 296,
+  "sampled_frames": 50,
+  "fps": 29.833396606115173,
+  "settings": {
+    "sample_fps": 5,
+    "confirmation": 0.4,
+    "bridge_gap": 0.6,
+    "event_gap": 1.5,
+    "event_hold": 0.4,
+    "unknown_monitor": 3.0,
+    "sitting_monitor": 120.0,
+    "absence_alert": 60.0,
+    "vlm_model": "qwen3-vl:4b-instruct",
+    "vlm_timeout": 120.0,
+    "max_reviews": 3
+  },
+  "bed_polygon": [
+    [
+      298.0,
+      249.0
+    ],
+    [
+      864.0,
+      249.0
+    ],
+    [
+      864.0,
+      393.0
+    ],
+    [
+      298.0,
+      393.0
+    ]
+  ],
+  "scene_setup": {
+    "mode": "automatic",
+    "bed_box": [
+      298,
+      249,
+      864,
+      537
+    ],
+    "bed_detections": 5,
+    "contact_region": "upper half of detected bed; approximate mattress surface",
+    "target_id": 1
+  },
+  "agent_actions": [
+    {
+      "start": 1.810052027027027,
+      "end": 2.8156364864864867,
+      "action": "inspect_previous_and_following",
+      "previous": "lying_in_bed",
+      "following": "sitting_on_bed",
+      "result": "remain_unknown"
+    },
+    {
+      "start": 3.8212209459459463,
+      "end": 4.0223378378378385,
+      "action": "inspect_previous_and_following",
+      "previous": "walking",
+      "following": "sitting_on_bed",
+      "result": "remain_unknown"
+    },
+    {
+      "start": 7.005571734234235,
+      "end": 7.4078055180180185,
+      "action": "inspect_previous_and_following",
+      "previous": "sitting_on_bed",
+      "following": "walking",
+      "result": "remain_unknown"
+    },
+    {
+      "start": 8.815623761261262,
+      "end": 9.418974436936937,
+      "action": "inspect_previous_and_following",
+      "previous": "walking",
+      "following": "walking",
+      "result": "remain_unknown"
+    }
+  ],
+  "observations": [
+    {
+      "time": 0.0,
+      "state": "lying_in_bed",
+      "confidence": 0.8,
+      "distance": 0.17206478254672436,
+      "person_id": 1,
+      "reason": "horizontal torso on mattress",
+      "features": {
+        "torso_angle": 86.90724346701992,
+        "hip_angle": 138.76200306866545,
+        "knee_angle": 79.00359245940322,
+        "speed": null,
+        "bed_distance": 0.17206478254672436,
+        "foot_distance": 0.011260628700256348,
+        "torso_length": 0.18036572245894808
+      }
+    },
+    {
+      "time": 0.2011168918918919,
+      "state": "lying_in_bed",
+      "confidence": 0.8,
+      "distance": 0.1767613132308007,
+      "person_id": 1,
+      "reason": "horizontal torso on mattress",
+      "features": {
+        "torso_angle": 87.28605049656417,
+        "hip_angle": 135.3677896256778,
+        "knee_angle": 75.76272415215624,
+        "speed": null,
+        "bed_distance": 0.1767613132308007,
+        "foot_distance": 0.013078510761260986,
+        "torso_length": 0.18634035083487122
+      }
+    },
+    {
+      "time": 0.4022337837837838,
+      "state": "lying_in_bed",
+      "confidence": 0.8,
+      "distance": 0.1793469537391237,
+      "person_id": 1,
+      "reason": "horizontal torso on mattress",
+      "features": {
+        "torso_angle": 87.95152190690858,
+        "hip_angle": 134.99901961034,
+        "knee_angle": 74.0050821478381,
+        "speed": 0.031607708792263704,
+        "bed_distance": 0.1793469537391237,
+        "foot_distance": 0.010144531726837158,
+        "torso_length": 0.18489850998182794
+      }
+    },
+    {
+      "time": 0.6033506756756757,
+      "state": "lying_in_bed",
+      "confidence": 0.8,
+      "distance": 0.1791856251638573,
+      "person_id": 1,
+      "reason": "horizontal torso on mattress",
+      "features": {
+        "torso_angle": 88.30213477093027,
+        "hip_angle": 134.94779349254136,
+        "knee_angle": 75.41708684576183,
+        "speed": 0.008595771720071272,
+        "bed_distance": 0.1791856251638573,
+        "foot_distance": 0.008924126625061035,
+        "torso_length": 0.1780868205742778
+      }
+    },
+    {
+      "time": 0.8044675675675677,
+      "state": "lying_in_bed",
+      "confidence": 0.8,
+      "distance": 0.1888944231247457,
+      "person_id": 1,
+      "reason": "horizontal torso on mattress",
+      "features": {
+        "torso_angle": 87.66530998332237,
+        "hip_angle": 131.7353243151321,
+        "knee_angle": 77.5799479571045,
+        "speed": 0.12379433180409205,
+        "bed_distance": 0.1888944231247457,
+        "foot_distance": 0.007727324962615967,
+        "torso_length": 0.16547703464243346
+      }
+    },
+    {
+      "time": 1.0055844594594596,
+      "state": "lying_in_bed",
+      "confidence": 0.8,
+      "distance": 0.23453036804044464,
+      "person_id": 1,
+      "reason": "horizontal torso on mattress",
+      "features": {
+        "torso_angle": 83.31083114692241,
+        "hip_angle": 124.55939970764372,
+        "knee_angle": 73.22414518374424,
+        "speed": 0.07835123269799421,
+        "bed_distance": 0.23453036804044464,
+        "foot_distance": 0.014026999473571777,
+        "torso_length": 0.15666977381477556
+      }
+    },
+    {
+      "time": 1.2067013513513514,
+      "state": "lying_in_bed",
+      "confidence": 0.8,
+      "distance": 0.3324499450217421,
+      "person_id": 1,
+      "reason": "horizontal torso on mattress",
+      "features": {
+        "torso_angle": 78.41909969401051,
+        "hip_angle": 125.97618779316761,
+        "knee_angle": 88.69970499884447,
+        "speed": 0.15083749344547387,
+        "bed_distance": 0.3324499450217421,
+        "foot_distance": 0.020633339881896973,
+        "torso_length": 0.13633087853363485
+      }
+    },
+    {
+      "time": 1.4078182432432433,
+      "state": "lying_in_bed",
+      "confidence": 0.8,
+      "distance": 0.3700367329707109,
+      "person_id": 1,
+      "reason": "horizontal torso on mattress",
+      "features": {
+        "torso_angle": 74.1742116436843,
+        "hip_angle": 130.57423882835425,
+        "knee_angle": 103.24055383521771,
+        "speed": 0.20867896060044835,
+        "bed_distance": 0.3700367329707109,
+        "foot_distance": 0.020380616188049316,
+        "torso_length": 0.12978396176188087
+      }
+    },
+    {
+      "time": 1.6089351351351353,
+      "state": "lying_in_bed",
+      "confidence": 0.8,
+      "distance": 0.3224467551190408,
+      "person_id": 1,
+      "reason": "horizontal torso on mattress",
+      "features": {
+        "torso_angle": 67.67382772069004,
+        "hip_angle": 136.28691715884452,
+        "knee_angle": 128.90612611351753,
+        "speed": 0.3720923363917731,
+        "bed_distance": 0.3224467551190408,
+        "foot_distance": 0.01484638452529907,
+        "torso_length": 0.13788599814221442
+      }
+    },
+    {
+      "time": 1.810052027027027,
+      "state": "unknown",
+      "confidence": 0.0,
+      "distance": 0.39921247146302397,
+      "person_id": 1,
+      "reason": "ambiguous posture",
+      "features": {
+        "torso_angle": 55.38993407137793,
+        "hip_angle": 135.77268863831145,
+        "knee_angle": 145.20011695830274,
+        "speed": 0.1714242290695501,
+        "bed_distance": 0.39921247146302397,
+        "foot_distance": 0.00699305534362793,
+        "torso_length": 0.11693664337003686
+      }
+    },
+    {
+      "time": 2.0111689189189192,
+      "state": "unknown",
+      "confidence": 0.0,
+      "distance": 0.48487025836698083,
+      "person_id": 1,
+      "reason": "ambiguous posture",
+      "features": {
+        "torso_angle": 59.07667783188766,
+        "hip_angle": 146.50263852520504,
+        "knee_angle": 150.27394957429723,
+        "speed": 0.6258689934348916,
+        "bed_distance": 0.48487025836698083,
+        "foot_distance": 0.0008324384689331055,
+        "torso_length": 0.12298542233928247
+      }
+    },
+    {
+      "time": 2.212285810810811,
+      "state": "unknown",
+      "confidence": 0.0,
+      "distance": 0.3062903651805313,
+      "person_id": 1,
+      "reason": "ambiguous posture",
+      "features": {
+        "torso_angle": 52.02254245421962,
+        "hip_angle": 146.49447253162182,
+        "knee_angle": 118.01423828330819,
+        "speed": 0.45730219843408215,
+        "bed_distance": 0.3062903651805313,
+        "foot_distance": -0.08260476589202881,
+        "torso_length": 0.14147022679201887
+      }
+    },
+    {
+      "time": 2.4134027027027027,
+      "state": "sitting_on_bed",
+      "confidence": 0.8,
+      "distance": 0.2694378100455146,
+      "person_id": 1,
+      "reason": "seated hip geometry",
+      "features": {
+        "torso_angle": 42.35620752067194,
+        "hip_angle": 136.80418818892227,
+        "knee_angle": 102.92152192375976,
+        "speed": 0.5521377447541201,
+        "bed_distance": 0.2694378100455146,
+        "foot_distance": -0.1383432149887085,
+        "torso_length": 0.13566361020453024
+      }
+    },
+    {
+      "time": 2.614519594594595,
+      "state": "walking",
+      "confidence": 0.8,
+      "distance": 0.2886033250796846,
+      "person_id": 1,
+      "reason": "on-feet posture and displacement",
+      "features": {
+        "torso_angle": 35.69437964795713,
+        "hip_angle": 152.32994988647388,
+        "knee_angle": 120.38995679938812,
+        "speed": 0.2791883247940417,
+        "bed_distance": 0.2886033250796846,
+        "foot_distance": -0.17006605863571167,
+        "torso_length": 0.13181210860910694
+      }
+    },
+    {
+      "time": 2.8156364864864867,
+      "state": "sitting_on_bed",
+      "confidence": 0.8,
+      "distance": 0.23994124673701725,
+      "person_id": 1,
+      "reason": "seated hip geometry",
+      "features": {
+        "torso_angle": 17.80906864190865,
+        "hip_angle": 135.38690757308999,
+        "knee_angle": 116.80702286400991,
+        "speed": 0.279882294443459,
+        "bed_distance": 0.23994124673701725,
+        "foot_distance": -0.17560553550720215,
+        "torso_length": 0.13363106109191283
+      }
+    },
+    {
+      "time": 3.0167533783783784,
+      "state": "sitting_on_bed",
+      "confidence": 0.8,
+      "distance": 0.19970209985210735,
+      "person_id": 1,
+      "reason": "seated hip geometry",
+      "features": {
+        "torso_angle": 7.8381011723116165,
+        "hip_angle": 124.74007490069681,
+        "knee_angle": 112.79000529963223,
+        "speed": 0.15615480028460074,
+        "bed_distance": 0.19970209985210735,
+        "foot_distance": -0.17729592323303223,
+        "torso_length": 0.1395038459217463
+      }
+    },
+    {
+      "time": 3.2178702702702706,
+      "state": "sitting_on_bed",
+      "confidence": 0.8,
+      "distance": 0.19352491435573957,
+      "person_id": 1,
+      "reason": "seated hip geometry",
+      "features": {
+        "torso_angle": 0.27317373364776504,
+        "hip_angle": 119.96811034337668,
+        "knee_angle": 117.04911711916466,
+        "speed": 0.14705742983322204,
+        "bed_distance": 0.19352491435573957,
+        "foot_distance": -0.1736491322517395,
+        "torso_length": 0.14136062794952717
+      }
+    },
+    {
+      "time": 3.4189871621621624,
+      "state": "walking",
+      "confidence": 0.8,
+      "distance": 0.1331855641730422,
+      "person_id": 1,
+      "reason": "on-feet posture and displacement",
+      "features": {
+        "torso_angle": 0.2943014489328663,
+        "hip_angle": 155.01220372778508,
+        "knee_angle": 158.22471388685483,
+        "speed": 0.6683759141791219,
+        "bed_distance": 0.1331855641730422,
+        "foot_distance": -0.17393368482589722,
+        "torso_length": 0.14366365872105608
+      }
+    },
+    {
+      "time": 3.620104054054054,
+      "state": "walking",
+      "confidence": 0.8,
+      "distance": 0.0425171742512862,
+      "person_id": 1,
+      "reason": "on-feet posture and displacement",
+      "features": {
+        "torso_angle": 4.571552802026476,
+        "hip_angle": 170.9822579122874,
+        "knee_angle": 178.38558481361355,
+        "speed": 0.7783767322197221,
+        "bed_distance": 0.0425171742512862,
+        "foot_distance": -0.18038111925125122,
+        "torso_length": 0.15083276472635826
+      }
+    },
+    {
+      "time": 3.8212209459459463,
+      "state": "unknown",
+      "confidence": 0.0,
+      "distance": 0.0630698368957359,
+      "person_id": 1,
+      "reason": "ambiguous posture",
+      "features": {
+        "torso_angle": 12.233984104775875,
+        "hip_angle": 149.15081551138778,
+        "knee_angle": 159.91262265197076,
+        "speed": 0.45093191565788304,
+        "bed_distance": 0.0630698368957359,
+        "foot_distance": -0.17995864152908325,
+        "torso_length": 0.15440166224327356
+      }
+    },
+    {
+      "time": 4.0223378378378385,
+      "state": "sitting_on_bed",
+      "confidence": 0.8,
+      "distance": 0.14875227691621773,
+      "person_id": 1,
+      "reason": "seated hip geometry",
+      "features": {
+        "torso_angle": 23.390672670054254,
+        "hip_angle": 97.83937547239668,
+        "knee_angle": 113.2871915119037,
+        "speed": 0.3541598464785077,
+        "bed_distance": 0.14875227691621773,
+        "foot_distance": -0.1773027777671814,
+        "torso_length": 0.15572982718824963
+      }
+    },
+    {
+      "time": 4.22345472972973,
+      "state": "sitting_on_bed",
+      "confidence": 0.8,
+      "distance": 0.17207243242201195,
+      "person_id": 1,
+      "reason": "seated hip geometry",
+      "features": {
+        "torso_angle": 22.14736470219658,
+        "hip_angle": 93.5286418347192,
+        "knee_angle": 110.80452320590689,
+        "speed": 0.7538816688251436,
+        "bed_distance": 0.17207243242201195,
+        "foot_distance": -0.17220538854599,
+        "torso_length": 0.1664670078202459
+      }
+    },
+    {
+      "time": 4.424571621621622,
+      "state": "sitting_on_bed",
+      "confidence": 0.8,
+      "distance": 0.16195248875495097,
+      "person_id": 1,
+      "reason": "seated hip geometry",
+      "features": {
+        "torso_angle": 15.470073535838786,
+        "hip_angle": 99.53510977026616,
+        "knee_angle": 113.60061069947037,
+        "speed": 0.6773533813551804,
+        "bed_distance": 0.16195248875495097,
+        "foot_distance": -0.18000221252441406,
+        "torso_length": 0.16359687002922763
+      }
+    },
+    {
+      "time": 4.625688513513514,
+      "state": "sitting_on_bed",
+      "confidence": 0.8,
+      "distance": 0.1566934055542996,
+      "person_id": 1,
+      "reason": "seated hip geometry",
+      "features": {
+        "torso_angle": 9.505773675759649,
+        "hip_angle": 101.9278588395677,
+        "knee_angle": 107.77577549843183,
+        "speed": 0.34653782853206383,
+        "bed_distance": 0.1566934055542996,
+        "foot_distance": -0.17712754011154175,
+        "torso_length": 0.1594516074490787
+      }
+    },
+    {
+      "time": 4.8268054054054055,
+      "state": "sitting_on_bed",
+      "confidence": 0.8,
+      "distance": 0.16737612089534157,
+      "person_id": 1,
+      "reason": "seated hip geometry",
+      "features": {
+        "torso_angle": 5.056239641090565,
+        "hip_angle": 104.98603703107239,
+        "knee_angle": 106.74484830848118,
+        "speed": 0.09488576775553793,
+        "bed_distance": 0.16737612089534157,
+        "foot_distance": -0.179584801197052,
+        "torso_length": 0.15014999436434448
+      }
+    },
+    {
+      "time": 5.027922297297297,
+      "state": "sitting_on_bed",
+      "confidence": 0.8,
+      "distance": 0.14452328399466707,
+      "person_id": 1,
+      "reason": "seated hip geometry",
+      "features": {
+        "torso_angle": 2.362492580338418,
+        "hip_angle": 106.03213314426839,
+        "knee_angle": 105.03879664669215,
+        "speed": 0.12715494221575543,
+        "bed_distance": 0.14452328399466707,
+        "foot_distance": -0.1820811629295349,
+        "torso_length": 0.15185105380386466
+      }
+    },
+    {
+      "time": 5.22903918918919,
+      "state": "sitting_on_bed",
+      "confidence": 0.8,
+      "distance": 0.08942426851615994,
+      "person_id": 1,
+      "reason": "seated hip geometry",
+      "features": {
+        "torso_angle": 3.5058401163684145,
+        "hip_angle": 110.50992740326275,
+        "knee_angle": 104.14283500758863,
+        "speed": 0.1504885336537708,
+        "bed_distance": 0.08942426851615994,
+        "foot_distance": -0.18435484170913696,
+        "torso_length": 0.15391621531017782
+      }
+    },
+    {
+      "time": 5.430156081081082,
+      "state": "sitting_on_bed",
+      "confidence": 0.8,
+      "distance": 0.06211763108112298,
+      "person_id": 1,
+      "reason": "seated hip geometry",
+      "features": {
+        "torso_angle": 5.418167154594942,
+        "hip_angle": 112.16518699362653,
+        "knee_angle": 104.57657676004209,
+        "speed": 0.19711237198418755,
+        "bed_distance": 0.06211763108112298,
+        "foot_distance": -0.18429648876190186,
+        "torso_length": 0.15522746805994544
+      }
+    },
+    {
+      "time": 5.631272972972973,
+      "state": "sitting_on_bed",
+      "confidence": 0.8,
+      "distance": 0.02644748979509247,
+      "person_id": 1,
+      "reason": "seated hip geometry",
+      "features": {
+        "torso_angle": 8.431410034782791,
+        "hip_angle": 111.8858389346232,
+        "knee_angle": 99.50327778503248,
+        "speed": 0.18281796047744048,
+        "bed_distance": 0.02644748979509247,
+        "foot_distance": -0.1838856339454651,
+        "torso_length": 0.16063229778253946
+      }
+    },
+    {
+      "time": 5.832389864864865,
+      "state": "sitting_on_bed",
+      "confidence": 0.8,
+      "distance": 0.02881124319682897,
+      "person_id": 1,
+      "reason": "seated hip geometry",
+      "features": {
+        "torso_angle": 9.05787919050118,
+        "hip_angle": 113.13875985874425,
+        "knee_angle": 98.65688099851299,
+        "speed": 0.08175106921954949,
+        "bed_distance": 0.02881124319682897,
+        "foot_distance": -0.18433630466461182,
+        "torso_length": 0.17030552722192063
+      }
+    },
+    {
+      "time": 6.033506756756757,
+      "state": "sitting_on_bed",
+      "confidence": 0.8,
+      "distance": 0.05704414945933885,
+      "person_id": 1,
+      "reason": "seated hip geometry",
+      "features": {
+        "torso_angle": 13.175986715970302,
+        "hip_angle": 117.18905365257179,
+        "knee_angle": 98.6553939694955,
+        "speed": 0.016802091364023164,
+        "bed_distance": 0.05704414945933885,
+        "foot_distance": -0.17693734169006348,
+        "torso_length": 0.17450540000405831
+      }
+    },
+    {
+      "time": 6.201104166666667,
+      "state": "sitting_on_bed",
+      "confidence": 0.8,
+      "distance": 0.07633662593038394,
+      "person_id": 1,
+      "reason": "seated hip geometry",
+      "features": {
+        "torso_angle": 14.949825371301033,
+        "hip_angle": 119.19697551978763,
+        "knee_angle": 99.64999570203909,
+        "speed": 0.09275073727593298,
+        "bed_distance": 0.07633662593038394,
+        "foot_distance": -0.1692192554473877,
+        "torso_length": 0.17828229596277254
+      }
+    },
+    {
+      "time": 6.402221058558559,
+      "state": "sitting_on_bed",
+      "confidence": 0.8,
+      "distance": 0.10808897689649977,
+      "person_id": 1,
+      "reason": "seated hip geometry",
+      "features": {
+        "torso_angle": 13.158185420415375,
+        "hip_angle": 118.13855769757956,
+        "knee_angle": 105.23259902999456,
+        "speed": 0.16949194706765536,
+        "bed_distance": 0.10808897689649977,
+        "foot_distance": -0.1688341498374939,
+        "torso_length": 0.17291080146828797
+      }
+    },
+    {
+      "time": 6.603337950450451,
+      "state": "sitting_on_bed",
+      "confidence": 0.8,
+      "distance": 0.12317868215754581,
+      "person_id": 1,
+      "reason": "seated hip geometry",
+      "features": {
+        "torso_angle": 11.104360881007816,
+        "hip_angle": 108.72679612637663,
+        "knee_angle": 94.04869186879498,
+        "speed": 0.1943044827669385,
+        "bed_distance": 0.12317868215754581,
+        "foot_distance": -0.1671258807182312,
+        "torso_length": 0.16421744045124076
+      }
+    },
+    {
+      "time": 6.804454842342342,
+      "state": "sitting_on_bed",
+      "confidence": 0.8,
+      "distance": 0.13357040738647716,
+      "person_id": 1,
+      "reason": "seated hip geometry",
+      "features": {
+        "torso_angle": 8.442861465975373,
+        "hip_angle": 110.21548062914363,
+        "knee_angle": 98.65735087767737,
+        "speed": 0.19910801682940604,
+        "bed_distance": 0.13357040738647716,
+        "foot_distance": -0.15776193141937256,
+        "torso_length": 0.1629593247057085
+      }
+    },
+    {
+      "time": 7.005571734234235,
+      "state": "unknown",
+      "confidence": 0.0,
+      "distance": 0.17874541490204382,
+      "person_id": 1,
+      "reason": "ambiguous posture",
+      "features": {
+        "torso_angle": 5.48566903864908,
+        "hip_angle": 153.67467626812834,
+        "knee_angle": 147.5174902577586,
+        "speed": 0.16321022153849862,
+        "bed_distance": 0.17874541490204382,
+        "foot_distance": -0.1692376732826233,
+        "torso_length": 0.15695947838361038
+      }
+    },
+    {
+      "time": 7.206688626126127,
+      "state": "sitting_on_bed",
+      "confidence": 0.8,
+      "distance": 0.11554617456042122,
+      "person_id": 1,
+      "reason": "seated hip geometry",
+      "features": {
+        "torso_angle": 5.644903274927842,
+        "hip_angle": 142.6492982879654,
+        "knee_angle": 145.28433659593622,
+        "speed": 0.2653480151670175,
+        "bed_distance": 0.11554617456042122,
+        "foot_distance": -0.1813873052597046,
+        "torso_length": 0.15538834063578486
+      }
+    },
+    {
+      "time": 7.4078055180180185,
+      "state": "walking",
+      "confidence": 0.8,
+      "distance": 0.15921419755034055,
+      "person_id": 1,
+      "reason": "on-feet posture and displacement",
+      "features": {
+        "torso_angle": 4.969796039471195,
+        "hip_angle": 157.29736949141264,
+        "knee_angle": 162.2160471210571,
+        "speed": 0.37321038468823325,
+        "bed_distance": 0.15921419755034055,
+        "foot_distance": -0.18500638008117676,
+        "torso_length": 0.13346693353832367
+      }
+    },
+    {
+      "time": 7.60892240990991,
+      "state": "walking",
+      "confidence": 0.8,
+      "distance": 0.35834541530379077,
+      "person_id": 1,
+      "reason": "on-feet posture and displacement",
+      "features": {
+        "torso_angle": 7.085609793912036,
+        "hip_angle": 162.42363339012465,
+        "knee_angle": 168.32737723153892,
+        "speed": 0.4654327533171877,
+        "bed_distance": 0.35834541530379077,
+        "foot_distance": -0.17264729738235474,
+        "torso_length": 0.12581206992561308
+      }
+    },
+    {
+      "time": 7.810039301801802,
+      "state": "walking",
+      "confidence": 0.8,
+      "distance": 0.5823836129871408,
+      "person_id": 1,
+      "reason": "on-feet posture and displacement",
+      "features": {
+        "torso_angle": 4.9951499776306,
+        "hip_angle": 171.7176786918114,
+        "knee_angle": 175.9894354451419,
+        "speed": 0.8397751558454636,
+        "bed_distance": 0.5823836129871408,
+        "foot_distance": -0.17498469352722168,
+        "torso_length": 0.13854959378138376
+      }
+    },
+    {
+      "time": 8.011156193693694,
+      "state": "walking",
+      "confidence": 0.8,
+      "distance": 0.5660342399381213,
+      "person_id": 1,
+      "reason": "on-feet posture and displacement",
+      "features": {
+        "torso_angle": 0.9934267643440087,
+        "hip_angle": 179.9216424412881,
+        "knee_angle": 179.52275423794458,
+        "speed": 0.796131260810136,
+        "bed_distance": 0.5660342399381213,
+        "foot_distance": -0.17644035816192627,
+        "torso_length": 0.17105219209625547
+      }
+    },
+    {
+      "time": 8.212273085585586,
+      "state": "walking",
+      "confidence": 0.8,
+      "distance": 0.4202517227167182,
+      "person_id": 1,
+      "reason": "on-feet posture and displacement",
+      "features": {
+        "torso_angle": 1.493048838126846,
+        "hip_angle": 174.1041167253871,
+        "knee_angle": 176.92825681817942,
+        "speed": 0.5773357448601293,
+        "bed_distance": 0.4202517227167182,
+        "foot_distance": -0.1754404902458191,
+        "torso_length": 0.20277232649992072
+      }
+    },
+    {
+      "time": 8.413389977477477,
+      "state": "walking",
+      "confidence": 0.8,
+      "distance": 0.3808343902191185,
+      "person_id": 1,
+      "reason": "on-feet posture and displacement",
+      "features": {
+        "torso_angle": 2.0336568352233515,
+        "hip_angle": 171.06308641507403,
+        "knee_angle": 175.3353868520351,
+        "speed": 0.3543095590484566,
+        "bed_distance": 0.3808343902191185,
+        "foot_distance": -0.1801794171333313,
+        "torso_length": 0.2132723135823612
+      }
+    },
+    {
+      "time": 8.61450686936937,
+      "state": "walking",
+      "confidence": 0.8,
+      "distance": 0.398706814223064,
+      "person_id": 1,
+      "reason": "on-feet posture and displacement",
+      "features": {
+        "torso_angle": 2.24811141832191,
+        "hip_angle": 173.79594594686918,
+        "knee_angle": 178.69424113752794,
+        "speed": 0.2542472095245124,
+        "bed_distance": 0.398706814223064,
+        "foot_distance": -0.17991435527801514,
+        "torso_length": 0.215537595148865
+      }
+    },
+    {
+      "time": 8.815623761261262,
+      "state": "unknown",
+      "confidence": 0.0,
+      "distance": 0.4128941095750181,
+      "person_id": 1,
+      "reason": "ambiguous posture",
+      "features": {
+        "torso_angle": 4.702230910821859,
+        "hip_angle": 171.5051861562534,
+        "knee_angle": 177.28613332795888,
+        "speed": 0.16352235169145196,
+        "bed_distance": 0.4128941095750181,
+        "foot_distance": -0.204842209815979,
+        "torso_length": 0.22140987342882482
+      }
+    },
+    {
+      "time": 9.016740653153153,
+      "state": "unknown",
+      "confidence": 0.0,
+      "distance": 0.43582383580049616,
+      "person_id": 1,
+      "reason": "ambiguous posture",
+      "features": {
+        "torso_angle": 5.751677186634356,
+        "hip_angle": 170.91147478126473,
+        "knee_angle": 176.05268035272158,
+        "speed": 0.17936190242303623,
+        "bed_distance": 0.43582383580049616,
+        "foot_distance": -0.2087457776069641,
+        "torso_length": 0.2281041281999818
+      }
+    },
+    {
+      "time": 9.217857545045046,
+      "state": "unknown",
+      "confidence": 0.0,
+      "distance": 0.388299648877007,
+      "person_id": 1,
+      "reason": "ambiguous posture",
+      "features": {
+        "torso_angle": 5.5302349982285275,
+        "hip_angle": 169.88707461666374,
+        "knee_angle": 174.41833774610816,
+        "speed": 0.20192573612290673,
+        "bed_distance": 0.388299648877007,
+        "foot_distance": -0.19964301586151123,
+        "torso_length": 0.2410493528215885
+      }
+    },
+    {
+      "time": 9.418974436936937,
+      "state": "walking",
+      "confidence": 0.8,
+      "distance": 0.35906109701477945,
+      "person_id": 1,
+      "reason": "on-feet posture and displacement",
+      "features": {
+        "torso_angle": 4.984074044570853,
+        "hip_angle": 163.53919369766982,
+        "knee_angle": 173.6778312698858,
+        "speed": 0.38082988995758615,
+        "bed_distance": 0.35906109701477945,
+        "foot_distance": -0.21820664405822754,
+        "torso_length": 0.2516034248770764
+      }
+    },
+    {
+      "time": 9.62009132882883,
+      "state": "walking",
+      "confidence": 0.8,
+      "distance": 0.39672871530022447,
+      "person_id": 1,
+      "reason": "on-feet posture and displacement",
+      "features": {
+        "torso_angle": 1.196910561840796,
+        "hip_angle": 167.19905905303213,
+        "knee_angle": 173.08253326374134,
+        "speed": 0.5127750636280576,
+        "bed_distance": 0.39672871530022447,
+        "foot_distance": -0.2283771634101868,
+        "torso_length": 0.24611773970957893
+      }
+    },
+    {
+      "time": 9.821208220720722,
+      "state": "walking",
+      "confidence": 0.8,
+      "distance": 0.40501778076076217,
+      "person_id": 1,
+      "reason": "on-feet posture and displacement",
+      "features": {
+        "torso_angle": 2.7791960920768823,
+        "hip_angle": 178.64084986233928,
+        "knee_angle": 145.37470332721455,
+        "speed": 0.8337735785603445,
+        "bed_distance": 0.40501778076076217,
+        "foot_distance": -0.22799503803253174,
+        "torso_length": 0.24526749626281477
+      }
+    }
+  ],
+  "decision": {
+    "decision": "MONITOR",
+    "time": 9.821208220720722,
+    "reason": "Confirmed bed exit"
+  }
+}

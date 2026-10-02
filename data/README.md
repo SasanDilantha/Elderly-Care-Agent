@@ -56,11 +56,11 @@ download → checksum → extract cache → select/split → data/raw/gmdcsa24
 ```
 
 The cache and raw folders are ignored by Git. No machine-specific absolute path
-is required. Set `GMDCSA24_CACHE_DIR` only when an optional external cache is
-preferred.
+is required. Use `prepare-dataset --source PATH` for an existing extracted dataset.
 
-The pipeline configuration is tracked in `config/dataset.yml`; its report and
-per-video SHA-256 inventory are generated under ignored `artifacts/data_pipeline/`.
+Archive provenance and checksum are tracked in `config/dataset.yml`. Preparation
+verifies a downloaded archive and prints the staged video count. Existing videos
+are reused; it does not perform a fresh checksum of every staged video on each run.
 See [`docs/DATASET_CARD.md`](../docs/DATASET_CARD.md) for ownership and licensing.
 
 Do not modify source videos. Any normalized or generated files belong under

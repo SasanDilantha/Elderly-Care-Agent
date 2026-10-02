@@ -1,0 +1,17 @@
+{
+  "observation_duration_sec": 10.721466666666666,
+  "activity_duration_sec": {
+    "lying_in_bed": 0.0,
+    "sitting_on_bed": 0.0,
+    "sitting_outside_bed": 10.721466666666666,
+    "standing": 0.0,
+    "walking": 0.0,
+    "unknown": 0.0
+  },
+  "bed_exit_count": 0,
+  "bed_return_count": 0,
+  "total_in_bed_sec": 0.0,
+  "total_out_of_bed_sec": 10.721466666666666,
+  "longest_out_of_bed_period_sec": 10.721466666666666,
+  "final_state": "sitting_outside_bed"
+}

@@ -1,0 +1,775 @@
+{
+  "total_bed_unknown_sec": 11.996936125654448,
+  "timeline": [
+    {
+      "start": 0.0,
+      "end": 8.612325654450261,
+      "state": "unknown",
+      "confidence": 0.0,
+      "source": "vision",
+      "bed_state": "unknown"
+    },
+    {
+      "start": 8.612325654450261,
+      "end": 9.416589528795813,
+      "state": "sitting_on_bed",
+      "confidence": 0.8,
+      "source": "vision",
+      "bed_state": "in_bed"
+    },
+    {
+      "start": 9.416589528795813,
+      "end": 12.8012,
+      "state": "unknown",
+      "confidence": 0.0,
+      "source": "vision",
+      "bed_state": "unknown"
+    }
+  ],
+  "events": [],
+  "video": "data/raw/gmdcsa24/evaluation/Subject 4/10.mp4",
+  "completed": true,
+  "decoded_frames": 382,
+  "sampled_frames": 64,
+  "fps": 29.840952410711495,
+  "settings": {
+    "sample_fps": 5,
+    "confirmation": 0.4,
+    "bridge_gap": 0.6,
+    "event_gap": 1.5,
+    "event_hold": 0.4,
+    "unknown_monitor": 3.0,
+    "sitting_monitor": 120.0,
+    "absence_alert": 60.0,
+    "vlm_model": "qwen3-vl:4b-instruct",
+    "vlm_timeout": 120.0,
+    "max_reviews": 3
+  },
+  "bed_polygon": [
+    [
+      127.0,
+      381.0
+    ],
+    [
+      685.0,
+      381.0
+    ],
+    [
+      685.0,
+      488.0
+    ],
+    [
+      127.0,
+      488.0
+    ]
+  ],
+  "scene_setup": {
+    "mode": "automatic",
+    "bed_box": [
+      127,
+      381,
+      685,
+      595
+    ],
+    "bed_detections": 5,
+    "contact_region": "upper half of detected bed; approximate mattress surface",
+    "target_id": 1
+  },
+  "agent_actions": [
+    {
+      "start": 0.0,
+      "end": 8.612325654450261,
+      "action": "inspect_previous_and_following",
+      "previous": null,
+      "following": "sitting_on_bed",
+      "result": "remain_unknown"
+    },
+    {
+      "start": 9.416589528795813,
+      "end": 12.8012,
+      "action": "inspect_previous_and_following",
+      "previous": "sitting_on_bed",
+      "following": null,
+      "result": "remain_unknown"
+    }
+  ],
+  "observations": [
+    {
+      "time": 0.0,
+      "state": "unknown",
+      "confidence": 0.0,
+      "distance": null,
+      "person_id": 1,
+      "reason": "bed not detected unambiguously",
+      "features": null
+    },
+    {
+      "time": 0.20106596858638745,
+      "state": "unknown",
+      "confidence": 0.0,
+      "distance": null,
+      "person_id": 1,
+      "reason": "bed not detected unambiguously",
+      "features": null
+    },
+    {
+      "time": 0.4021319371727749,
+      "state": "unknown",
+      "confidence": 0.0,
+      "distance": null,
+      "person_id": 1,
+      "reason": "bed not detected unambiguously",
+      "features": null
+    },
+    {
+      "time": 0.6031979057591623,
+      "state": "unknown",
+      "confidence": 0.0,
+      "distance": null,
+      "person_id": 1,
+      "reason": "bed not detected unambiguously",
+      "features": null
+    },
+    {
+      "time": 0.8042638743455498,
+      "state": "unknown",
+      "confidence": 0.0,
+      "distance": null,
+      "person_id": 1,
+      "reason": "bed not detected unambiguously",
+      "features": null
+    },
+    {
+      "time": 1.0053298429319373,
+      "state": "unknown",
+      "confidence": 0.0,
+      "distance": null,
+      "person_id": 1,
+      "reason": "bed not detected unambiguously",
+      "features": null
+    },
+    {
+      "time": 1.2063958115183246,
+      "state": "unknown",
+      "confidence": 0.0,
+      "distance": null,
+      "person_id": 1,
+      "reason": "bed not detected unambiguously",
+      "features": null
+    },
+    {
+      "time": 1.407461780104712,
+      "state": "unknown",
+      "confidence": 0.0,
+      "distance": null,
+      "person_id": 1,
+      "reason": "bed not detected unambiguously",
+      "features": null
+    },
+    {
+      "time": 1.6085277486910996,
+      "state": "unknown",
+      "confidence": 0.0,
+      "distance": null,
+      "person_id": 1,
+      "reason": "bed not detected unambiguously",
+      "features": null
+    },
+    {
+      "time": 1.809593717277487,
+      "state": "unknown",
+      "confidence": 0.0,
+      "distance": null,
+      "person_id": 1,
+      "reason": "bed not detected unambiguously",
+      "features": null
+    },
+    {
+      "time": 2.0106596858638746,
+      "state": "unknown",
+      "confidence": 0.0,
+      "distance": null,
+      "person_id": 1,
+      "reason": "bed not detected unambiguously",
+      "features": null
+    },
+    {
+      "time": 2.211725654450262,
+      "state": "unknown",
+      "confidence": 0.0,
+      "distance": null,
+      "person_id": 1,
+      "reason": "bed not detected unambiguously",
+      "features": null
+    },
+    {
+      "time": 2.4127916230366493,
+      "state": "unknown",
+      "confidence": 0.0,
+      "distance": null,
+      "person_id": 1,
+      "reason": "bed not detected unambiguously",
+      "features": null
+    },
+    {
+      "time": 2.6138575916230367,
+      "state": "unknown",
+      "confidence": 0.0,
+      "distance": null,
+      "person_id": 1,
+      "reason": "bed not detected unambiguously",
+      "features": null
+    },
+    {
+      "time": 2.814923560209424,
+      "state": "unknown",
+      "confidence": 0.0,
+      "distance": null,
+      "person_id": 1,
+      "reason": "bed not detected unambiguously",
+      "features": null
+    },
+    {
+      "time": 3.015989528795812,
+      "state": "unknown",
+      "confidence": 0.0,
+      "distance": null,
+      "person_id": 1,
+      "reason": "bed not detected unambiguously",
+      "features": null
+    },
+    {
+      "time": 3.217055497382199,
+      "state": "unknown",
+      "confidence": 0.0,
+      "distance": null,
+      "person_id": 1,
+      "reason": "bed not detected unambiguously",
+      "features": null
+    },
+    {
+      "time": 3.4181214659685866,
+      "state": "unknown",
+      "confidence": 0.0,
+      "distance": null,
+      "person_id": 1,
+      "reason": "bed not detected unambiguously",
+      "features": null
+    },
+    {
+      "time": 3.619187434554974,
+      "state": "unknown",
+      "confidence": 0.0,
+      "distance": null,
+      "person_id": 1,
+      "reason": "bed not detected unambiguously",
+      "features": null
+    },
+    {
+      "time": 3.8202534031413613,
+      "state": "unknown",
+      "confidence": 0.0,
+      "distance": null,
+      "person_id": 1,
+      "reason": "bed not detected unambiguously",
+      "features": null
+    },
+    {
+      "time": 4.021319371727749,
+      "state": "sitting_outside_bed",
+      "confidence": 0.8,
+      "distance": -0.2872959109437211,
+      "person_id": 1,
+      "reason": "seated hip geometry",
+      "features": {
+        "torso_angle": 14.285937415280788,
+        "hip_angle": 65.80537379249502,
+        "knee_angle": 133.87813334509988,
+        "speed": null,
+        "bed_distance": -0.2872959109437211,
+        "foot_distance": 0.019839823246002197,
+        "torso_length": 0.11437875045353693
+      }
+    },
+    {
+      "time": 4.222385340314136,
+      "state": "unknown",
+      "confidence": 0.0,
+      "distance": null,
+      "person_id": null,
+      "reason": "no reliable pose",
+      "features": null
+    },
+    {
+      "time": 4.423451308900524,
+      "state": "unknown",
+      "confidence": 0.0,
+      "distance": null,
+      "person_id": null,
+      "reason": "no reliable pose",
+      "features": null
+    },
+    {
+      "time": 4.624517277486911,
+      "state": "sitting_outside_bed",
+      "confidence": 0.8,
+      "distance": -0.38396062516481205,
+      "person_id": 1,
+      "reason": "seated hip geometry",
+      "features": {
+        "torso_angle": 21.752365258070764,
+        "hip_angle": 90.73365686941017,
+        "knee_angle": 109.70609994510248,
+        "speed": null,
+        "bed_distance": -0.38396062516481205,
+        "foot_distance": 0.01772022247314453,
+        "torso_length": 0.10902729870224548
+      }
+    },
+    {
+      "time": 4.825583246073299,
+      "state": "sitting_on_bed",
+      "confidence": 0.8,
+      "distance": -0.21245607264603558,
+      "person_id": 1,
+      "reason": "seated hip geometry",
+      "features": {
+        "torso_angle": 15.625049032002018,
+        "hip_angle": 94.28290927515981,
+        "knee_angle": 140.8989550597837,
+        "speed": null,
+        "bed_distance": -0.21245607264603558,
+        "foot_distance": 0.03000998497009277,
+        "torso_length": 0.09250365235440622
+      }
+    },
+    {
+      "time": 5.026649214659686,
+      "state": "unknown",
+      "confidence": 0.0,
+      "distance": null,
+      "person_id": null,
+      "reason": "no reliable pose",
+      "features": null
+    },
+    {
+      "time": 5.227715183246073,
+      "state": "unknown",
+      "confidence": 0.0,
+      "distance": null,
+      "person_id": null,
+      "reason": "no reliable pose",
+      "features": null
+    },
+    {
+      "time": 5.428781151832461,
+      "state": "unknown",
+      "confidence": 0.0,
+      "distance": null,
+      "person_id": null,
+      "reason": "no reliable pose",
+      "features": null
+    },
+    {
+      "time": 5.629847120418848,
+      "state": "unknown",
+      "confidence": 0.0,
+      "distance": null,
+      "person_id": null,
+      "reason": "no reliable pose",
+      "features": null
+    },
+    {
+      "time": 5.830913089005236,
+      "state": "unknown",
+      "confidence": 0.0,
+      "distance": null,
+      "person_id": null,
+      "reason": "no reliable pose",
+      "features": null
+    },
+    {
+      "time": 6.031979057591624,
+      "state": "unknown",
+      "confidence": 0.0,
+      "distance": null,
+      "person_id": null,
+      "reason": "no reliable pose",
+      "features": null
+    },
+    {
+      "time": 6.233045026178011,
+      "state": "unknown",
+      "confidence": 0.0,
+      "distance": null,
+      "person_id": null,
+      "reason": "no reliable pose",
+      "features": null
+    },
+    {
+      "time": 6.4006,
+      "state": "unknown",
+      "confidence": 0.0,
+      "distance": null,
+      "person_id": null,
+      "reason": "no reliable pose",
+      "features": null
+    },
+    {
+      "time": 6.601665968586388,
+      "state": "unknown",
+      "confidence": 0.0,
+      "distance": null,
+      "person_id": null,
+      "reason": "no reliable pose",
+      "features": null
+    },
+    {
+      "time": 6.8027319371727755,
+      "state": "unknown",
+      "confidence": 0.0,
+      "distance": null,
+      "person_id": null,
+      "reason": "no reliable pose",
+      "features": null
+    },
+    {
+      "time": 7.003797905759162,
+      "state": "unknown",
+      "confidence": 0.0,
+      "distance": null,
+      "person_id": null,
+      "reason": "no reliable pose",
+      "features": null
+    },
+    {
+      "time": 7.20486387434555,
+      "state": "unknown",
+      "confidence": 0.0,
+      "distance": null,
+      "person_id": null,
+      "reason": "no reliable pose",
+      "features": null
+    },
+    {
+      "time": 7.405929842931937,
+      "state": "unknown",
+      "confidence": 0.0,
+      "distance": null,
+      "person_id": null,
+      "reason": "no reliable pose",
+      "features": null
+    },
+    {
+      "time": 7.606995811518325,
+      "state": "unknown",
+      "confidence": 0.0,
+      "distance": null,
+      "person_id": null,
+      "reason": "no reliable pose",
+      "features": null
+    },
+    {
+      "time": 7.808061780104713,
+      "state": "unknown",
+      "confidence": 0.0,
+      "distance": null,
+      "person_id": null,
+      "reason": "no reliable pose",
+      "features": null
+    },
+    {
+      "time": 8.0091277486911,
+      "state": "unknown",
+      "confidence": 0.0,
+      "distance": -0.7073217313968018,
+      "person_id": 1,
+      "reason": "ambiguous posture",
+      "features": {
+        "torso_angle": 79.64954845608084,
+        "hip_angle": 151.51719877415516,
+        "knee_angle": 156.2130045866252,
+        "speed": null,
+        "bed_distance": -0.7073217313968018,
+        "foot_distance": -0.014040052890777588,
+        "torso_length": 0.05390873502814066
+      }
+    },
+    {
+      "time": 8.210193717277487,
+      "state": "unknown",
+      "confidence": 0.0,
+      "distance": 0.03873877906958216,
+      "person_id": 1,
+      "reason": "ambiguous posture",
+      "features": {
+        "torso_angle": 46.24330783947519,
+        "hip_angle": 28.825506246682192,
+        "knee_angle": 33.06159186908409,
+        "speed": null,
+        "bed_distance": 0.03873877906958216,
+        "foot_distance": 0.02452749013900757,
+        "torso_length": 0.09013755695822893
+      }
+    },
+    {
+      "time": 8.411259685863875,
+      "state": "unknown",
+      "confidence": 0.0,
+      "distance": 0.1587380471978258,
+      "person_id": 1,
+      "reason": "ambiguous posture",
+      "features": {
+        "torso_angle": 39.055698988186435,
+        "hip_angle": 53.19327551999919,
+        "knee_angle": 167.93020712617337,
+        "speed": 0.862929443015129,
+        "bed_distance": 0.1587380471978258,
+        "foot_distance": 0.039635539054870605,
+        "torso_length": 0.135316298935113
+      }
+    },
+    {
+      "time": 8.612325654450261,
+      "state": "sitting_on_bed",
+      "confidence": 0.8,
+      "distance": 0.029002854230171172,
+      "person_id": 1,
+      "reason": "seated hip geometry",
+      "features": {
+        "torso_angle": 36.57303810428173,
+        "hip_angle": 84.92414104170383,
+        "knee_angle": 134.35128790776903,
+        "speed": 0.6332499510781671,
+        "bed_distance": 0.029002854230171172,
+        "foot_distance": 0.035501718521118164,
+        "torso_length": 0.09167936308365478
+      }
+    },
+    {
+      "time": 8.81339162303665,
+      "state": "sitting_on_bed",
+      "confidence": 0.8,
+      "distance": 0.12837208911622294,
+      "person_id": 1,
+      "reason": "seated hip geometry",
+      "features": {
+        "torso_angle": 34.09666343862942,
+        "hip_angle": 90.68273420929496,
+        "knee_angle": 120.43345193642784,
+        "speed": 1.2848360290930136,
+        "bed_distance": 0.12837208911622294,
+        "foot_distance": 0.04130268096923828,
+        "torso_length": 0.08101725954461231
+      }
+    },
+    {
+      "time": 9.014457591623037,
+      "state": "sitting_on_bed",
+      "confidence": 0.8,
+      "distance": 0.19101517075738034,
+      "person_id": 1,
+      "reason": "seated hip geometry",
+      "features": {
+        "torso_angle": 38.7003332947013,
+        "hip_angle": 75.1860673024804,
+        "knee_angle": 18.41277483987747,
+        "speed": 0.340885287736397,
+        "bed_distance": 0.19101517075738034,
+        "foot_distance": 0.0121077299118042,
+        "torso_length": 0.1358721947143853
+      }
+    },
+    {
+      "time": 9.215523560209425,
+      "state": "sitting_on_bed",
+      "confidence": 0.8,
+      "distance": 0.14794927952904421,
+      "person_id": 1,
+      "reason": "seated hip geometry",
+      "features": {
+        "torso_angle": 24.82748531066551,
+        "hip_angle": 68.45228505328413,
+        "knee_angle": 22.101552296835337,
+        "speed": 0.403811069738188,
+        "bed_distance": 0.14794927952904421,
+        "foot_distance": 0.021675586700439453,
+        "torso_length": 0.14163292835659372
+      }
+    },
+    {
+      "time": 9.416589528795813,
+      "state": "unknown",
+      "confidence": 0.0,
+      "distance": -0.10778984720508938,
+      "person_id": 1,
+      "reason": "ambiguous posture",
+      "features": {
+        "torso_angle": 0.9568231175087091,
+        "hip_angle": 116.7268292602048,
+        "knee_angle": 165.4571832981445,
+        "speed": 0.14836465920445233,
+        "bed_distance": -0.10778984720508938,
+        "foot_distance": 0.05009835958480835,
+        "torso_length": 0.07808999222830755
+      }
+    },
+    {
+      "time": 9.617655497382199,
+      "state": "unknown",
+      "confidence": 0.0,
+      "distance": null,
+      "person_id": null,
+      "reason": "no reliable pose",
+      "features": null
+    },
+    {
+      "time": 9.818721465968586,
+      "state": "sitting_on_bed",
+      "confidence": 0.8,
+      "distance": 0.35872231789319864,
+      "person_id": 1,
+      "reason": "seated hip geometry",
+      "features": {
+        "torso_angle": 37.90090290148425,
+        "hip_angle": 78.00015547624552,
+        "knee_angle": 127.7729831231894,
+        "speed": null,
+        "bed_distance": 0.35872231789319864,
+        "foot_distance": 0.029895901679992676,
+        "torso_length": 0.05268111322318985
+      }
+    },
+    {
+      "time": 10.019787434554974,
+      "state": "unknown",
+      "confidence": 0.0,
+      "distance": null,
+      "person_id": null,
+      "reason": "no reliable pose",
+      "features": null
+    },
+    {
+      "time": 10.220853403141362,
+      "state": "unknown",
+      "confidence": 0.0,
+      "distance": null,
+      "person_id": null,
+      "reason": "no reliable pose",
+      "features": null
+    },
+    {
+      "time": 10.42191937172775,
+      "state": "unknown",
+      "confidence": 0.0,
+      "distance": null,
+      "person_id": null,
+      "reason": "no reliable pose",
+      "features": null
+    },
+    {
+      "time": 10.622985340314136,
+      "state": "unknown",
+      "confidence": 0.0,
+      "distance": null,
+      "person_id": null,
+      "reason": "no reliable pose",
+      "features": null
+    },
+    {
+      "time": 10.824051308900524,
+      "state": "unknown",
+      "confidence": 0.0,
+      "distance": null,
+      "person_id": null,
+      "reason": "no reliable pose",
+      "features": null
+    },
+    {
+      "time": 11.025117277486912,
+      "state": "unknown",
+      "confidence": 0.0,
+      "distance": null,
+      "person_id": null,
+      "reason": "no reliable pose",
+      "features": null
+    },
+    {
+      "time": 11.2261832460733,
+      "state": "unknown",
+      "confidence": 0.0,
+      "distance": null,
+      "person_id": null,
+      "reason": "no reliable pose",
+      "features": null
+    },
+    {
+      "time": 11.427249214659687,
+      "state": "unknown",
+      "confidence": 0.0,
+      "distance": null,
+      "person_id": null,
+      "reason": "no reliable pose",
+      "features": null
+    },
+    {
+      "time": 11.628315183246073,
+      "state": "unknown",
+      "confidence": 0.0,
+      "distance": null,
+      "person_id": null,
+      "reason": "no reliable pose",
+      "features": null
+    },
+    {
+      "time": 11.829381151832461,
+      "state": "unknown",
+      "confidence": 0.0,
+      "distance": null,
+      "person_id": null,
+      "reason": "no reliable pose",
+      "features": null
+    },
+    {
+      "time": 12.030447120418849,
+      "state": "unknown",
+      "confidence": 0.0,
+      "distance": null,
+      "person_id": null,
+      "reason": "no reliable pose",
+      "features": null
+    },
+    {
+      "time": 12.231513089005237,
+      "state": "unknown",
+      "confidence": 0.0,
+      "distance": null,
+      "person_id": null,
+      "reason": "no reliable pose",
+      "features": null
+    },
+    {
+      "time": 12.432579057591623,
+      "state": "unknown",
+      "confidence": 0.0,
+      "distance": null,
+      "person_id": null,
+      "reason": "no reliable pose",
+      "features": null
+    },
+    {
+      "time": 12.600134031413614,
+      "state": "unknown",
+      "confidence": 0.0,
+      "distance": null,
+      "person_id": null,
+      "reason": "no reliable pose",
+      "features": null
+    }
+  ],
+  "decision": {
+    "decision": "MONITOR",
+    "time": 3.0,
+    "reason": "Activity remains uncertain"
+  }
+}

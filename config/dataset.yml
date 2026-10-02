@@ -1,5 +1,3 @@
-artifacts_root: artifacts
-
 dataset:
   name: GMDCSA-24
   version: v2.0
@@ -14,19 +12,3 @@ dataset:
     article_doi: 10.1016/j.dib.2024.110892
     dataset_license: CC-BY-4.0
     repository_license: MIT
-  ingestion:
-    cache_dir_env: GMDCSA24_CACHE_DIR
-    cache_dir: data/cache/gmdcsa24
-    archive_name: GMDCSA24-v2.0.zip
-    source_directory_name: source
-    selection_manifest: data/manifests/gmdcsa24_selection.csv
-    output_dir: data/raw/gmdcsa24
-    report_path: artifacts/data_pipeline/preparation_report.json
-    inventory_path: artifacts/data_pipeline/selected_files.csv
-    expected_video_count: 160
-    expected_metadata_csv_count: 8
-    expected_subjects:
-      - Subject 1
-      - Subject 2
-      - Subject 3
-      - Subject 4

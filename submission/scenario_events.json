@@ -1,0 +1,94 @@
+{
+  "observation_duration_sec": 90,
+  "activity_duration_sec": {
+    "lying_in_bed": 12.0,
+    "sitting_on_bed": 6.0,
+    "sitting_outside_bed": 0.0,
+    "standing": 2.0,
+    "walking": 70.0,
+    "unknown": 0.0
+  },
+  "total_in_bed_sec": 18.0,
+  "total_out_of_bed_sec": 72.0,
+  "total_bed_unknown_sec": 0.0,
+  "longest_out_of_bed_period_sec": 72.0,
+  "bed_exit_count": 1,
+  "bed_return_count": 1,
+  "final_state": "lying_in_bed",
+  "timeline": [
+    {
+      "start": 0,
+      "end": 5,
+      "state": "lying_in_bed",
+      "confidence": 0.8,
+      "source": "vision",
+      "bed_state": "in_bed"
+    },
+    {
+      "start": 5,
+      "end": 8,
+      "state": "sitting_on_bed",
+      "confidence": 0.8,
+      "source": "vision",
+      "bed_state": "in_bed"
+    },
+    {
+      "start": 8,
+      "end": 10,
+      "state": "standing",
+      "confidence": 0.8,
+      "source": "vision",
+      "bed_state": "out_of_bed"
+    },
+    {
+      "start": 10,
+      "end": 80,
+      "state": "walking",
+      "confidence": 0.8,
+      "source": "vision",
+      "bed_state": "out_of_bed"
+    },
+    {
+      "start": 80,
+      "end": 83,
+      "state": "sitting_on_bed",
+      "confidence": 0.8,
+      "source": "vision",
+      "bed_state": "in_bed"
+    },
+    {
+      "start": 83,
+      "end": 90,
+      "state": "lying_in_bed",
+      "confidence": 0.8,
+      "source": "vision",
+      "bed_state": "in_bed"
+    }
+  ],
+  "events": [
+    {
+      "event": "bed_exit",
+      "start_time": "00:00:08",
+      "confirmed_time": "00:00:10",
+      "previous_state": "sitting_on_bed",
+      "current_state": "walking",
+      "confidence": 0.8,
+      "decision": "MONITOR"
+    },
+    {
+      "event": "bed_return",
+      "start_time": "00:01:20",
+      "confirmed_time": "00:01:23",
+      "previous_state": "walking",
+      "current_state": "lying_in_bed",
+      "confidence": 0.8,
+      "decision": "NORMAL"
+    }
+  ],
+  "source": "synthetic policy demonstration; not video accuracy evidence",
+  "decision": {
+    "decision": "ALERT",
+    "time": 68.0,
+    "reason": "Confirmed bed exit followed by prolonged visible absence"
+  }
+}

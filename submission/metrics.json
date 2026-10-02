@@ -1,0 +1,573 @@
+{
+  "dataset": "GMDCSA-24 v2.0",
+  "with_vlm": false,
+  "duration": 56.455267,
+  "activity_accuracy": 0.5450555483502846,
+  "bed_accuracy": 0.6052407683162773,
+  "events": {
+    "bed_exit": {
+      "tp": 1,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    "bed_return": {
+      "tp": 0,
+      "fp": 0,
+      "fn": 1,
+      "precision": null,
+      "recall": 0.0
+    }
+  },
+  "cases": [
+    {
+      "id": "subject3_03_bed_exit",
+      "duration": 9.921767,
+      "correct_seconds": 5.8393768018018015,
+      "activity_accuracy": 0.5885420209728571,
+      "bed_accuracy": 0.6616817941894918,
+      "confusion_seconds": {
+        "lying_in_bed": {
+          "lying_in_bed": 1.75,
+          "unknown": 0.0,
+          "sitting_on_bed": 0.0,
+          "walking": 0.0
+        },
+        "sitting_on_bed": {
+          "lying_in_bed": 0.060052027027027055,
+          "unknown": 1.6089351351351353,
+          "sitting_on_bed": 3.586584572072072,
+          "walking": 1.1444282657657658
+        },
+        "sitting_outside_bed": {},
+        "standing": {
+          "lying_in_bed": 0.0,
+          "unknown": 0.23437623873873825,
+          "sitting_on_bed": 0.0,
+          "walking": 0.6656237612612621
+        },
+        "walking": {
+          "lying_in_bed": 0.0,
+          "unknown": 0.3689744369369361,
+          "sitting_on_bed": 0.0,
+          "walking": 0.5027922297297298
+        },
+        "unknown": {}
+      },
+      "duration_errors": {
+        "lying_in_bed": {
+          "actual": 1.75,
+          "predicted": 1.810052027027027,
+          "error": 0.060052027027027055,
+          "absolute_error": 0.060052027027027055
+        },
+        "sitting_on_bed": {
+          "actual": 6.4,
+          "predicted": 3.586584572072072,
+          "error": -2.813415427927928,
+          "absolute_error": 2.813415427927928
+        },
+        "sitting_outside_bed": {
+          "actual": 0,
+          "predicted": 0.0,
+          "error": 0.0,
+          "absolute_error": 0.0
+        },
+        "standing": {
+          "actual": 0.9000000000000004,
+          "predicted": 0.0,
+          "error": -0.9000000000000004,
+          "absolute_error": 0.9000000000000004
+        },
+        "walking": {
+          "actual": 0.8717669999999984,
+          "predicted": 2.3128442567567578,
+          "error": 1.4410772567567594,
+          "absolute_error": 1.4410772567567594
+        },
+        "unknown": {
+          "actual": 0,
+          "predicted": 2.2122858108108097,
+          "error": 2.2122858108108097,
+          "absolute_error": 2.2122858108108097
+        }
+      },
+      "events": {
+        "bed_exit": {
+          "tp": 1,
+          "fp": 0,
+          "fn": 0
+        },
+        "bed_return": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0
+        }
+      },
+      "failures": [
+        {
+          "start": 1.75,
+          "end": 1.810052027027027,
+          "actual": "sitting_on_bed",
+          "predicted": "lying_in_bed"
+        },
+        {
+          "start": 1.810052027027027,
+          "end": 2.8156364864864867,
+          "actual": "sitting_on_bed",
+          "predicted": "unknown"
+        },
+        {
+          "start": 3.4189871621621624,
+          "end": 3.8212209459459463,
+          "actual": "sitting_on_bed",
+          "predicted": "walking"
+        },
+        {
+          "start": 3.8212209459459463,
+          "end": 4.0223378378378385,
+          "actual": "sitting_on_bed",
+          "predicted": "unknown"
+        },
+        {
+          "start": 7.005571734234235,
+          "end": 7.4078055180180185,
+          "actual": "sitting_on_bed",
+          "predicted": "unknown"
+        },
+        {
+          "start": 7.4078055180180185,
+          "end": 8.15,
+          "actual": "sitting_on_bed",
+          "predicted": "walking"
+        },
+        {
+          "start": 8.15,
+          "end": 8.815623761261262,
+          "actual": "standing",
+          "predicted": "walking"
+        },
+        {
+          "start": 8.815623761261262,
+          "end": 9.05,
+          "actual": "standing",
+          "predicted": "unknown"
+        },
+        {
+          "start": 9.05,
+          "end": 9.418974436936937,
+          "actual": "walking",
+          "predicted": "unknown"
+        }
+      ]
+    },
+    {
+      "id": "subject3_12_stand_near_bed",
+      "duration": 10.673333,
+      "correct_seconds": 7.50525,
+      "activity_accuracy": 0.7031777233971807,
+      "bed_accuracy": 0.878177697632033,
+      "confusion_seconds": {
+        "lying_in_bed": {},
+        "sitting_on_bed": {
+          "unknown": 0.044749999999998735,
+          "sitting_on_bed": 7.50525,
+          "walking": 0.0
+        },
+        "sitting_outside_bed": {},
+        "standing": {
+          "unknown": 0.955875000000001,
+          "sitting_on_bed": 0.29962500000000003,
+          "walking": 1.8678329999999992
+        },
+        "walking": {},
+        "unknown": {}
+      },
+      "duration_errors": {
+        "lying_in_bed": {
+          "actual": 0,
+          "predicted": 0.0,
+          "error": 0.0,
+          "absolute_error": 0.0
+        },
+        "sitting_on_bed": {
+          "actual": 7.549999999999999,
+          "predicted": 7.804875,
+          "error": 0.2548750000000011,
+          "absolute_error": 0.2548750000000011
+        },
+        "sitting_outside_bed": {
+          "actual": 0,
+          "predicted": 0.0,
+          "error": 0.0,
+          "absolute_error": 0.0
+        },
+        "standing": {
+          "actual": 3.123333,
+          "predicted": 0.0,
+          "error": -3.123333,
+          "absolute_error": 3.123333
+        },
+        "walking": {
+          "actual": 0,
+          "predicted": 1.8678333333333335,
+          "error": 1.8678333333333335,
+          "absolute_error": 1.8678333333333335
+        },
+        "unknown": {
+          "actual": 0,
+          "predicted": 1.0006249999999999,
+          "error": 1.0006249999999999,
+          "absolute_error": 1.0006249999999999
+        }
+      },
+      "events": {
+        "bed_exit": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0
+        },
+        "bed_return": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0
+        }
+      },
+      "failures": [
+        {
+          "start": 0.0,
+          "end": 0.600375,
+          "actual": "standing",
+          "predicted": "unknown"
+        },
+        {
+          "start": 0.600375,
+          "end": 0.9,
+          "actual": "standing",
+          "predicted": "sitting_on_bed"
+        },
+        {
+          "start": 8.40525,
+          "end": 8.45,
+          "actual": "sitting_on_bed",
+          "predicted": "unknown"
+        },
+        {
+          "start": 8.45,
+          "end": 8.8055,
+          "actual": "standing",
+          "predicted": "unknown"
+        },
+        {
+          "start": 8.8055,
+          "end": 9.405875,
+          "actual": "standing",
+          "predicted": "walking"
+        },
+        {
+          "start": 9.405875,
+          "end": 9.606,
+          "actual": "standing",
+          "predicted": "walking"
+        },
+        {
+          "start": 9.606,
+          "end": 10.673333,
+          "actual": "standing",
+          "predicted": "walking"
+        }
+      ]
+    },
+    {
+      "id": "subject4_08_sit_up_no_exit",
+      "duration": 12.3375,
+      "correct_seconds": 6.705163043478261,
+      "activity_accuracy": 0.5434782608695652,
+      "bed_accuracy": 0.5434782608695652,
+      "confusion_seconds": {
+        "lying_in_bed": {
+          "unknown": 0.9965353260869566,
+          "lying_in_bed": 0.6034646739130435,
+          "standing": 0.0,
+          "sitting_on_bed": 0.0
+        },
+        "sitting_on_bed": {
+          "unknown": 3.0265625000000003,
+          "lying_in_bed": 0.0,
+          "standing": 1.6092391304347826,
+          "sitting_on_bed": 6.101698369565217
+        },
+        "sitting_outside_bed": {},
+        "standing": {},
+        "walking": {},
+        "unknown": {}
+      },
+      "duration_errors": {
+        "lying_in_bed": {
+          "actual": 1.6,
+          "predicted": 0.6034646739130435,
+          "error": -0.9965353260869566,
+          "absolute_error": 0.9965353260869566
+        },
+        "sitting_on_bed": {
+          "actual": 10.7375,
+          "predicted": 6.101698369565217,
+          "error": -4.635801630434783,
+          "absolute_error": 4.635801630434783
+        },
+        "sitting_outside_bed": {
+          "actual": 0,
+          "predicted": 0.0,
+          "error": 0.0,
+          "absolute_error": 0.0
+        },
+        "standing": {
+          "actual": 0,
+          "predicted": 1.6092391304347826,
+          "error": 1.6092391304347826,
+          "absolute_error": 1.6092391304347826
+        },
+        "walking": {
+          "actual": 0,
+          "predicted": 0.0,
+          "error": 0.0,
+          "absolute_error": 0.0
+        },
+        "unknown": {
+          "actual": 0,
+          "predicted": 4.023097826086957,
+          "error": 4.023097826086957,
+          "absolute_error": 4.023097826086957
+        }
+      },
+      "events": {
+        "bed_exit": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0
+        },
+        "bed_return": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0
+        }
+      },
+      "failures": [
+        {
+          "start": 0.0,
+          "end": 0.6034646739130435,
+          "actual": "lying_in_bed",
+          "predicted": "unknown"
+        },
+        {
+          "start": 1.206929347826087,
+          "end": 1.6,
+          "actual": "lying_in_bed",
+          "predicted": "unknown"
+        },
+        {
+          "start": 1.6,
+          "end": 3.620788043478261,
+          "actual": "sitting_on_bed",
+          "predicted": "unknown"
+        },
+        {
+          "start": 3.620788043478261,
+          "end": 5.230027173913044,
+          "actual": "sitting_on_bed",
+          "predicted": "standing"
+        },
+        {
+          "start": 6.001120923913043,
+          "end": 7.006895380434782,
+          "actual": "sitting_on_bed",
+          "predicted": "unknown"
+        }
+      ]
+    },
+    {
+      "id": "subject4_10_bed_return",
+      "duration": 12.8012,
+      "correct_seconds": 0.0,
+      "activity_accuracy": 0.0,
+      "bed_accuracy": 0.06282722513089017,
+      "confusion_seconds": {
+        "lying_in_bed": {
+          "unknown": 6.596936125654448,
+          "sitting_on_bed": 0.8042638743455512
+        },
+        "sitting_on_bed": {
+          "unknown": 2.7,
+          "sitting_on_bed": 0.0
+        },
+        "sitting_outside_bed": {},
+        "standing": {
+          "unknown": 1.7000000000000002,
+          "sitting_on_bed": 0.0
+        },
+        "walking": {
+          "unknown": 1.0,
+          "sitting_on_bed": 0.0
+        },
+        "unknown": {}
+      },
+      "duration_errors": {
+        "lying_in_bed": {
+          "actual": 7.401199999999999,
+          "predicted": 0.0,
+          "error": -7.401199999999999,
+          "absolute_error": 7.401199999999999
+        },
+        "sitting_on_bed": {
+          "actual": 2.7,
+          "predicted": 0.8042638743455512,
+          "error": -1.895736125654449,
+          "absolute_error": 1.895736125654449
+        },
+        "sitting_outside_bed": {
+          "actual": 0,
+          "predicted": 0.0,
+          "error": 0.0,
+          "absolute_error": 0.0
+        },
+        "standing": {
+          "actual": 1.7000000000000002,
+          "predicted": 0.0,
+          "error": -1.7000000000000002,
+          "absolute_error": 1.7000000000000002
+        },
+        "walking": {
+          "actual": 1.0,
+          "predicted": 0.0,
+          "error": -1.0,
+          "absolute_error": 1.0
+        },
+        "unknown": {
+          "actual": 0,
+          "predicted": 11.996936125654448,
+          "error": 11.996936125654448,
+          "absolute_error": 11.996936125654448
+        }
+      },
+      "events": {
+        "bed_exit": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0
+        },
+        "bed_return": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 1
+        }
+      },
+      "failures": [
+        {
+          "start": 0.0,
+          "end": 1.0,
+          "actual": "walking",
+          "predicted": "unknown"
+        },
+        {
+          "start": 1.0,
+          "end": 2.7,
+          "actual": "standing",
+          "predicted": "unknown"
+        },
+        {
+          "start": 2.7,
+          "end": 5.4,
+          "actual": "sitting_on_bed",
+          "predicted": "unknown"
+        },
+        {
+          "start": 5.4,
+          "end": 8.612325654450261,
+          "actual": "lying_in_bed",
+          "predicted": "unknown"
+        },
+        {
+          "start": 8.612325654450261,
+          "end": 9.416589528795813,
+          "actual": "lying_in_bed",
+          "predicted": "sitting_on_bed"
+        },
+        {
+          "start": 9.416589528795813,
+          "end": 12.8012,
+          "actual": "lying_in_bed",
+          "predicted": "unknown"
+        }
+      ]
+    },
+    {
+      "id": "subject4_11_sitting_on_floor",
+      "duration": 10.721467,
+      "correct_seconds": 10.721466666666666,
+      "activity_accuracy": 0.9999999689097272,
+      "bed_accuracy": 0.9999999689097272,
+      "confusion_seconds": {
+        "lying_in_bed": {},
+        "sitting_on_bed": {},
+        "sitting_outside_bed": {
+          "sitting_outside_bed": 10.721466666666666
+        },
+        "standing": {},
+        "walking": {},
+        "unknown": {}
+      },
+      "duration_errors": {
+        "lying_in_bed": {
+          "actual": 0,
+          "predicted": 0.0,
+          "error": 0.0,
+          "absolute_error": 0.0
+        },
+        "sitting_on_bed": {
+          "actual": 0,
+          "predicted": 0.0,
+          "error": 0.0,
+          "absolute_error": 0.0
+        },
+        "sitting_outside_bed": {
+          "actual": 10.721467,
+          "predicted": 10.721466666666666,
+          "error": -3.333333342681044e-07,
+          "absolute_error": 3.333333342681044e-07
+        },
+        "standing": {
+          "actual": 0,
+          "predicted": 0.0,
+          "error": 0.0,
+          "absolute_error": 0.0
+        },
+        "walking": {
+          "actual": 0,
+          "predicted": 0.0,
+          "error": 0.0,
+          "absolute_error": 0.0
+        },
+        "unknown": {
+          "actual": 0,
+          "predicted": 0.0,
+          "error": 0.0,
+          "absolute_error": 0.0
+        }
+      },
+      "events": {
+        "bed_exit": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0
+        },
+        "bed_return": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0
+        }
+      },
+      "failures": []
+    }
+  ]
+}

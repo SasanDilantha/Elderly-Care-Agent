@@ -1,0 +1,10 @@
+{
+  "state": "sitting_on_bed",
+  "confidence": 0.98,
+  "reason": "",
+  "context_seconds": [
+    3,
+    4.5,
+    6
+  ]
+}

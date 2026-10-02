@@ -1,0 +1,32 @@
+{
+  "lying_in_bed": {
+    "lying_in_bed": 2.3534646739130434,
+    "unknown": 7.593471451741404,
+    "sitting_on_bed": 0.8042638743455512,
+    "walking": 0.0,
+    "standing": 0.0
+  },
+  "sitting_on_bed": {
+    "lying_in_bed": 0.060052027027027055,
+    "unknown": 7.3802476351351345,
+    "sitting_on_bed": 17.19353294163729,
+    "walking": 1.1444282657657658,
+    "standing": 1.6092391304347826
+  },
+  "sitting_outside_bed": {
+    "sitting_outside_bed": 10.721466666666666
+  },
+  "standing": {
+    "lying_in_bed": 0.0,
+    "unknown": 2.8902512387387396,
+    "sitting_on_bed": 0.29962500000000003,
+    "walking": 2.5334567612612613
+  },
+  "walking": {
+    "lying_in_bed": 0.0,
+    "unknown": 1.368974436936936,
+    "sitting_on_bed": 0.0,
+    "walking": 0.5027922297297298
+  },
+  "unknown": {}
+}
