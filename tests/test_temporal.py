@@ -14,6 +14,15 @@ class TemporalTests(unittest.TestCase):
     def segments(self, *states):
         return [Segment(i * 2, (i + 1) * 2, state, 0.8) for i, state in enumerate(states)]
 
+    def observation(self, time, state, foot_distance, person_id=1):
+        return Observation(
+            time,
+            state,
+            distance=0.2,
+            person_id=person_id,
+            features=dict(foot_distance=foot_distance, torso_length=1.0),
+        )
+
     def test_durations_partition_observation(self):
         segments = self.segments(State.LYING, State.UNKNOWN, State.WALKING, State.SITTING)
         report = CareMonitor.summarize(segments, [], 8)
@@ -62,13 +71,74 @@ class TemporalTests(unittest.TestCase):
     def test_departure_needs_moving_away(self):
         segments = self.segments(State.BED_SITTING, State.STANDING, State.WALKING)
         rows = [
-            Observation(2, State.STANDING, distance=-0.1),
-            Observation(4.6, State.WALKING, distance=-1),
+            self.observation(2, State.STANDING, -0.5),
+            self.observation(4, State.WALKING, -1),
+            self.observation(4.2, State.WALKING, -1.1),
+            self.observation(4.4, State.WALKING, -1.2),
         ]
         events = BedEvents(self.settings).detect(segments, rows)
         self.assertEqual(len(events), 1)
         self.assertEqual(events[0]["event"], "bed_exit")
-        rows[-1].distance = 0
+        for row in rows:
+            row.features["foot_distance"] = -0.5
+        self.assertEqual(BedEvents(self.settings).detect(segments, rows), [])
+
+    def test_brief_visible_uncertainty_preserves_exit_history(self):
+        segments = [
+            Segment(0, 2, State.BED_SITTING, 0.8),
+            Segment(2, 3, State.WALKING, 0.8),
+            Segment(3, 3.603, State.UNKNOWN, 0),
+            Segment(3.603, 5, State.WALKING, 0.8),
+        ]
+        rows = [
+            self.observation(0, State.BED_SITTING, -0.5),
+            self.observation(2, State.WALKING, -0.5),
+            self.observation(3, State.UNKNOWN, None),
+            self.observation(3.603, State.WALKING, -1),
+            self.observation(3.803, State.WALKING, -1.1),
+            self.observation(4.003, State.WALKING, -1.2),
+        ]
+        events = BedEvents(self.settings).detect(segments, rows)
+        self.assertEqual(len(events), 1)
+        self.assertEqual(events[0]["start_sec"], 2)
+        self.assertAlmostEqual(events[0]["confirmed_sec"], 4.003)
+        for identity in [None, 2]:
+            rows[2].person_id = identity
+            self.assertEqual(BedEvents(self.settings).detect(segments, rows), [])
+
+    def test_long_visible_gap_resets_exit_history(self):
+        segments = self.segments(State.BED_SITTING, State.UNKNOWN, State.WALKING)
+        rows = [
+            self.observation(0, State.BED_SITTING, -0.5),
+            self.observation(2, State.UNKNOWN, None),
+            self.observation(4, State.WALKING, -0.5),
+            self.observation(4.5, State.WALKING, -1),
+            self.observation(5, State.WALKING, -1.2),
+        ]
+        self.assertEqual(BedEvents(self.settings).detect(segments, rows), [])
+
+    def test_exit_confirms_when_movement_threshold_is_reached_late(self):
+        segments = self.segments(State.BED_SITTING, State.WALKING)
+        rows = [
+            self.observation(2, State.WALKING, -0.5),
+            self.observation(2.2, State.WALKING, -0.7),
+            self.observation(2.4, State.WALKING, -0.8),
+            self.observation(2.6, State.WALKING, -0.85),
+        ]
+        events = BedEvents(self.settings).detect(segments, rows)
+        self.assertEqual(events[0]["confirmed_sec"], 2.6)
+
+    def test_moving_feet_briefly_or_without_walking_is_not_exit(self):
+        segments = self.segments(State.BED_SITTING, State.WALKING)
+        rows = [
+            self.observation(2, State.WALKING, -0.5),
+            self.observation(2.2, State.WALKING, -1),
+            self.observation(2.4, State.WALKING, -0.5),
+        ]
+        self.assertEqual(BedEvents(self.settings).detect(segments, rows), [])
+        for row in rows:
+            row.state = State.STANDING
+        rows[-1].time, rows[-1].features["foot_distance"] = 3, -1.5
         self.assertEqual(BedEvents(self.settings).detect(segments, rows), [])
 
     def test_return_requires_lying_after_sitting(self):
@@ -84,9 +154,9 @@ class TemporalTests(unittest.TestCase):
         segments = self.segments(State.BED_SITTING, State.STANDING, State.WALKING)
         segments[-1].source = "context"
         rows = [
-            Observation(2, State.STANDING, distance=-0.1),
-            Observation(3, State.STANDING, distance=-1),
-            Observation(4, State.UNKNOWN, distance=-1),
+            self.observation(2, State.STANDING, -0.5),
+            self.observation(3, State.STANDING, -1),
+            self.observation(4, State.UNKNOWN, -1),
         ]
         self.assertEqual(BedEvents(self.settings).detect(segments, rows), [])
 

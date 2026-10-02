@@ -120,11 +120,17 @@ Otherwise it waits for an unambiguous scene. This heuristic does not establish i
 a caregiver can overlap the bed too. Missing or changed IDs remain UNKNOWN. Track IDs
 can still switch during difficult occlusions; appearance-based identity is not implemented.
 
-- **BED_EXIT:** previously in bed, then sustained walking outside and moving away
-  from the mattress. Sitting up or briefly standing and sitting again is not an exit.
+- **BED_EXIT:** previously in bed, then walking for at least 0.4 seconds, with two
+  visible-foot measurements showing movement farther from the mattress. The movement
+  threshold is one quarter of the torso length at departure. Hip overlap with the bed
+  does not block an exit because image projection can keep the hip inside its rectangle.
+  Sitting up or briefly standing and sitting again is not an exit.
 - **BED_RETURN:** previously outside, then in-bed posture and confirmed lying.
   Sitting starts occupancy; lying completes the return.
-- Long unknown gaps reset event evidence. VLM-only segments cannot establish
+- Event history survives up to 1.5 seconds of uncertain posture while the same person
+  remains tracked. Longer gaps, a missing person, or changed identity reset it. This
+  preserves transition history without relabelling UNKNOWN activity as walking.
+  VLM-only segments cannot establish
   exits, returns, or prolonged-absence alerts.
 
 Confidence values are heuristic scores, not calibrated probabilities.

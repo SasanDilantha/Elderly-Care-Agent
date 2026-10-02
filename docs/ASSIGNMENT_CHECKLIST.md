@@ -7,7 +7,7 @@ from measured performance. Functional coverage does not imply high recognition a
 |---|---|
 | Core states | `State`, `ActivityRules`; OUT_OF_BED is the overlapping bed-status field |
 | Temporal understanding | `Timeline` rejects brief candidates; `ContextAgent` examines both neighbors |
-| Bed exit | `BedEvents`: in-bed history, outside walking, increasing distance, sustained evidence |
+| Bed exit | `BedEvents`: in-bed history, sustained walking and repeated foot movement away |
 | Return to bed | Outside history, renewed occupancy, confirmed lying |
 | Sitting up is not exit | Temporal regression tests and the sit-up evaluation clip |
 | Activity duration | Sum of contiguous segments, including UNKNOWN; partition test |

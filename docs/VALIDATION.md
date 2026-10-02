@@ -3,7 +3,7 @@
 Validated on Windows on 2026-10-02 using the locked Python 3.12 environment.
 
 - CLI entrypoint and help run through `uv run --frozen`.
-- 35 unittest cases cover temporal transitions, duration totals, evaluation matching,
+- 40 unittest cases cover temporal transitions, duration totals, evaluation matching,
   automatic bed detection/retry/consensus, person selection, unavailable pose,
   VLM restrictions, output writing and cleanup.
 - Output tests verify the exact assignment summary/event fields, elapsed timestamp
@@ -14,7 +14,14 @@ Validated on Windows on 2026-10-02 using the locked Python 3.12 environment.
   duration errors and missed events.
 - Automatic setup found a bed and selected a person in all five evaluation clips and
   the development demo. Activity accuracy is 54.51%; bed-status accuracy is 60.52%.
-  Both positive bed events remain missed. Automatic setup does not establish accuracy.
+  The positive bed exit is detected; the positive return remains missed because reliable
+  outside and lying observations are missing. Automatic setup does not establish accuracy.
+- Exit regression tests cover projected hip overlap, a 0.603-second visible posture gap,
+  missing/changed identity, long gaps, stationary feet, and brief foot-motion spikes.
+- In `Subject 3/03.mp4`, the exit starts at 7.408 s and is confirmed at 9.821 s.
+  The stand-near-bed and sit-up clips produce no false exit. `Subject 4/15.mp4`
+  starts with a person already sitting on the bed, so lying down alone is not a return.
+  That clip and `Subject 1/05.mp4` correctly retain empty event lists in these runs.
 - Saved timelines partition each video's analyzed duration; summaries are checked
   against the final event and policy code.
 

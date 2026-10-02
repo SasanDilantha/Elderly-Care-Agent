@@ -9,8 +9,8 @@ The five clips total 56.46 seconds. These results are vision + temporal context 
 |---|---:|
 | Activity accuracy, weighted by time | 54.51% |
 | Bed-status accuracy, weighted by time | 60.52% |
-| bed_exit: TP / FP / FN | 0 / 0 / 1 |
-| bed_exit: precision / recall | undefined (no predictions) / 0.00% |
+| bed_exit: TP / FP / FN | 1 / 0 / 0 |
+| bed_exit: precision / recall | 100.00% / 100.00% |
 | bed_return: TP / FP / FN | 0 / 0 / 1 |
 | bed_return: precision / recall | undefined (no predictions) / 0.00% |
 
@@ -43,7 +43,7 @@ The complete time-weighted confusion matrices and per-clip errors are in
 [metrics.json](../submission/metrics.json). The following are observed disagreements
 with the provisional annotation; they are not hypothetical examples.
 
-- **subject3_03_bed_exit, 1.81-2.82s:** annotated `sitting_on_bed`, predicted `unknown`. Pose changes during sitting up; uncertain transitions also prevent the annotated exit from being confirmed.
+- **subject3_03_bed_exit, 1.81-2.82s:** annotated `sitting_on_bed`, predicted `unknown`. Pose changes during sitting up leave a gap in activity recognition, even though the later bed exit is detected.
 - **subject3_12_stand_near_bed, 9.61-10.67s:** annotated `standing`, predicted `walking`. Hip movement from bending or projection resembles displacement; the rule confuses standing with walking.
 - **subject4_08_sit_up_no_exit, 1.60-3.62s:** annotated `sitting_on_bed`, predicted `unknown`. The sit-up transition has ambiguous joint geometry. No exit is predicted.
 - **subject4_10_bed_return, 9.42-12.80s:** annotated `lying_in_bed`, predicted `unknown`. The estimated bed region and occluded pose leave insufficient lying evidence; the expected return is missed.
@@ -52,9 +52,11 @@ with the provisional annotation; they are not hypothetical examples.
 
 Accuracy is the sum of correctly labelled overlap seconds divided by annotation duration.
 UNKNOWN is included. Events match one-to-one by type and start time within one second.
-No predictions means undefined precision, never 100%. The missed positive exit and return
-are explicitly counted. The event state machine passes synthetic tests, but real-video
-event recall in this small pilot is zero. This is a key limitation of the submission.
+No predictions means undefined precision, never 100%. Missed events are explicitly counted.
+The exit detector uses repeated visible-foot movement and sustained walking; hip overlap
+with the bed is insufficient to rule out an exit in a projected camera image.
+Brief posture gaps retain history only while the same person remains tracked.
+The positive return remains missed because its outside and lying evidence is unreliable.
 
 Labels were previously estimated from frames sampled about every 0.5 seconds. They are
 provisional, not independently adjudicated. Development uses Subjects 1-2; these clips

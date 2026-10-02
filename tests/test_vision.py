@@ -31,6 +31,22 @@ class VisionTests(unittest.TestCase):
         a, b, c = np.array([0.0, 1.0]), np.array([0.0, 0.0]), np.array([1.0, 0.0])
         self.assertAlmostEqual(ActivityRules.angle(a, b, c), 90)
 
+    def test_foot_distance_uses_only_visible_landmarks(self):
+        landmarks = np.zeros((33, 3))
+        landmarks[[11, 23, 25, 27, 28]] = [
+            [0.5, 0.2, 0.9],
+            [0.5, 0.5, 0.9],
+            [0.5, 0.8, 0.9],
+            [0.5, 1.2, 0.9],
+            [0.5, 2.0, 0.1],
+        ]
+        rules = ActivityRules([[0, 0], [1, 0], [1, 1], [0, 1]])
+        row = rules.classify(0, landmarks, 1)
+        self.assertAlmostEqual(row.features["foot_distance"], -0.2, places=6)
+        self.assertAlmostEqual(row.features["torso_length"], 0.3)
+        landmarks[27, 2] = 0.1
+        self.assertIsNone(rules.classify(0.2, landmarks, 1).features["foot_distance"])
+
     def test_caregiver_does_not_replace_target(self):
         vision = self.vision()
         vision.target_id = 7

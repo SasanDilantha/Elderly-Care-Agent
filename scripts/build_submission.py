@@ -74,8 +74,8 @@ def main():
         "",
     ]
     explanations = {
-        "subject3_03_bed_exit": "Pose changes during sitting up; uncertain transitions "
-        "also prevent the annotated exit from being confirmed.",
+        "subject3_03_bed_exit": "Pose changes during sitting up leave a gap in activity "
+        "recognition, even though the later bed exit is detected.",
         "subject3_12_stand_near_bed": "Hip movement from bending or projection resembles "
         "displacement; the rule confuses standing with walking.",
         "subject4_08_sit_up_no_exit": "The sit-up transition has ambiguous joint geometry. "
@@ -99,9 +99,12 @@ def main():
         "",
         "Accuracy is the sum of correctly labelled overlap seconds divided by annotation duration.",
         "UNKNOWN is included. Events match one-to-one by type and start time within one second.",
-        "No predictions means undefined precision, never 100%. The missed positive exit and return",
-        "are explicitly counted. The event state machine passes synthetic tests, but real-video",
-        "event recall in this small pilot is zero. This is a key limitation of the submission.",
+        "No predictions means undefined precision, never 100%. "
+        "Missed events are explicitly counted.",
+        "The exit detector uses repeated visible-foot movement and sustained walking; hip overlap",
+        "with the bed is insufficient to rule out an exit in a projected camera image.",
+        "Brief posture gaps retain history only while the same person remains tracked.",
+        "The positive return remains missed because its outside and lying evidence is unreliable.",
         "",
         "Labels were previously estimated from frames sampled about every 0.5 seconds. They are",
         "provisional, not independently adjudicated. Development uses Subjects 1-2; these clips",

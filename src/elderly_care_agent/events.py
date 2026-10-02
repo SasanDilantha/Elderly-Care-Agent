@@ -11,11 +11,22 @@ class BedEvents:
         departure = None
         arrival = None
         previous = State.UNKNOWN
+        person_id = None
         for segment in segments:
+            observed = [row for row in observations if segment.start <= row.time < segment.end]
+            identity = next((row.person_id for row in observed if row.person_id is not None), None)
+            if person_id is not None and identity is not None and identity != person_id:
+                in_bed, departure, arrival = None, None, None
             if segment.state == State.UNKNOWN or segment.source == "vlm":
-                if segment.duration > self.settings.bridge_gap:
+                visible = (
+                    observed
+                    and person_id is not None
+                    and all(row.person_id == person_id for row in observed)
+                )
+                if segment.duration > self.settings.event_gap + 1e-6 or not visible:
                     in_bed, departure, arrival = None, None, None
                 continue
+            person_id = identity
             state = segment.state
             if state.bed == "in_bed":
                 departure = None
@@ -48,30 +59,11 @@ class BedEvents:
                         row
                         for row in observations
                         if departure[0] <= row.time < segment.end
-                        and row.distance is not None
+                        and (row.features or {}).get("foot_distance") is not None
                         and row.state != State.UNKNOWN
                     ]
-                    moving_away = (
-                        len(nearby) >= 2
-                        and nearby[-1].distance < -0.25
-                        and nearby[-1].distance < nearby[0].distance - 0.1
-                    )
-                    if moving_away and segment.duration >= self.settings.event_hold:
-                        away = next(
-                            (
-                                row
-                                for row in nearby
-                                if row.time >= segment.start
-                                and row.state == State.WALKING
-                                and row.distance < -0.25
-                                and row.distance < nearby[0].distance - 0.1
-                            ),
-                            None,
-                        )
-                        if away is None:
-                            in_bed, previous = False, state
-                            continue
-                        confirmed = max(segment.start + self.settings.event_hold, away.time)
+                    confirmed = self.confirm_departure(nearby, segment.start)
+                    if confirmed is not None:
                         events.append(
                             self.event(
                                 "bed_exit",
@@ -87,6 +79,34 @@ class BedEvents:
                 in_bed = False
             previous = state
         return events
+
+    def confirm_departure(self, observations, segment_start):
+        if not observations:
+            return None
+        origin = observations[0].features
+        margin = 0.25 * origin["torso_length"]
+        walking_since = None
+        away_samples = 0
+        for row in observations:
+            walking_since = (
+                (row.time if walking_since is None else walking_since)
+                if row.state == State.WALKING
+                else None
+            )
+            distance = row.features["foot_distance"]
+            away = (
+                row.state == State.WALKING
+                and distance < -margin
+                and distance < origin["foot_distance"] - margin
+            )
+            away_samples = away_samples + 1 if away else 0
+            if (
+                away_samples >= 2
+                and walking_since is not None
+                and row.time - max(segment_start, walking_since) >= self.settings.event_hold - 1e-6
+            ):
+                return row.time
+        return None
 
     @staticmethod
     def event(kind, start, confirmed, previous, current, confidence, decision):

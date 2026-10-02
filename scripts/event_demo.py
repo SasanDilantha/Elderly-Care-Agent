@@ -18,8 +18,10 @@ def main():
         Segment(83, 90, State.LYING, 0.8),
     ]
     observations = [
-        Observation(8, State.STANDING, distance=-0.1),
-        Observation(10.5, State.WALKING, distance=-1),
+        Observation(8, State.STANDING, features=dict(foot_distance=-0.5, torso_length=1)),
+        Observation(10.5, State.WALKING, features=dict(foot_distance=-1, torso_length=1)),
+        Observation(10.7, State.WALKING, features=dict(foot_distance=-1.1, torso_length=1)),
+        Observation(10.9, State.WALKING, features=dict(foot_distance=-1.2, torso_length=1)),
     ]
     events = BedEvents(settings).detect(segments, observations)
     result = CareMonitor.summarize(segments, events, 90)

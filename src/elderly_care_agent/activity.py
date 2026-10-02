@@ -65,12 +65,22 @@ class ActivityRules:
                 state, reason = State.WALKING, "on-feet posture and displacement"
             elif speed < 0.12 and knee_angle is not None and knee_angle > 155:
                 state, reason = State.STANDING, "extended legs and stationary torso"
+        feet = landmarks[[27, 28]]
+        feet = feet[feet[:, 2] >= 0.5, :2]
+        foot_distance = None
+        if len(feet):
+            supporting_foot = feet[np.argmax(feet[:, 1])]
+            foot_distance = float(
+                cv2.pointPolygonTest(self.bed, tuple(map(float, supporting_foot)), True)
+            )
         features = dict(
             torso_angle=torso,
             hip_angle=hip_angle,
             knee_angle=knee_angle,
             speed=speed,
             bed_distance=distance,
+            foot_distance=foot_distance,
+            torso_length=scale,
         )
         confidence = 0.8 if state != State.UNKNOWN else 0.0
         return Observation(time, state, confidence, distance, person_id, reason, features)

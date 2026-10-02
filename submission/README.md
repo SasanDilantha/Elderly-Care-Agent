@@ -11,6 +11,6 @@
 - `scenario_events.json`: synthetic event/alert demonstration, clearly separated from
   measured video results. It proves the policy path, not recognition accuracy.
 
-The evaluated prototype misses the pilot's positive exit and return. This limitation
+The evaluated prototype detects the pilot's positive exit but misses its positive return. This limitation
 is disclosed in `docs/EVALUATION.md`; synthetic examples must not be substituted for
 those measured results. Videos and model weights are excluded from the repository.

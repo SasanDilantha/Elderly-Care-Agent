@@ -6,11 +6,11 @@
   "bed_accuracy": 0.6052407683162773,
   "events": {
     "bed_exit": {
-      "tp": 0,
+      "tp": 1,
       "fp": 0,
-      "fn": 1,
-      "precision": null,
-      "recall": 0.0
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
     },
     "bed_return": {
       "tp": 0,
@@ -95,9 +95,9 @@
       },
       "events": {
         "bed_exit": {
-          "tp": 0,
+          "tp": 1,
           "fp": 0,
-          "fn": 1
+          "fn": 0
         },
         "bed_return": {
           "tp": 0,

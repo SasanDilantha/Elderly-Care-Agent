@@ -8,7 +8,7 @@
     "walking": 2.3128442567567578,
     "unknown": 2.2122858108108097
   },
-  "bed_exit_count": 0,
+  "bed_exit_count": 1,
   "bed_return_count": 0,
   "total_in_bed_sec": 5.396636599099099,
   "total_out_of_bed_sec": 2.3128442567567578,

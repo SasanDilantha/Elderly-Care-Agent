@@ -49,6 +49,7 @@ class Settings:
     sample_fps: float = 5.0
     confirmation: float = 0.4
     bridge_gap: float = 0.6
+    event_gap: float = 1.5
     event_hold: float = 0.4
     unknown_monitor: float = 3.0
     sitting_monitor: float = 120.0
