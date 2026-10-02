@@ -11,11 +11,12 @@ from measured performance. Functional coverage does not imply high recognition a
 | Return to bed | Outside history, renewed occupancy, confirmed lying |
 | Sitting up is not exit | Temporal regression tests and the sit-up evaluation clip |
 | Activity duration | Sum of contiguous segments, including UNKNOWN; partition test |
-| Timeline | `report.json` and `timeline.txt` from transitions |
+| Timeline | `additional.json` and `timeline.txt` from transitions |
 | Agentic context | Action log shows previous/following observations and selective VLM requests |
 | NORMAL / MONITOR / ALERT | `AlertPolicy`; thresholds and reasons in README and settings |
-| Event output | Start, confirmation, previous/current state, confidence, decision |
-| Observation summary | Durations, occupancy, exits/returns, longest outside interval, final state |
+| Event output | `events.json`: exact example keys, start/confirmation in `HH:MM:SS` |
+| Observation summary | `report.json`: exact eight summary fields from the example |
+| Additional output | Diagnostics and precise event times in `additional.json` |
 | Activity evaluation | Exact interval-overlap accuracy and confusion, including UNKNOWN |
 | Event evaluation | One-to-one matching; TP, FP, FN, precision, recall |
 | Duration evaluation | Actual/predicted seconds, signed and absolute error for each state |

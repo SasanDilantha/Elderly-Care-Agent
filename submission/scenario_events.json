@@ -68,8 +68,8 @@
   "events": [
     {
       "event": "bed_exit",
-      "start_sec": 8,
-      "confirmed_sec": 10.5,
+      "start_time": "00:00:08",
+      "confirm_time": "00:00:10",
       "previous_state": "sitting_on_bed",
       "current_state": "walking",
       "confidence": 0.8,
@@ -77,8 +77,8 @@
     },
     {
       "event": "bed_return",
-      "start_sec": 80,
-      "confirmed_sec": 83.4,
+      "start_time": "00:01:20",
+      "confirm_time": "00:01:23",
       "previous_state": "walking",
       "current_state": "lying_in_bed",
       "confidence": 0.8,

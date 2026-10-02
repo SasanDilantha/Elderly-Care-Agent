@@ -44,7 +44,7 @@ def main():
             result = Evaluator().run(args.config, monitor, args.output, args.with_vlm)
         else:
             result = monitor.run(args.video, show=args.show, use_vlm=args.with_vlm)
-            monitor.save(result, args.output)
+            result = monitor.save(result, args.output)
         print(json.dumps(result, indent=2, allow_nan=False))
     except (ValueError, OSError, RuntimeError) as error:
         parser.exit(1, f"Error: {error}\n")

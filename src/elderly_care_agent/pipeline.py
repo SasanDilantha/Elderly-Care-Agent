@@ -1,8 +1,6 @@
-import json
 import math
 from collections import defaultdict
 from dataclasses import asdict
-from pathlib import Path
 
 import cv2
 import numpy as np
@@ -11,6 +9,7 @@ from elderly_care_agent.activity import ActivityRules
 from elderly_care_agent.agent import ContextAgent
 from elderly_care_agent.events import AlertPolicy, BedEvents
 from elderly_care_agent.models import Settings, State
+from elderly_care_agent.report import Report
 from elderly_care_agent.timeline import Timeline
 from elderly_care_agent.vision import Vision
 
@@ -113,13 +112,4 @@ class CareMonitor:
 
     @staticmethod
     def save(report, directory):
-        directory = Path(directory)
-        directory.mkdir(parents=True, exist_ok=True)
-        (directory / "report.json").write_text(
-            json.dumps(report, indent=2, allow_nan=False), encoding="utf-8"
-        )
-        lines = [
-            f"{row['start']:07.2f} - {row['end']:07.2f}  {row['state'].upper()}"
-            for row in report["timeline"]
-        ]
-        (directory / "timeline.txt").write_text("\n".join(lines) + "\n", encoding="utf-8")
+        return Report(report).save(directory)

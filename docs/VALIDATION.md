@@ -3,9 +3,11 @@
 Validated on Windows on 2026-10-02 using the locked Python 3.12 environment.
 
 - CLI entrypoint and help run through `uv run --frozen`.
-- 30 unittest cases cover temporal transitions, duration totals, evaluation matching,
+- 35 unittest cases cover temporal transitions, duration totals, evaluation matching,
   automatic bed detection/retry/consensus, person selection, unavailable pose,
   VLM restrictions, output writing and cleanup.
+- Output tests verify the exact assignment summary/event fields, elapsed timestamp
+  formatting, diagnostic preservation, and console ordering.
 - Ruff lint and formatting checks pass for `src`, `tests` and `scripts`.
 - Five real videos are evaluated with automatic scene setup and no supplied coordinates
   or person IDs. See [evaluation](EVALUATION.md) for measured accuracy, confusion,

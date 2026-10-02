@@ -4,6 +4,7 @@ from pathlib import Path
 from elderly_care_agent.events import AlertPolicy, BedEvents
 from elderly_care_agent.models import Observation, Segment, Settings, State
 from elderly_care_agent.pipeline import CareMonitor
+from elderly_care_agent.report import Report
 
 
 def main():
@@ -24,6 +25,7 @@ def main():
     result = CareMonitor.summarize(segments, events, 90)
     result["source"] = "synthetic policy demonstration; not video accuracy evidence"
     result["decision"] = AlertPolicy(settings).decide(segments, events)
+    result["events"] = Report(result).events
     Path("submission").mkdir(exist_ok=True)
     Path("submission/scenario_events.json").write_text(
         json.dumps(result, indent=2), encoding="utf-8"

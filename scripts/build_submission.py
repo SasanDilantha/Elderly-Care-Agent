@@ -13,7 +13,7 @@ def main():
     for case in metrics["cases"]:
         destination = target / case["id"]
         destination.mkdir(exist_ok=True)
-        for name in ["report.json", "timeline.txt"]:
+        for name in ["report.json", "events.json", "additional.json", "timeline.txt"]:
             (destination / name).write_bytes((source / case["id"] / name).read_bytes())
     duration = {state: dict(actual=0.0, predicted=0.0, absolute_error=0.0) for state in State}
     confusion = {state: {} for state in State}

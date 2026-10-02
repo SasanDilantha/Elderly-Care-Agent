@@ -51,7 +51,19 @@ not trained mattress segmentation; perspective and hanging covers can cause erro
 The scene assumes a fixed camera. Multiple ambiguous beds remain UNKNOWN without a prompt.
 The report records the detected box, estimated region and automatically selected person ID.
 
-The CLI prints JSON and writes `report.json` and `timeline.txt` in the output directory.
+The CLI prints `summary` and `events` first, followed by `additional_outputs` file paths.
+The output directory contains:
+
+- `report.json`: only the eight summary fields from the assignment example.
+- `events.json`: events with `event`, `start_time`, `confirm_time`, `previous_state`,
+  `current_state`, `confidence`, and `decision`, matching the assignment example.
+- `additional.json`: timeline, observations, pose features, scene setup, settings,
+  overall decision, unknown bed duration, and events with precise numeric seconds.
+- `timeline.txt`: readable activity intervals.
+
+Event timestamps use elapsed `HH:MM:SS`, with fractional seconds omitted for display.
+Full precision is retained in `additional.json`. An empty `events.json` means no event
+was confirmed. UNKNOWN bed time remains separate from known out-of-bed duration.
 The window shows candidate frame states. Saved intervals are finalized after the video
 using temporal confirmation and neighboring context.
 The tracker runs on every decoded frame; pose/activity are sampled at 5 frames/second. Use
@@ -83,6 +95,7 @@ flowchart LR
 | `agent.py` / `ContextAgent` | Decide when previous/following context or VLM is needed |
 | `events.py` / `BedEvents`, `AlertPolicy` | Meaningful transitions and decisions |
 | `pipeline.py` / `CareMonitor` | One video loop, summaries, output files |
+| `report.py` / `Report` | Assignment-format summary and events, separate diagnostics |
 | `evaluation.py` / `Evaluator` | Compare predictions with timestamped labels |
 | `models.py`, `dataset.py`, `cli.py` | Data objects, dataset preparation, commands |
 

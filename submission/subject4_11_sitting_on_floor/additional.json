@@ -1,0 +1,879 @@
+{
+  "total_bed_unknown_sec": 0.0,
+  "timeline": [
+    {
+      "start": 0.0,
+      "end": 10.721466666666666,
+      "state": "sitting_outside_bed",
+      "confidence": 0.8,
+      "source": "vision",
+      "bed_state": "out_of_bed"
+    }
+  ],
+  "events": [],
+  "video": "data/raw/gmdcsa24/evaluation/Subject 4/11.mp4",
+  "completed": true,
+  "decoded_frames": 320,
+  "sampled_frames": 54,
+  "fps": 29.846662770019027,
+  "settings": {
+    "sample_fps": 5.0,
+    "confirmation": 0.4,
+    "bridge_gap": 0.6,
+    "event_hold": 0.4,
+    "unknown_monitor": 3.0,
+    "sitting_monitor": 120.0,
+    "absence_alert": 60.0,
+    "vlm_model": "qwen3-vl:4b-instruct",
+    "vlm_timeout": 120.0,
+    "max_reviews": 3
+  },
+  "bed_polygon": [
+    [
+      126.0,
+      374.0
+    ],
+    [
+      683.0,
+      374.0
+    ],
+    [
+      683.0,
+      484.5
+    ],
+    [
+      126.0,
+      484.5
+    ]
+  ],
+  "scene_setup": {
+    "mode": "automatic",
+    "bed_box": [
+      126,
+      374,
+      683,
+      595
+    ],
+    "bed_detections": 5,
+    "contact_region": "upper half of detected bed; approximate mattress surface",
+    "target_id": 1
+  },
+  "agent_actions": [],
+  "observations": [
+    {
+      "time": 0.0,
+      "state": "sitting_outside_bed",
+      "confidence": 0.8,
+      "distance": -0.596023263306617,
+      "person_id": 1,
+      "reason": "seated hip geometry",
+      "features": {
+        "torso_angle": 12.421027663758656,
+        "hip_angle": 114.2041449695269,
+        "knee_angle": 50.61775474842042,
+        "speed": null,
+        "bed_distance": -0.596023263306617
+      }
+    },
+    {
+      "time": 0.2010275,
+      "state": "sitting_outside_bed",
+      "confidence": 0.8,
+      "distance": -0.6267882457660481,
+      "person_id": 1,
+      "reason": "seated hip geometry",
+      "features": {
+        "torso_angle": 10.818903194626161,
+        "hip_angle": 97.98759999963319,
+        "knee_angle": 35.55248002361395,
+        "speed": null,
+        "bed_distance": -0.6267882457660481
+      }
+    },
+    {
+      "time": 0.402055,
+      "state": "sitting_outside_bed",
+      "confidence": 0.8,
+      "distance": -0.6548387212635745,
+      "person_id": 1,
+      "reason": "seated hip geometry",
+      "features": {
+        "torso_angle": 12.156208780270322,
+        "hip_angle": 124.21219490533812,
+        "knee_angle": 56.94695890702938,
+        "speed": 0.2086787038860297,
+        "bed_distance": -0.6548387212635745
+      }
+    },
+    {
+      "time": 0.6030825,
+      "state": "sitting_outside_bed",
+      "confidence": 0.8,
+      "distance": -0.6714499393846214,
+      "person_id": 1,
+      "reason": "seated hip geometry",
+      "features": {
+        "torso_angle": 13.919844108829317,
+        "hip_angle": 105.92529493704784,
+        "knee_angle": 53.751717137319204,
+        "speed": 0.14863859268198995,
+        "bed_distance": -0.6714499393846214
+      }
+    },
+    {
+      "time": 0.80411,
+      "state": "sitting_outside_bed",
+      "confidence": 0.8,
+      "distance": -0.6940697369366391,
+      "person_id": 1,
+      "reason": "seated hip geometry",
+      "features": {
+        "torso_angle": 14.461693529305073,
+        "hip_angle": 101.5094085770991,
+        "knee_angle": 61.67330701235619,
+        "speed": 0.07368896892859811,
+        "bed_distance": -0.6940697369366391
+      }
+    },
+    {
+      "time": 1.0051375,
+      "state": "sitting_outside_bed",
+      "confidence": 0.8,
+      "distance": -0.6837485478580284,
+      "person_id": 1,
+      "reason": "seated hip geometry",
+      "features": {
+        "torso_angle": 14.75415686268468,
+        "hip_angle": 101.03419942056357,
+        "knee_angle": 53.06282638227074,
+        "speed": 0.062030205117197104,
+        "bed_distance": -0.6837485478580284
+      }
+    },
+    {
+      "time": 1.206165,
+      "state": "sitting_outside_bed",
+      "confidence": 0.8,
+      "distance": -0.6774202150397575,
+      "person_id": 1,
+      "reason": "seated hip geometry",
+      "features": {
+        "torso_angle": 15.525202016060232,
+        "hip_angle": 97.2252315751978,
+        "knee_angle": 29.15648691305344,
+        "speed": 0.04733282551068228,
+        "bed_distance": -0.6774202150397575
+      }
+    },
+    {
+      "time": 1.4071925,
+      "state": "sitting_outside_bed",
+      "confidence": 0.8,
+      "distance": -0.67053696696873,
+      "person_id": 1,
+      "reason": "seated hip geometry",
+      "features": {
+        "torso_angle": 15.255675382443485,
+        "hip_angle": 83.20456183038259,
+        "knee_angle": 32.50917685765064,
+        "speed": 0.02723514921293227,
+        "bed_distance": -0.67053696696873
+      }
+    },
+    {
+      "time": 1.60822,
+      "state": "sitting_outside_bed",
+      "confidence": 0.8,
+      "distance": -0.6540569672246396,
+      "person_id": 1,
+      "reason": "seated hip geometry",
+      "features": {
+        "torso_angle": 12.7082650260975,
+        "hip_angle": 101.1865147989009,
+        "knee_angle": 32.923868317341686,
+        "speed": 0.17195152697848545,
+        "bed_distance": -0.6540569672246396
+      }
+    },
+    {
+      "time": 1.8092475000000001,
+      "state": "sitting_outside_bed",
+      "confidence": 0.8,
+      "distance": -0.639043951277268,
+      "person_id": 1,
+      "reason": "seated hip geometry",
+      "features": {
+        "torso_angle": 11.797226141891416,
+        "hip_angle": 92.61143058571383,
+        "knee_angle": 30.741411233774727,
+        "speed": 0.18989261132683155,
+        "bed_distance": -0.639043951277268
+      }
+    },
+    {
+      "time": 2.010275,
+      "state": "sitting_outside_bed",
+      "confidence": 0.8,
+      "distance": -0.6484536230344042,
+      "person_id": 1,
+      "reason": "seated hip geometry",
+      "features": {
+        "torso_angle": 11.449203015488173,
+        "hip_angle": 93.92585074353883,
+        "knee_angle": 31.917205974696813,
+        "speed": 0.10461144394050081,
+        "bed_distance": -0.6484536230344042
+      }
+    },
+    {
+      "time": 2.2113025,
+      "state": "sitting_outside_bed",
+      "confidence": 0.8,
+      "distance": -0.6664425123815992,
+      "person_id": 1,
+      "reason": "seated hip geometry",
+      "features": {
+        "torso_angle": 11.084821692703114,
+        "hip_angle": 120.42855317997888,
+        "knee_angle": 49.18011317516678,
+        "speed": 0.12042120425131979,
+        "bed_distance": -0.6664425123815992
+      }
+    },
+    {
+      "time": 2.41233,
+      "state": "sitting_outside_bed",
+      "confidence": 0.8,
+      "distance": -0.6895050670934487,
+      "person_id": 1,
+      "reason": "seated hip geometry",
+      "features": {
+        "torso_angle": 11.249867968394048,
+        "hip_angle": 114.05407884282884,
+        "knee_angle": 47.91068940215698,
+        "speed": 0.12450866835104077,
+        "bed_distance": -0.6895050670934487
+      }
+    },
+    {
+      "time": 2.6133575,
+      "state": "sitting_outside_bed",
+      "confidence": 0.8,
+      "distance": -0.6899520840714168,
+      "person_id": 1,
+      "reason": "seated hip geometry",
+      "features": {
+        "torso_angle": 11.037682304289058,
+        "hip_angle": 104.10840193510117,
+        "knee_angle": 36.50916236362855,
+        "speed": 0.03863737487770876,
+        "bed_distance": -0.6899520840714168
+      }
+    },
+    {
+      "time": 2.814385,
+      "state": "sitting_outside_bed",
+      "confidence": 0.8,
+      "distance": -0.7359133720570811,
+      "person_id": 1,
+      "reason": "seated hip geometry",
+      "features": {
+        "torso_angle": 11.543080375146316,
+        "hip_angle": 107.92140818854341,
+        "knee_angle": 42.80534518819016,
+        "speed": 0.04119121413918514,
+        "bed_distance": -0.7359133720570811
+      }
+    },
+    {
+      "time": 3.0154125,
+      "state": "sitting_outside_bed",
+      "confidence": 0.8,
+      "distance": -0.7360465836152719,
+      "person_id": 1,
+      "reason": "seated hip geometry",
+      "features": {
+        "torso_angle": 12.200132522035323,
+        "hip_angle": 102.35978772502342,
+        "knee_angle": 35.483969199190035,
+        "speed": 0.06419676811985343,
+        "bed_distance": -0.7360465836152719
+      }
+    },
+    {
+      "time": 3.21644,
+      "state": "sitting_outside_bed",
+      "confidence": 0.8,
+      "distance": -0.7498373120252648,
+      "person_id": 1,
+      "reason": "seated hip geometry",
+      "features": {
+        "torso_angle": 9.48936571938578,
+        "hip_angle": 108.14134898563155,
+        "knee_angle": 37.078186277107186,
+        "speed": 0.0320724622888428,
+        "bed_distance": -0.7498373120252648
+      }
+    },
+    {
+      "time": 3.4174675,
+      "state": "sitting_outside_bed",
+      "confidence": 0.8,
+      "distance": -0.735925283718431,
+      "person_id": 1,
+      "reason": "seated hip geometry",
+      "features": {
+        "torso_angle": 9.047346725499349,
+        "hip_angle": 109.25486415073371,
+        "knee_angle": 37.73081937179343,
+        "speed": 0.08891315877859447,
+        "bed_distance": -0.735925283718431
+      }
+    },
+    {
+      "time": 3.6184950000000002,
+      "state": "sitting_outside_bed",
+      "confidence": 0.8,
+      "distance": -0.7300163657722236,
+      "person_id": 1,
+      "reason": "seated hip geometry",
+      "features": {
+        "torso_angle": 7.681029455028214,
+        "hip_angle": 110.06267097747373,
+        "knee_angle": 37.11583815674644,
+        "speed": 0.08806140769954127,
+        "bed_distance": -0.7300163657722236
+      }
+    },
+    {
+      "time": 3.8195225,
+      "state": "sitting_outside_bed",
+      "confidence": 0.8,
+      "distance": -0.7394606624842758,
+      "person_id": 1,
+      "reason": "seated hip geometry",
+      "features": {
+        "torso_angle": 8.371420608939452,
+        "hip_angle": 110.21708973932554,
+        "knee_angle": 37.804379027031445,
+        "speed": 0.07835618232378169,
+        "bed_distance": -0.7394606624842758
+      }
+    },
+    {
+      "time": 4.02055,
+      "state": "sitting_outside_bed",
+      "confidence": 0.8,
+      "distance": -0.7071791175252571,
+      "person_id": 1,
+      "reason": "seated hip geometry",
+      "features": {
+        "torso_angle": 8.820251307370668,
+        "hip_angle": 110.43497249247991,
+        "knee_angle": 40.124148721062255,
+        "speed": 0.08263790699266624,
+        "bed_distance": -0.7071791175252571
+      }
+    },
+    {
+      "time": 4.2215775,
+      "state": "sitting_outside_bed",
+      "confidence": 0.8,
+      "distance": -0.6969395867791183,
+      "person_id": 1,
+      "reason": "seated hip geometry",
+      "features": {
+        "torso_angle": 9.418538753588788,
+        "hip_angle": 111.7887102341611,
+        "knee_angle": 41.92828029661428,
+        "speed": 0.14713945326121367,
+        "bed_distance": -0.6969395867791183
+      }
+    },
+    {
+      "time": 4.422605,
+      "state": "sitting_outside_bed",
+      "confidence": 0.8,
+      "distance": -0.6901103226988688,
+      "person_id": 1,
+      "reason": "seated hip geometry",
+      "features": {
+        "torso_angle": 7.499651233141016,
+        "hip_angle": 117.7748512979277,
+        "knee_angle": 45.96419339032182,
+        "speed": 0.11948367262679982,
+        "bed_distance": -0.6901103226988688
+      }
+    },
+    {
+      "time": 4.6236325,
+      "state": "sitting_outside_bed",
+      "confidence": 0.8,
+      "distance": -0.6903232533177381,
+      "person_id": 1,
+      "reason": "seated hip geometry",
+      "features": {
+        "torso_angle": 6.513990681766407,
+        "hip_angle": 117.78791349705858,
+        "knee_angle": 45.996069694237065,
+        "speed": 0.06516139866243868,
+        "bed_distance": -0.6903232533177381
+      }
+    },
+    {
+      "time": 4.82466,
+      "state": "sitting_outside_bed",
+      "confidence": 0.8,
+      "distance": -0.6945383941835931,
+      "person_id": 1,
+      "reason": "seated hip geometry",
+      "features": {
+        "torso_angle": 6.701800638728851,
+        "hip_angle": 119.34013287718305,
+        "knee_angle": 46.792916269440525,
+        "speed": 0.10554065444292887,
+        "bed_distance": -0.6945383941835931
+      }
+    },
+    {
+      "time": 5.0256875,
+      "state": "sitting_outside_bed",
+      "confidence": 0.8,
+      "distance": -0.7012173617768349,
+      "person_id": 1,
+      "reason": "seated hip geometry",
+      "features": {
+        "torso_angle": 7.231928982439697,
+        "hip_angle": 119.61908772925996,
+        "knee_angle": 47.33190579379028,
+        "speed": 0.06987572564057307,
+        "bed_distance": -0.7012173617768349
+      }
+    },
+    {
+      "time": 5.226715,
+      "state": "sitting_outside_bed",
+      "confidence": 0.8,
+      "distance": -0.7134356434331859,
+      "person_id": 1,
+      "reason": "seated hip geometry",
+      "features": {
+        "torso_angle": 8.25486742209405,
+        "hip_angle": 117.75435097527458,
+        "knee_angle": 44.7453291717166,
+        "speed": 0.08240256162635957,
+        "bed_distance": -0.7134356434331859
+      }
+    },
+    {
+      "time": 5.4277425,
+      "state": "sitting_outside_bed",
+      "confidence": 0.8,
+      "distance": -0.7083049279585356,
+      "person_id": 1,
+      "reason": "seated hip geometry",
+      "features": {
+        "torso_angle": 8.205567058565839,
+        "hip_angle": 112.92117225530488,
+        "knee_angle": 42.33032038521583,
+        "speed": 0.04662863787875782,
+        "bed_distance": -0.7083049279585356
+      }
+    },
+    {
+      "time": 5.62877,
+      "state": "sitting_outside_bed",
+      "confidence": 0.8,
+      "distance": -0.7396571242904934,
+      "person_id": 1,
+      "reason": "seated hip geometry",
+      "features": {
+        "torso_angle": 6.748403912101515,
+        "hip_angle": 111.11921839861482,
+        "knee_angle": 38.596721078531466,
+        "speed": 0.12170942503082155,
+        "bed_distance": -0.7396571242904934
+      }
+    },
+    {
+      "time": 5.8297975,
+      "state": "sitting_outside_bed",
+      "confidence": 0.8,
+      "distance": -0.7306529319989913,
+      "person_id": 1,
+      "reason": "seated hip geometry",
+      "features": {
+        "torso_angle": 6.8636672093152535,
+        "hip_angle": 110.61908673677743,
+        "knee_angle": 37.76970671004218,
+        "speed": 0.058894364850081295,
+        "bed_distance": -0.7306529319989913
+      }
+    },
+    {
+      "time": 6.030825,
+      "state": "sitting_outside_bed",
+      "confidence": 0.8,
+      "distance": -0.7345135234870491,
+      "person_id": 1,
+      "reason": "seated hip geometry",
+      "features": {
+        "torso_angle": 7.624247085749125,
+        "hip_angle": 110.54039660372109,
+        "knee_angle": 38.31703748181729,
+        "speed": 0.08265648093449358,
+        "bed_distance": -0.7345135234870491
+      }
+    },
+    {
+      "time": 6.2318525000000005,
+      "state": "sitting_outside_bed",
+      "confidence": 0.8,
+      "distance": -0.7335026337230894,
+      "person_id": 1,
+      "reason": "seated hip geometry",
+      "features": {
+        "torso_angle": 5.88192954835866,
+        "hip_angle": 99.19218405981964,
+        "knee_angle": 29.430724209753652,
+        "speed": 0.08036933380925962,
+        "bed_distance": -0.7335026337230894
+      }
+    },
+    {
+      "time": 6.43288,
+      "state": "sitting_outside_bed",
+      "confidence": 0.8,
+      "distance": -0.7183008225058075,
+      "person_id": 1,
+      "reason": "seated hip geometry",
+      "features": {
+        "torso_angle": 7.701056274770001,
+        "hip_angle": 96.79506979227499,
+        "knee_angle": 28.84328050837725,
+        "speed": 0.013790619112570445,
+        "bed_distance": -0.7183008225058075
+      }
+    },
+    {
+      "time": 6.600402916666667,
+      "state": "sitting_outside_bed",
+      "confidence": 0.8,
+      "distance": -0.7178586696693395,
+      "person_id": 1,
+      "reason": "seated hip geometry",
+      "features": {
+        "torso_angle": 8.05747712570228,
+        "hip_angle": 97.59773222838038,
+        "knee_angle": 29.998738221049724,
+        "speed": 0.009150096390247761,
+        "bed_distance": -0.7178586696693395
+      }
+    },
+    {
+      "time": 6.801430416666667,
+      "state": "sitting_outside_bed",
+      "confidence": 0.8,
+      "distance": -0.7228509256162822,
+      "person_id": 1,
+      "reason": "seated hip geometry",
+      "features": {
+        "torso_angle": 7.796228034364513,
+        "hip_angle": 92.66720087286068,
+        "knee_angle": 24.801664677299033,
+        "speed": 0.03498153619157156,
+        "bed_distance": -0.7228509256162822
+      }
+    },
+    {
+      "time": 7.002457916666667,
+      "state": "sitting_outside_bed",
+      "confidence": 0.8,
+      "distance": -0.7298443874768309,
+      "person_id": 1,
+      "reason": "seated hip geometry",
+      "features": {
+        "torso_angle": 6.568904471069719,
+        "hip_angle": 94.74674881523217,
+        "knee_angle": 26.22916354028579,
+        "speed": 0.06303246734805437,
+        "bed_distance": -0.7298443874768309
+      }
+    },
+    {
+      "time": 7.203485416666667,
+      "state": "sitting_outside_bed",
+      "confidence": 0.8,
+      "distance": -0.7364187669377715,
+      "person_id": 1,
+      "reason": "seated hip geometry",
+      "features": {
+        "torso_angle": 6.540095509518947,
+        "hip_angle": 86.71832307574762,
+        "knee_angle": 17.906340171808203,
+        "speed": 0.09507302466782494,
+        "bed_distance": -0.7364187669377715
+      }
+    },
+    {
+      "time": 7.4045129166666666,
+      "state": "sitting_outside_bed",
+      "confidence": 0.8,
+      "distance": -0.7478609295740622,
+      "person_id": 1,
+      "reason": "seated hip geometry",
+      "features": {
+        "torso_angle": 6.929824403693258,
+        "hip_angle": 93.19995639951385,
+        "knee_angle": 23.35563404882858,
+        "speed": 0.1144705648103826,
+        "bed_distance": -0.7478609295740622
+      }
+    },
+    {
+      "time": 7.605540416666667,
+      "state": "sitting_outside_bed",
+      "confidence": 0.8,
+      "distance": -0.7502442702115965,
+      "person_id": 1,
+      "reason": "seated hip geometry",
+      "features": {
+        "torso_angle": 6.697393614853923,
+        "hip_angle": 95.11731666796733,
+        "knee_angle": 24.372093847201235,
+        "speed": 0.11486707290566861,
+        "bed_distance": -0.7502442702115965
+      }
+    },
+    {
+      "time": 7.806567916666667,
+      "state": "sitting_outside_bed",
+      "confidence": 0.8,
+      "distance": -0.746673941753776,
+      "person_id": 1,
+      "reason": "seated hip geometry",
+      "features": {
+        "torso_angle": 6.489250285943575,
+        "hip_angle": 100.58535864862812,
+        "knee_angle": 28.54454716183113,
+        "speed": 0.054652662158838294,
+        "bed_distance": -0.746673941753776
+      }
+    },
+    {
+      "time": 8.007595416666668,
+      "state": "sitting_outside_bed",
+      "confidence": 0.8,
+      "distance": -0.7317039492119484,
+      "person_id": 1,
+      "reason": "seated hip geometry",
+      "features": {
+        "torso_angle": 5.971804136056843,
+        "hip_angle": 112.94302764569517,
+        "knee_angle": 38.69269935588114,
+        "speed": 0.08273111628775419,
+        "bed_distance": -0.7317039492119484
+      }
+    },
+    {
+      "time": 8.208622916666666,
+      "state": "sitting_outside_bed",
+      "confidence": 0.8,
+      "distance": -0.7405304097166687,
+      "person_id": 1,
+      "reason": "seated hip geometry",
+      "features": {
+        "torso_angle": 5.381584148178154,
+        "hip_angle": 76.65890256518382,
+        "knee_angle": 7.470959177173658,
+        "speed": 0.12676720298770486,
+        "bed_distance": -0.7405304097166687
+      }
+    },
+    {
+      "time": 8.409650416666667,
+      "state": "sitting_outside_bed",
+      "confidence": 0.8,
+      "distance": -0.7171548127317975,
+      "person_id": 1,
+      "reason": "seated hip geometry",
+      "features": {
+        "torso_angle": 3.8206988847978725,
+        "hip_angle": 107.819741572132,
+        "knee_angle": 34.102879196402576,
+        "speed": 0.048992532197128055,
+        "bed_distance": -0.7171548127317975
+      }
+    },
+    {
+      "time": 8.610677916666667,
+      "state": "sitting_outside_bed",
+      "confidence": 0.8,
+      "distance": -0.6987339353860049,
+      "person_id": 1,
+      "reason": "seated hip geometry",
+      "features": {
+        "torso_angle": 3.8152569280079884,
+        "hip_angle": 110.05566046286278,
+        "knee_angle": 37.00879397272985,
+        "speed": 0.05577899191294291,
+        "bed_distance": -0.6987339353860049
+      }
+    },
+    {
+      "time": 8.811705416666667,
+      "state": "sitting_outside_bed",
+      "confidence": 0.8,
+      "distance": -0.7192980030671062,
+      "person_id": 1,
+      "reason": "seated hip geometry",
+      "features": {
+        "torso_angle": 4.321031298591244,
+        "hip_angle": 114.36256488493866,
+        "knee_angle": 39.7144123740836,
+        "speed": 0.09261354942073365,
+        "bed_distance": -0.7192980030671062
+      }
+    },
+    {
+      "time": 9.012732916666668,
+      "state": "sitting_outside_bed",
+      "confidence": 0.8,
+      "distance": -0.7262548488916631,
+      "person_id": 1,
+      "reason": "seated hip geometry",
+      "features": {
+        "torso_angle": 4.683601556234566,
+        "hip_angle": 110.04480784491217,
+        "knee_angle": 36.40021277854381,
+        "speed": 0.03280755871071689,
+        "bed_distance": -0.7262548488916631
+      }
+    },
+    {
+      "time": 9.213760416666666,
+      "state": "sitting_outside_bed",
+      "confidence": 0.8,
+      "distance": -0.7656444612434303,
+      "person_id": 1,
+      "reason": "seated hip geometry",
+      "features": {
+        "torso_angle": 4.810636663580762,
+        "hip_angle": 114.05838519911646,
+        "knee_angle": 38.33079825719062,
+        "speed": 0.10945143209632058,
+        "bed_distance": -0.7656444612434303
+      }
+    },
+    {
+      "time": 9.414787916666667,
+      "state": "sitting_outside_bed",
+      "confidence": 0.8,
+      "distance": -0.7574806297755267,
+      "person_id": 1,
+      "reason": "seated hip geometry",
+      "features": {
+        "torso_angle": 5.543936095300754,
+        "hip_angle": 116.45287385620898,
+        "knee_angle": 44.58842552360844,
+        "speed": 0.08435983994416614,
+        "bed_distance": -0.7574806297755267
+      }
+    },
+    {
+      "time": 9.615815416666667,
+      "state": "sitting_outside_bed",
+      "confidence": 0.8,
+      "distance": -0.710499375397436,
+      "person_id": 1,
+      "reason": "seated hip geometry",
+      "features": {
+        "torso_angle": 6.717957820967381,
+        "hip_angle": 113.24749641450956,
+        "knee_angle": 44.03468941317011,
+        "speed": 0.15744494877383886,
+        "bed_distance": -0.710499375397436
+      }
+    },
+    {
+      "time": 9.816842916666667,
+      "state": "sitting_outside_bed",
+      "confidence": 0.8,
+      "distance": -0.7192105173339198,
+      "person_id": 1,
+      "reason": "seated hip geometry",
+      "features": {
+        "torso_angle": 6.283440396328404,
+        "hip_angle": 108.9520166284221,
+        "knee_angle": 37.65920243360779,
+        "speed": 0.16330963713402125,
+        "bed_distance": -0.7192105173339198
+      }
+    },
+    {
+      "time": 10.017870416666668,
+      "state": "sitting_outside_bed",
+      "confidence": 0.8,
+      "distance": -0.7141801315438542,
+      "person_id": 1,
+      "reason": "seated hip geometry",
+      "features": {
+        "torso_angle": 6.288278625982184,
+        "hip_angle": 108.48184540704797,
+        "knee_angle": 38.51530052874479,
+        "speed": 0.12453768883096307,
+        "bed_distance": -0.7141801315438542
+      }
+    },
+    {
+      "time": 10.218897916666666,
+      "state": "sitting_outside_bed",
+      "confidence": 0.8,
+      "distance": -0.7177442124029042,
+      "person_id": 1,
+      "reason": "seated hip geometry",
+      "features": {
+        "torso_angle": 7.704211899669726,
+        "hip_angle": 111.39221394390557,
+        "knee_angle": 40.99792508849238,
+        "speed": 0.10298211133336675,
+        "bed_distance": -0.7177442124029042
+      }
+    },
+    {
+      "time": 10.419925416666667,
+      "state": "sitting_outside_bed",
+      "confidence": 0.8,
+      "distance": -0.7235080766625962,
+      "person_id": 1,
+      "reason": "seated hip geometry",
+      "features": {
+        "torso_angle": 7.62138643983905,
+        "hip_angle": 115.60108638338386,
+        "knee_angle": 44.1999059981911,
+        "speed": 0.08380899940606051,
+        "bed_distance": -0.7235080766625962
+      }
+    },
+    {
+      "time": 10.620952916666667,
+      "state": "sitting_outside_bed",
+      "confidence": 0.8,
+      "distance": -0.7239469848387514,
+      "person_id": 1,
+      "reason": "seated hip geometry",
+      "features": {
+        "torso_angle": 7.564487554664948,
+        "hip_angle": 109.85903051524447,
+        "knee_angle": 39.32846326674941,
+        "speed": 0.06185573937697165,
+        "bed_distance": -0.7239469848387514
+      }
+    }
+  ],
+  "decision": {
+    "decision": "NORMAL",
+    "time": 0.0,
+    "reason": "No configured condition observed"
+  }
+}
