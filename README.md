@@ -73,19 +73,7 @@ input to constant frame rate before analysis.
 
 ## Architecture
 
-```mermaid
-flowchart LR
-    A[OpenCV video] --> B[YOLO person tracking + bed detection]
-    B --> C[cvzone pose]
-    C --> D[ActivityRules]
-    D --> E[Timeline]
-    E --> F[ContextAgent: previous and following observations]
-    F --> G[Optional local VLM]
-    G --> H[Conservative activity proposal]
-    H --> I[BedEvents + AlertPolicy]
-    F --> I
-    I --> J[JSON summary + text timeline]
-```
+![Architecture](docs/img/Architecture.png)
 
 | File / class | Responsibility |
 |---|---|

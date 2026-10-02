@@ -1,7 +1,5 @@
 # Submission readiness
 
-Reviewed on 2026-10-02 against all 13 pages of `ASE_AIML_Assignment.pdf`.
-
 The local submission contains all nine requested deliverable types. It is a working
 prototype with disclosed recognition failures, not a fully validated recognition system.
 The assignment does not specify a minimum accuracy score. The positive return-to-bed
